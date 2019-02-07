@@ -5,10 +5,19 @@
  */
 package com.jets.chatproject.server.module.dao;
 
+import com.jets.chatproject.module.entities.User;
+
 /**
  *
  * @author ibrahim
  */
-public interface Dummy {
-    
+public interface UsersDao {
+
+    void insertUser(User user);
+
+    void updateUser(User user);
+
+    void deleteUser(User user);
+
+    User findUserByPhone(String phone);
 }
