@@ -14,8 +14,8 @@ import java.util.Objects;
  */
 public class User {
 
-    private int id;
-    private String phoneNumber;
+    private final int id;
+    private final String phoneNumber;
     private String displyName;
     private String email;
     private Gender gender;
