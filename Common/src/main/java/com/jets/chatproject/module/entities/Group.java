@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.server.controllers;
+package com.jets.chatproject.module.entities;
 
 /**
  *
- * @author ibrahim
+ * @author Ibrahim
  */
-public interface Dummy {
+class Group {
     
 }
