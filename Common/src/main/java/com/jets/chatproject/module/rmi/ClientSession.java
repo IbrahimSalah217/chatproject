@@ -20,6 +20,10 @@ import java.util.List;
  */
 public interface ClientSession extends Remote {
 
+    void updateProfile(User user) throws RemoteException;
+
+    User findUserByPhone(String phone) throws RemoteException;
+
     void sendRequest(String phone) throws RemoteException;
 
     List<Request> getAllRequests() throws RemoteException;
@@ -27,6 +31,8 @@ public interface ClientSession extends Remote {
     void acceptRequest(Request request) throws RemoteException;
 
     void rejectRequest(Request request) throws RemoteException;
+
+    void blockUser(User user) throws RemoteException;
 
     List<Friendship> getAllFriendships() throws RemoteException;
 
@@ -38,9 +44,13 @@ public interface ClientSession extends Remote {
 
     List<User> getGroupMembers(int groupId) throws RemoteException;
 
+    void addFriendToGroup(int friendId, int groupId) throws RemoteException;
+
     List<Message> getDirectMessages(int friendId) throws RemoteException;
 
     List<Message> getGroupMessages(int groupId) throws RemoteException;
+
+    void markMessageAsRead(int messageId, int friendId) throws RemoteException;
 
     void sendDirectMessage(int friendId, Message message) throws RemoteException;
 
