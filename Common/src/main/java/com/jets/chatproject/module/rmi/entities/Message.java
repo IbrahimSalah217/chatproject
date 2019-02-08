@@ -14,13 +14,18 @@ import java.util.Date;
 public class Message {
 
     private final int id;
+    private final int senderId;
+    private final String senderName;
     private MessageType type;
     private String content;
     private MessageFormat format;
     private Date timestamp;
 
-    public Message(int id, MessageType type, String content, MessageFormat format, Date timestamp) {
+    public Message(int id, int senderId, String senderName, MessageType type,
+            String content, MessageFormat format, Date timestamp) {
         this.id = id;
+        this.senderId = senderId;
+        this.senderName = senderName;
         this.type = type;
         this.content = content;
         this.format = format;
@@ -29,6 +34,14 @@ public class Message {
 
     public int getId() {
         return id;
+    }
+
+    public int getSenderId() {
+        return senderId;
+    }
+
+    public String getSenderName() {
+        return senderName;
     }
 
     public MessageType getType() {

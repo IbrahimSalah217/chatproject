@@ -116,7 +116,4 @@ public class User {
         return Objects.equals(this.phoneNumber, other.phoneNumber);
     }
 
-    public static enum Gender {
-        MALE, FEMALE
-    }
 }
