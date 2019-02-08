@@ -22,6 +22,8 @@ public interface ClientSession extends Remote {
 
     void updateProfile(User user) throws RemoteException;
 
+    User findUserById(int id) throws RemoteException;
+
     User findUserByPhone(String phone) throws RemoteException;
 
     void sendRequest(String phone) throws RemoteException;
