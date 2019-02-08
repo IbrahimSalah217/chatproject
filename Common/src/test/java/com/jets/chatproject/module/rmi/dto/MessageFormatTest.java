@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.rmi.entities;
+package com.jets.chatproject.module.rmi.dto;
 
 import org.junit.After;
 import org.junit.AfterClass;

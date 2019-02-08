@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.rmi.entities;
+package com.jets.chatproject.module.rmi.dto;
 
 import java.util.Date;
 
@@ -11,13 +11,13 @@ import java.util.Date;
  *
  * @author ibrahim
  */
-public class Request {
+public class RequestDTO {
 
     private final int senderId;
     private final String senderName;
     private final Date timestamp;
 
-    public Request(int senderId, String senderName, Date timestamp) {
+    public RequestDTO(int senderId, String senderName, Date timestamp) {
         this.senderId = senderId;
         this.senderName = senderName;
         this.timestamp = timestamp;
@@ -53,7 +53,7 @@ public class Request {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Request other = (Request) obj;
+        final RequestDTO other = (RequestDTO) obj;
         return this.senderId == other.senderId;
     }
 

@@ -5,7 +5,7 @@
  */
 package com.jets.chatproject.module.rmi;
 
-import com.jets.chatproject.module.rmi.entities.User;
+import com.jets.chatproject.module.rmi.dto.UserDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -17,7 +17,7 @@ public interface AuthService extends Remote {
 
     ClientSession login(String phone, String password) throws RemoteException;
 
-    ClientSession register(User user) throws RemoteException;
+    ClientSession register(UserDTO user) throws RemoteException;
 
     void logout(ClientSession session) throws RemoteException;
 

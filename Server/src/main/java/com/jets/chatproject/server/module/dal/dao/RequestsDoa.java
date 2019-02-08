@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.server.module.dao;
+package com.jets.chatproject.server.module.dal.dao;
 
-import com.jets.chatproject.module.entities.Request;
+import com.jets.chatproject.server.module.dal.entities.Request;
 import java.util.ArrayList;
 
 /**

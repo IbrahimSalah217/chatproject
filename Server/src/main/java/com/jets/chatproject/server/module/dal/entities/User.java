@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.rmi.entities;
+package com.jets.chatproject.server.module.dal.entities;
 
 import java.util.Date;
 import java.util.Objects;
@@ -113,7 +113,13 @@ public class User {
         if (this.id != other.id) {
             return false;
         }
-        return Objects.equals(this.phoneNumber, other.phoneNumber);
+        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
+            return false;
+        }
+        return true;
     }
 
+    public static enum Gender {
+        MALE, FEMALE
+    }
 }

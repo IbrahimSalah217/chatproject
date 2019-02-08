@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.rmi.entities;
+package com.jets.chatproject.module.rmi.dto;
 
 /**
  *
  * @author ibrahim
  */
-public enum MessageType {
-    PLAIN_TEXT, RICH_TEXT, FILE
+public enum Gender {
+    MALE, FEMALE
 }

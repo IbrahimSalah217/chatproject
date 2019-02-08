@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.entities;
+package com.jets.chatproject.module.rmi.dto;
 
 import java.util.Date;
 import java.util.Objects;
@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author ibrahim
  */
-public class User {
+public class UserDTO {
 
     private final int id;
     private final String phoneNumber;
@@ -23,7 +23,7 @@ public class User {
     private Date dateOfBirth;
     private String bio;
 
-    public User(int id, String phoneNumber, String displyName, String email, Gender gender, String country, Date dateOfBirth, String bio) {
+    public UserDTO(int id, String phoneNumber, String displyName, String email, Gender gender, String country, Date dateOfBirth, String bio) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.displyName = displyName;
@@ -109,17 +109,11 @@ public class User {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final User other = (User) obj;
+        final UserDTO other = (UserDTO) obj;
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.phoneNumber, other.phoneNumber);
     }
 
-    public static enum Gender {
-        MALE, FEMALE
-    }
 }

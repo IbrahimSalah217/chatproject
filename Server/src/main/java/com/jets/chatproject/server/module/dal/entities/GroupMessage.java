@@ -3,51 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.entities;
-
+package com.jets.chatproject.server.module.dal.entities;
 
 import java.sql.Time;
-import java.time.LocalTime;
-
+import static com.jets.chatproject.server.module.dal.entities.DirectMessage.TypeMessage;
 /**
  *
  * @author Ibrahim
  */
-public class DirectMessage {
-    private final int messageId;                        //primery key
-    private final User minUser;                         // user with min ID
-    private final User maxUser;                         
-    private final User senderUser;                   // min or max user
+public class GroupMessage {
+    private final int messageId;                    //primary Key
+    private final User senderUser;                  
+    private final Group groupReciever;
     private TypeMessage messageType;                      // "string" or "image" or "file"
     private String content;                         // if message is image it will be URL 
     private String style;                           // "fonttype ** fontsize ** color ** ......."
     private final Time messageTime;                 // created automaticly
 
-    public DirectMessage(int messageId, User minUser, User maxUser, User senderUser, TypeMessage messageType, String content, String style) {
+    public GroupMessage(int messageId, User senderUser, Group groupReciever, TypeMessage messageType, String content, String style, Time messageTime) {
         this.messageId = messageId;
-        this.minUser = minUser;
-        this.maxUser = maxUser;
         this.senderUser = senderUser;
+        this.groupReciever = groupReciever;
         this.messageType = messageType;
         this.content = content;
         this.style = style;
-        this.messageTime = Time.valueOf(LocalTime.now()); // may take from object creator  this.messageTime = messageTime;
+        this.messageTime = messageTime;
     }
 
     public int getMessageId() {
         return messageId;
     }
 
-    public User getMinUser() {
-        return minUser;
-    }
-
-    public User getMaxUser() {
-        return maxUser;
-    }
-
     public User getSenderUser() {
         return senderUser;
+    }
+
+    public Group getGroupReciever() {
+        return groupReciever;
     }
 
     public TypeMessage getMessageType() {
@@ -77,7 +69,13 @@ public class DirectMessage {
     public void setStyle(String style) {
         this.style = style;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + this.messageId;
+        return hash;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -90,13 +88,12 @@ public class DirectMessage {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DirectMessage other = (DirectMessage) obj;
+        final GroupMessage other = (GroupMessage) obj;
         if (this.messageId != other.messageId) {
             return false;
         }
         return true;
     }
-    public static enum TypeMessage{
-        STRING,IMAGE,FILE
-    }
+    
+    
 }
