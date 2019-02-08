@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.server.module.dao.imp;
+package com.jets.chatproject.server.module.dal.dao.imp;
 
 /**
  *

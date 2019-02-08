@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.rmi.entities;
+package com.jets.chatproject.module.rmi.dto;
 
 /**
  *
  * @author ibrahim
  */
-public class Group {
+public class GroupDTO {
 
     final private int id;
     final private int adminId;
     private String displayName;
-    private Message lastMessage;
+    private MessageDTO lastMessage;
 
-    public Group(int id, int adminId, String displayName, Message lastMessage) {
+    public GroupDTO(int id, int adminId, String displayName, MessageDTO lastMessage) {
         this.id = id;
         this.adminId = adminId;
         this.displayName = displayName;
@@ -39,11 +39,11 @@ public class Group {
         this.displayName = displayName;
     }
 
-    public Message getLastMessage() {
+    public MessageDTO getLastMessage() {
         return lastMessage;
     }
 
-    public void setLastMessage(Message lastMessage) {
+    public void setLastMessage(MessageDTO lastMessage) {
         this.lastMessage = lastMessage;
     }
 
@@ -65,7 +65,7 @@ public class Group {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Group other = (Group) obj;
+        final GroupDTO other = (GroupDTO) obj;
         return this.id == other.id;
     }
 

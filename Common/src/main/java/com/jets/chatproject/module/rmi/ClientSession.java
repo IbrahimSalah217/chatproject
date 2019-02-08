@@ -5,11 +5,11 @@
  */
 package com.jets.chatproject.module.rmi;
 
-import com.jets.chatproject.module.rmi.entities.Friendship;
-import com.jets.chatproject.module.rmi.entities.Group;
-import com.jets.chatproject.module.rmi.entities.Message;
-import com.jets.chatproject.module.rmi.entities.Request;
-import com.jets.chatproject.module.rmi.entities.User;
+import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
+import com.jets.chatproject.module.rmi.dto.GroupDTO;
+import com.jets.chatproject.module.rmi.dto.MessageDTO;
+import com.jets.chatproject.module.rmi.dto.RequestDTO;
+import com.jets.chatproject.module.rmi.dto.UserDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -20,42 +20,42 @@ import java.util.List;
  */
 public interface ClientSession extends Remote {
 
-    void updateProfile(User user) throws RemoteException;
+    void updateProfile(UserDTO user) throws RemoteException;
 
-    User findUserById(int id) throws RemoteException;
+    UserDTO findUserById(int id) throws RemoteException;
 
-    User findUserByPhone(String phone) throws RemoteException;
+    UserDTO findUserByPhone(String phone) throws RemoteException;
 
     void sendRequest(String phone) throws RemoteException;
 
-    List<Request> getAllRequests() throws RemoteException;
+    List<RequestDTO> getAllRequests() throws RemoteException;
 
-    void acceptRequest(Request request) throws RemoteException;
+    void acceptRequest(RequestDTO request) throws RemoteException;
 
-    void rejectRequest(Request request) throws RemoteException;
+    void rejectRequest(RequestDTO request) throws RemoteException;
 
-    void blockUser(User user) throws RemoteException;
+    void blockUser(UserDTO user) throws RemoteException;
 
-    List<Friendship> getAllFriendships() throws RemoteException;
+    List<FriendshipDTO> getAllFriendships() throws RemoteException;
 
-    void updateFriendship(Friendship friendship) throws RemoteException;
+    void updateFriendship(FriendshipDTO friendship) throws RemoteException;
 
-    void createGroup(Group group) throws RemoteException;
+    void createGroup(GroupDTO group) throws RemoteException;
 
-    List<Group> getAllGroups() throws RemoteException;
+    List<GroupDTO> getAllGroups() throws RemoteException;
 
-    List<User> getGroupMembers(int groupId) throws RemoteException;
+    List<UserDTO> getGroupMembers(int groupId) throws RemoteException;
 
     void addFriendToGroup(int friendId, int groupId) throws RemoteException;
 
-    List<Message> getDirectMessages(int friendId) throws RemoteException;
+    List<MessageDTO> getDirectMessages(int friendId) throws RemoteException;
 
-    List<Message> getGroupMessages(int groupId) throws RemoteException;
+    List<MessageDTO> getGroupMessages(int groupId) throws RemoteException;
 
     void markMessageAsRead(int messageId, int friendId) throws RemoteException;
 
-    void sendDirectMessage(int friendId, Message message) throws RemoteException;
+    void sendDirectMessage(int friendId, MessageDTO message) throws RemoteException;
 
-    void sendGroupMessage(int groupId, Message message) throws RemoteException;
+    void sendGroupMessage(int groupId, MessageDTO message) throws RemoteException;
 
 }

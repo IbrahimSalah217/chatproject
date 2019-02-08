@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.module.rmi.entities;
+package com.jets.chatproject.module.rmi.dto;
 
 /**
  *
  * @author ibrahim
  */
-public class Friendship {
+public class FriendshipDTO {
 
     private final int friendId;
     private String friendName;
     private String category;
-    private Message lastMessage;
+    private MessageDTO lastMessage;
 
-    public Friendship(int friendId, String friendName, String category, Message lastMessage) {
+    public FriendshipDTO(int friendId, String friendName, String category, MessageDTO lastMessage) {
         this.friendId = friendId;
         this.friendName = friendName;
         this.category = category;
@@ -43,11 +43,11 @@ public class Friendship {
         this.category = category;
     }
 
-    public Message getLastMessage() {
+    public MessageDTO getLastMessage() {
         return lastMessage;
     }
 
-    public void setLastMessage(Message lastMessage) {
+    public void setLastMessage(MessageDTO lastMessage) {
         this.lastMessage = lastMessage;
     }
 
@@ -69,7 +69,7 @@ public class Friendship {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Friendship other = (Friendship) obj;
+        final FriendshipDTO other = (FriendshipDTO) obj;
         return this.friendId == other.friendId;
     }
 
