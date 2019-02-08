@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.server.module.rmi;
+package com.jets.chatproject.module.rmi.entities;
 
 /**
  *
  * @author ibrahim
  */
-public interface Dummy {
+public class Friendship {
     
 }
