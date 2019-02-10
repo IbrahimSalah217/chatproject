@@ -8,7 +8,7 @@ CREATE TABLE `Users` (
 	`country` varchar(30) NOT NULL,
 	`date_of_birth` DATE NOT NULL,
 	`bio` varchar(1000) NOT NULL,
-	`picture` blob,
+	`picture_id` int,
 	PRIMARY KEY (`user_id`)
 );
 
@@ -25,13 +25,14 @@ CREATE TABLE `Groups` (
 	`group_id` INT(10) NOT NULL AUTO_INCREMENT,
 	`admin_id` INT(10) NOT NULL,
 	`display_name` VARCHAR(30) NOT NULL,
-	`picture` blob,
+	`picture_id` int,
 	PRIMARY KEY (`group_id`)
 );
 
 CREATE TABLE `Group_Members` (
 	`groub_id` INT(10) NOT NULL,
 	`user_id` INT(10) NOT NULL,
+	`last_seen_message` int NOT NULL,
 	PRIMARY KEY (`groub_id`,`user_id`)
 );
 
@@ -55,15 +56,22 @@ CREATE TABLE `Requests` (
 
 CREATE TABLE `Direct_Messages` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
-	`min_id` INT(10) NOT NULL,
-	`max_id` INT(10) NOT NULL,
 	`sender_id` INT(10) NOT NULL,
+	`receiver_id` INT(10) NOT NULL,
 	`message_type` VARCHAR(30) NOT NULL,
 	`content` TEXT NOT NULL,
 	`font_style` varchar(100),
 	`time` TIMESTAMP NOT NULL,
 	PRIMARY KEY (`id`)
 );
+
+CREATE TABLE `Pictures` (
+	`picture_id` int NOT NULL AUTO_INCREMENT,
+	`picture` longblob NOT NULL,
+	PRIMARY KEY (`picture_id`)
+);
+
+ALTER TABLE `Users` ADD CONSTRAINT `Users_fk0` FOREIGN KEY (`picture_id`) REFERENCES `Pictures`(`picture_id`);
 
 ALTER TABLE `FriendShips` ADD CONSTRAINT `FriendShips_fk0` FOREIGN KEY (`user_id`) REFERENCES `Users`(`user_id`);
 
@@ -73,9 +81,13 @@ ALTER TABLE `FriendShips` ADD CONSTRAINT `FriendShips_fk2` FOREIGN KEY (`last_se
 
 ALTER TABLE `Groups` ADD CONSTRAINT `Groups_fk0` FOREIGN KEY (`admin_id`) REFERENCES `Users`(`user_id`);
 
+ALTER TABLE `Groups` ADD CONSTRAINT `Groups_fk1` FOREIGN KEY (`picture_id`) REFERENCES `Pictures`(`picture_id`);
+
 ALTER TABLE `Group_Members` ADD CONSTRAINT `Group_Members_fk0` FOREIGN KEY (`groub_id`) REFERENCES `Groups`(`group_id`);
 
 ALTER TABLE `Group_Members` ADD CONSTRAINT `Group_Members_fk1` FOREIGN KEY (`user_id`) REFERENCES `Users`(`user_id`);
+
+ALTER TABLE `Group_Members` ADD CONSTRAINT `Group_Members_fk2` FOREIGN KEY (`last_seen_message`) REFERENCES `Group_Messages`(`id`);
 
 ALTER TABLE `Group_Messages` ADD CONSTRAINT `Group_Messages_fk0` FOREIGN KEY (`sender_id`) REFERENCES `Users`(`user_id`);
 
@@ -85,9 +97,7 @@ ALTER TABLE `Requests` ADD CONSTRAINT `Requests_fk0` FOREIGN KEY (`sender_id`) R
 
 ALTER TABLE `Requests` ADD CONSTRAINT `Requests_fk1` FOREIGN KEY (`receiver_id`) REFERENCES `Users`(`user_id`);
 
-ALTER TABLE `Direct_Messages` ADD CONSTRAINT `Direct_Messages_fk0` FOREIGN KEY (`min_id`) REFERENCES `Users`(`user_id`);
+ALTER TABLE `Direct_Messages` ADD CONSTRAINT `Direct_Messages_fk0` FOREIGN KEY (`sender_id`) REFERENCES `Users`(`user_id`);
 
-ALTER TABLE `Direct_Messages` ADD CONSTRAINT `Direct_Messages_fk1` FOREIGN KEY (`max_id`) REFERENCES `Users`(`user_id`);
-
-ALTER TABLE `Direct_Messages` ADD CONSTRAINT `Direct_Messages_fk2` FOREIGN KEY (`sender_id`) REFERENCES `Users`(`user_id`);
+ALTER TABLE `Direct_Messages` ADD CONSTRAINT `Direct_Messages_fk1` FOREIGN KEY (`receiver_id`) REFERENCES `Users`(`user_id`);
 
