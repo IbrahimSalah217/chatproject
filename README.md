@@ -5,6 +5,7 @@ The schema creator can be found in this file [mysql_create.sql](mysql_create.sql
 To import the schema on netbeans follow these [steps](https://netbeans.org/kb/docs/ide/mysql.html)
 
 Schema design can be found [here](schema-dbdesigner.pdf)
+Schema link https://www.dbdesigner.net/designer/schema/227127
 
 # Mysql Configuration
 
