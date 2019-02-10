@@ -15,10 +15,12 @@ import java.rmi.RemoteException;
  */
 public interface AuthService extends Remote {
 
-    ClientSession login(String phone, String password) throws RemoteException;
+    String login(String phone, String password) throws RemoteException;
 
-    ClientSession register(UserDTO user) throws RemoteException;
+    String register(UserDTO user) throws RemoteException;
 
-    void logout(ClientSession session) throws RemoteException;
+    void logout(String session) throws RemoteException;
+
+    boolean checkPhone(String phone) throws RemoteException;
 
 }

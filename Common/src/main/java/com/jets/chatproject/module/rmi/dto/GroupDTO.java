@@ -5,21 +5,25 @@
  */
 package com.jets.chatproject.module.rmi.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ibrahim
  */
-public class GroupDTO {
+public class GroupDTO implements Serializable {
 
     final private int id;
     final private int adminId;
     private String displayName;
+    private int pictureId;
     private MessageDTO lastMessage;
 
-    public GroupDTO(int id, int adminId, String displayName, MessageDTO lastMessage) {
+    public GroupDTO(int id, int adminId, String displayName, int pictureId, MessageDTO lastMessage) {
         this.id = id;
         this.adminId = adminId;
         this.displayName = displayName;
+        this.pictureId = pictureId;
         this.lastMessage = lastMessage;
     }
 
@@ -37,6 +41,14 @@ public class GroupDTO {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public int getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(int pictureId) {
+        this.pictureId = pictureId;
     }
 
     public MessageDTO getLastMessage() {

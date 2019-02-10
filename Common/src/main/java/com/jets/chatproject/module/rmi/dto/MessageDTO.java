@@ -5,13 +5,14 @@
  */
 package com.jets.chatproject.module.rmi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author ibrahim
  */
-public class MessageDTO {
+public class MessageDTO implements Serializable {
 
     private final int id;
     private final int senderId;

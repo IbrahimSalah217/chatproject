@@ -5,21 +5,24 @@
  */
 package com.jets.chatproject.module.rmi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author ibrahim
  */
-public class RequestDTO {
+public class RequestDTO implements Serializable {
 
     private final int senderId;
     private final String senderName;
+    private final String senderPictureId;
     private final Date timestamp;
 
-    public RequestDTO(int senderId, String senderName, Date timestamp) {
+    public RequestDTO(int senderId, String senderName, String senderPictureId, Date timestamp) {
         this.senderId = senderId;
         this.senderName = senderName;
+        this.senderPictureId = senderPictureId;
         this.timestamp = timestamp;
     }
 
@@ -29,6 +32,10 @@ public class RequestDTO {
 
     public String getSenderName() {
         return senderName;
+    }
+
+    public String getSenderPictureId() {
+        return senderPictureId;
     }
 
     public Date getTimestamp() {
