@@ -5,98 +5,75 @@
  */
 package com.jets.chatproject.server.module.dal.entities;
 
-
+import com.jets.chatproject.module.rmi.dto.MessageType;
 import java.sql.Time;
-import java.time.LocalTime;
 
 /**
  *
  * @author Ibrahim
  */
 public class DirectMessage {
-    private final int messageId;                        //primery key
-    private final User minUser;                         // user with min ID
-    private final User maxUser;                         
-    private final User senderUser;                   // min or max user
-    private TypeMessage messageType;                      // "string" or "image" or "file"
-    private String content;                         // if message is image it will be URL 
-    private String style;                           // "fonttype ** fontsize ** color ** ......."
-    private final Time messageTime;                 // created automaticly
 
-    public DirectMessage(int messageId, User minUser, User maxUser, User senderUser, TypeMessage messageType, String content, String style) {
+    private final int messageId;
+    private final User sender;
+    private final User receiver;
+    private MessageType messageType;
+    private String content;
+    private String style;
+    private Time messageTime;
+
+    public DirectMessage(int messageId, User sender, User receiver, MessageType messageType, String content, String style, Time messageTime) {
         this.messageId = messageId;
-        this.minUser = minUser;
-        this.maxUser = maxUser;
-        this.senderUser = senderUser;
+        this.sender = sender;
+        this.receiver = receiver;
         this.messageType = messageType;
         this.content = content;
         this.style = style;
-        this.messageTime = Time.valueOf(LocalTime.now()); // may take from object creator  this.messageTime = messageTime;
+        this.messageTime = messageTime;
     }
 
     public int getMessageId() {
         return messageId;
     }
 
-    public User getMinUser() {
-        return minUser;
+    public User getSender() {
+        return sender;
     }
 
-    public User getMaxUser() {
-        return maxUser;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public User getSenderUser() {
-        return senderUser;
-    }
-
-    public TypeMessage getMessageType() {
+    public MessageType getMessageType() {
         return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
     }
 
     public String getContent() {
         return content;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public String getStyle() {
         return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     public Time getMessageTime() {
         return messageTime;
     }
 
-    public void setMessageType(TypeMessage messageType) {
-        this.messageType = messageType;
+    public void setMessageTime(Time messageTime) {
+        this.messageTime = messageTime;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setStyle(String style) {
-        this.style = style;
-    }
-    
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final DirectMessage other = (DirectMessage) obj;
-        if (this.messageId != other.messageId) {
-            return false;
-        }
-        return true;
-    }
-    public static enum TypeMessage{
-        STRING,IMAGE,FILE
-    }
 }

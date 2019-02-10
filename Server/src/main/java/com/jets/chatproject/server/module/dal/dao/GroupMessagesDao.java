@@ -13,10 +13,10 @@ import com.jets.chatproject.server.module.dal.entities.GroupMessage;
  * @author salma
  */
 public interface GroupMessagesDao {
-    
-    void insertGroupMessage(GroupMessage groupMessage);
 
-    void deleteGroupMessage(GroupMessage groupMessage);
-    
-    ArrayList<GroupMessage> getAllGroupMessages();
+    void insert(GroupMessage groupMessage);
+
+    void delete(GroupMessage groupMessage);
+
+    ArrayList<GroupMessage> getAllGroupMessages(int groupId);
 }

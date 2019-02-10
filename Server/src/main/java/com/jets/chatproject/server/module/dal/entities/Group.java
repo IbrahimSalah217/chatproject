@@ -13,66 +13,77 @@ import java.util.List;
  * @author Hadeer
  */
 public class Group {
+
     private final int groupId;
-    private final int adminId;
+    private final User admin;
     private String groupName;
-    static List<User> groupMembers;
-    
-    public Group(int groupId, int adminId,String groupName){
-        this.groupId=groupId;
-        this.adminId=adminId;
-        this.groupName=groupName;
-        groupMembers = new ArrayList<>();
+    private int pictureId;
+    private List<User> members;
+    private List<GroupMessage> messages;
+
+    public Group(int groupId, User admin, String groupName, int pictureId) {
+        this.groupId = groupId;
+        this.admin = admin;
+        this.groupName = groupName;
+        this.pictureId = pictureId;
+        members = new ArrayList<>();
+        messages = new ArrayList<>();
     }
-    
-    public void setGroupName(String groupName){
-        this.groupName=groupName;
-    }
-    
-    public int getGroupId(){
-        return groupId;
-    }
-    
-    public int getAdminId(){
-        return adminId;
-    }
-    
-    public String getGroupName(){
+
+    public String getGroupName() {
         return groupName;
     }
-    
-    private User findMemberById(int id){
-        User groupMember=null;
-        for(User member:groupMembers){
-            if(member.getId()==id)
-                groupMember=member;
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public int getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(int pictureId) {
+        this.pictureId = pictureId;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
+    }
+
+    public List<GroupMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<GroupMessage> messages) {
+        this.messages = messages;
+    }
+
+    private User findMemberById(int id) {
+        User groupMember = null;
+        for (User member : members) {
+            if (member.getId() == id) {
+                groupMember = member;
+            }
         }
         return groupMember;
     }
-    
-    public Boolean addMember(User member){
-        User groupMember=findMemberById(member.getId());
-        boolean isAdded = false;
-        if(groupMember == null){
-            groupMembers.add(member);
-            isAdded = true;
-        }
-        return isAdded;
+
+    public void addMember(User member) {
+        members.add(member);
     }
-    
-    public Boolean removeMember(User member){
-        User groupMember=findMemberById(member.getId());
+
+    public boolean removeMember(User member) {
+        User groupMember = findMemberById(member.getId());
         boolean isRemoved = false;
-        if(groupMember != null){
-            groupMembers.remove(member);
-            isRemoved=true;
+        if (groupMember != null) {
+            members.remove(member);
+            isRemoved = true;
         }
         return isRemoved;
     }
-    
-    public List<User> getAllGroupMembers(){
-        return groupMembers;
-    }
-    
-    
+
 }

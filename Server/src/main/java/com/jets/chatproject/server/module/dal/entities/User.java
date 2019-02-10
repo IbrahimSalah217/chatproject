@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.server.module.dal.entities;
 
+import com.jets.chatproject.module.rmi.dto.Gender;
 import java.util.Date;
 import java.util.Objects;
 
@@ -18,20 +19,24 @@ public class User {
     private final String phoneNumber;
     private String displyName;
     private String email;
+    private String password;
     private Gender gender;
     private String country;
     private Date dateOfBirth;
     private String bio;
+    private int pictureId;
 
-    public User(int id, String phoneNumber, String displyName, String email, Gender gender, String country, Date dateOfBirth, String bio) {
+    public User(int id, String phoneNumber, String displyName, String email, String password, Gender gender, String country, Date dateOfBirth, String bio, int pictureId) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.displyName = displyName;
         this.email = email;
+        this.password = password;
         this.gender = gender;
         this.country = country;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
+        this.pictureId = pictureId;
     }
 
     public int getId() {
@@ -56,6 +61,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Gender getGender() {
@@ -90,6 +103,14 @@ public class User {
         this.bio = bio;
     }
 
+    public int getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(int pictureId) {
+        this.pictureId = pictureId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -117,9 +138,5 @@ public class User {
             return false;
         }
         return true;
-    }
-
-    public static enum Gender {
-        MALE, FEMALE
     }
 }

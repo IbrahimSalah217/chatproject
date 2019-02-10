@@ -13,11 +13,13 @@ import com.jets.chatproject.server.module.dal.entities.User;
  */
 public interface UsersDao {
 
-    void insertUser(User user);
+    void insert(User user);
 
-    void updateUser(User user);
+    void update(User user);
 
-    void deleteUser(User user);
+    void delete(User user);
 
-    User findUserByPhone(String phone);
+    User findByPhone(String phone);
+
+    User findById(int userId);
 }

@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * @author salma
  */
 public interface RequestsDoa {
-    
-    void insertRequest(Request request);
 
-    void deleteRequest(Request request);
+    void insert(Request request);
 
-    ArrayList<Request> getAllRequest();
+    void delete(Request request);
+
+    ArrayList<Request> getAllByReceiver(int userId);
 }
