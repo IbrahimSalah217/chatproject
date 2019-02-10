@@ -6,7 +6,7 @@
 package com.jets.chatproject.server.module.dal.dao;
 
 import com.jets.chatproject.server.module.dal.entities.Request;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,5 +18,5 @@ public interface RequestsDoa {
 
     void delete(Request request);
 
-    ArrayList<Request> getAllByReceiver(int userId);
+    List<Request> getAllByReceiver(int userId);
 }
