@@ -5,15 +5,16 @@
  */
 package com.jets.chatproject.server.module.dal.dao;
 
-import com.jets.chatproject.server.module.dal.entities.User;
-
 /**
  *
  * @author ibrahim
+ * @param <T>
  */
-public interface UsersDao extends AbstractDAO<User> {
+public interface AbstractDAO<T> {
 
-    User findByPhone(String phone);
+    boolean insert(T object);
 
-    User findById(int id);
+    boolean update(T object);
+
+    boolean delete(T object);
 }

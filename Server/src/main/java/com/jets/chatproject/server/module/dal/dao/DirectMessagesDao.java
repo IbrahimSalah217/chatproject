@@ -12,12 +12,10 @@ import java.util.ArrayList;
  *
  * @author ibrahim
  */
-public interface DirectMessageDao {
+public interface DirectMessagesDao extends AbstractDAO<DirectMessage> {
 
-    void insert(DirectMessage directMessage);
+    DirectMessage getLastDirectMessage(int userId, int anotherUserId);
 
-    void delete(DirectMessage directMessage);
-
-    ArrayList<DirectMessage> getAllDirectMessages(int userId);
+    ArrayList<DirectMessage> getAllDirectMessages(int userId, int anotherUserId);
 
 }

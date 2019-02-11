@@ -7,7 +7,6 @@ package com.jets.chatproject.server.module.dal.entities;
 
 import com.jets.chatproject.module.rmi.dto.Gender;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  *
@@ -109,34 +108,5 @@ public class User {
 
     public void setPictureId(int pictureId) {
         this.pictureId = pictureId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + this.id;
-        hash = 71 * hash + Objects.hashCode(this.phoneNumber);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User other = (User) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
-            return false;
-        }
-        return true;
     }
 }

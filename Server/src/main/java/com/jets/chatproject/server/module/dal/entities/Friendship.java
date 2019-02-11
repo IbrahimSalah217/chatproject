@@ -11,26 +11,26 @@ package com.jets.chatproject.server.module.dal.entities;
  */
 public class Friendship {
 
-    private final User user;
-    private final User friend;
+    private final int userId;
+    private final int friendId;
     private String category;
     private boolean blocked;
-    private DirectMessage lastSeenMessage;
+    private int lastSeenMessageId;
 
-    public Friendship(User user, User friend, String category, boolean blocked, DirectMessage lastSeenMessage) {
-        this.user = user;
-        this.friend = friend;
+    public Friendship(int user, int friend, String category, boolean blocked, int lastSeenMessageId) {
+        this.userId = user;
+        this.friendId = friend;
         this.category = category;
         this.blocked = blocked;
-        this.lastSeenMessage = lastSeenMessage;
+        this.lastSeenMessageId = lastSeenMessageId;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public User getFriend() {
-        return friend;
+    public int getFriendId() {
+        return friendId;
     }
 
     public String getCategory() {
@@ -49,12 +49,12 @@ public class Friendship {
         this.blocked = blocked;
     }
 
-    public DirectMessage getLastSeenMessage() {
-        return lastSeenMessage;
+    public int getLastSeenMessageId() {
+        return lastSeenMessageId;
     }
 
-    public void setLastSeenMessage(DirectMessage lastSeenMessage) {
-        this.lastSeenMessage = lastSeenMessage;
+    public void setLastSeenMessageId(int lastSeenMessageId) {
+        this.lastSeenMessageId = lastSeenMessageId;
     }
 
 }

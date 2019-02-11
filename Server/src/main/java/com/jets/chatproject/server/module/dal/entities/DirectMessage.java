@@ -15,17 +15,17 @@ import java.sql.Time;
 public class DirectMessage {
 
     private final int messageId;
-    private final User sender;
-    private final User receiver;
+    private final int senderId;
+    private final int receiverId;
     private MessageType messageType;
     private String content;
     private String style;
     private Time messageTime;
 
-    public DirectMessage(int messageId, User sender, User receiver, MessageType messageType, String content, String style, Time messageTime) {
+    public DirectMessage(int messageId, int senderId, int receiverId, MessageType messageType, String content, String style, Time messageTime) {
         this.messageId = messageId;
-        this.sender = sender;
-        this.receiver = receiver;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
         this.messageType = messageType;
         this.content = content;
         this.style = style;
@@ -36,12 +36,12 @@ public class DirectMessage {
         return messageId;
     }
 
-    public User getSender() {
-        return sender;
+    public int getSenderId() {
+        return senderId;
     }
 
-    public User getReceiver() {
-        return receiver;
+    public int getReceiverId() {
+        return receiverId;
     }
 
     public MessageType getMessageType() {

@@ -5,40 +5,32 @@
  */
 package com.jets.chatproject.server.module.dal.dao.imp;
 
-import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
-import com.jets.chatproject.server.module.dal.entities.Request;
-import java.util.List;
-import javax.sql.DataSource;
+import com.jets.chatproject.server.module.dal.dao.PicturesDao;
+import com.jets.chatproject.server.module.dal.entities.Picture;
 
 /**
  *
  * @author ibrahim
  */
-public class RequestsDaoImp implements RequestsDoa {
-
-    DataSource dataSource;
-
-    public RequestsDaoImp(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+public class PicturesDaoImp implements PicturesDao {
 
     @Override
-    public List<Request> findAllByReceiver(int userId) {
+    public Picture findById(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean insert(Request object) {
+    public boolean insert(Picture object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean update(Request object) {
+    public boolean update(Picture object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean delete(Request object) {
+    public boolean delete(Picture object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

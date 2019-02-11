@@ -5,40 +5,37 @@
  */
 package com.jets.chatproject.server.module.dal.dao.imp;
 
-import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
-import com.jets.chatproject.server.module.dal.entities.Request;
-import java.util.List;
-import javax.sql.DataSource;
+import com.jets.chatproject.server.module.dal.dao.UsersDao;
+import com.jets.chatproject.server.module.dal.entities.User;
 
 /**
  *
  * @author ibrahim
  */
-public class RequestsDaoImp implements RequestsDoa {
-
-    DataSource dataSource;
-
-    public RequestsDaoImp(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+public class UsersDaoImp implements UsersDao {
 
     @Override
-    public List<Request> findAllByReceiver(int userId) {
+    public User findByPhone(String phone) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean insert(Request object) {
+    public User findById(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean update(Request object) {
+    public boolean insert(User object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean delete(Request object) {
+    public boolean update(User object) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean delete(User object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

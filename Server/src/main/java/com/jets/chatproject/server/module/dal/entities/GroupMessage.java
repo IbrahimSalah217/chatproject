@@ -15,17 +15,17 @@ import java.sql.Time;
 public class GroupMessage {
 
     private final int messageId;
-    private final User sender;
-    private final Group group;
+    private final int senderId;
+    private final int groupId;
     private MessageType messageType;
     private String content;
     private String style;
     private Time messageTime;
 
-    public GroupMessage(int messageId, User sender, Group group, MessageType messageType, String content, String style, Time messageTime) {
+    public GroupMessage(int messageId, int senderId, int groupId, MessageType messageType, String content, String style, Time messageTime) {
         this.messageId = messageId;
-        this.sender = sender;
-        this.group = group;
+        this.senderId = senderId;
+        this.groupId = groupId;
         this.messageType = messageType;
         this.content = content;
         this.style = style;
@@ -36,12 +36,12 @@ public class GroupMessage {
         return messageId;
     }
 
-    public User getSender() {
-        return sender;
+    public int getSenderId() {
+        return senderId;
     }
 
-    public Group getGroup() {
-        return group;
+    public int getGroupId() {
+        return groupId;
     }
 
     public MessageType getMessageType() {

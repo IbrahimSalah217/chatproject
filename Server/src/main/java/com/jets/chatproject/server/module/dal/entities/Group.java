@@ -5,9 +5,6 @@
  */
 package com.jets.chatproject.server.module.dal.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author Hadeer
@@ -15,19 +12,23 @@ import java.util.List;
 public class Group {
 
     private final int groupId;
-    private final User admin;
+    private final int adminId;
     private String groupName;
     private int pictureId;
-    private List<User> members;
-    private List<GroupMessage> messages;
 
-    public Group(int groupId, User admin, String groupName, int pictureId) {
+    public Group(int groupId, int adminId, String groupName, int pictureId) {
         this.groupId = groupId;
-        this.admin = admin;
+        this.adminId = adminId;
         this.groupName = groupName;
         this.pictureId = pictureId;
-        members = new ArrayList<>();
-        messages = new ArrayList<>();
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public int getAdminId() {
+        return adminId;
     }
 
     public String getGroupName() {
@@ -44,46 +45,6 @@ public class Group {
 
     public void setPictureId(int pictureId) {
         this.pictureId = pictureId;
-    }
-
-    public List<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<User> members) {
-        this.members = members;
-    }
-
-    public List<GroupMessage> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<GroupMessage> messages) {
-        this.messages = messages;
-    }
-
-    private User findMemberById(int id) {
-        User groupMember = null;
-        for (User member : members) {
-            if (member.getId() == id) {
-                groupMember = member;
-            }
-        }
-        return groupMember;
-    }
-
-    public void addMember(User member) {
-        members.add(member);
-    }
-
-    public boolean removeMember(User member) {
-        User groupMember = findMemberById(member.getId());
-        boolean isRemoved = false;
-        if (groupMember != null) {
-            members.remove(member);
-            isRemoved = true;
-        }
-        return isRemoved;
     }
 
 }

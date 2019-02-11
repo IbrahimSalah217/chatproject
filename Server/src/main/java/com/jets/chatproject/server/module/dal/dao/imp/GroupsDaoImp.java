@@ -5,40 +5,33 @@
  */
 package com.jets.chatproject.server.module.dal.dao.imp;
 
-import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
-import com.jets.chatproject.server.module.dal.entities.Request;
-import java.util.List;
-import javax.sql.DataSource;
+import com.jets.chatproject.server.module.dal.dao.GroupsDao;
+import com.jets.chatproject.server.module.dal.entities.Group;
+import java.util.ArrayList;
 
 /**
  *
  * @author ibrahim
  */
-public class RequestsDaoImp implements RequestsDoa {
-
-    DataSource dataSource;
-
-    public RequestsDaoImp(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+public class GroupsDaoImp implements GroupsDao {
 
     @Override
-    public List<Request> findAllByReceiver(int userId) {
+    public ArrayList<Group> findAllForUser(int userId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean insert(Request object) {
+    public boolean insert(Group object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean update(Request object) {
+    public boolean update(Group object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean delete(Request object) {
+    public boolean delete(Group object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

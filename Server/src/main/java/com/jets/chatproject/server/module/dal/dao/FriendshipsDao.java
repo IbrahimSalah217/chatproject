@@ -5,7 +5,6 @@
  */
 package com.jets.chatproject.server.module.dal.dao;
 
-import com.jets.chatproject.server.module.dal.entities.User;
 import com.jets.chatproject.server.module.dal.entities.Friendship;
 import java.util.List;
 
@@ -13,11 +12,11 @@ import java.util.List;
  *
  * @author ibrahim
  */
-public interface FriendshipDao {
+public interface FriendshipsDao extends AbstractDAO<Friendship> {
 
-    void addFriends(User user1, User user2);
+    void addMitualFriendship(int userId, int anotherUserId);
 
-    void update(Friendship friendship);
+    Friendship findByUserAndFriend(int userId, int friendId);
 
     List<Friendship> getAllFriendshipsForUser(int userId);
 

@@ -5,40 +5,38 @@
  */
 package com.jets.chatproject.server.module.dal.dao.imp;
 
-import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
-import com.jets.chatproject.server.module.dal.entities.Request;
-import java.util.List;
-import javax.sql.DataSource;
+import com.jets.chatproject.server.module.dal.dao.DirectMessagesDao;
+import com.jets.chatproject.server.module.dal.entities.DirectMessage;
+import java.util.ArrayList;
 
 /**
  *
  * @author ibrahim
  */
-public class RequestsDaoImp implements RequestsDoa {
-
-    DataSource dataSource;
-
-    public RequestsDaoImp(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+public class DirectMessagesDaoImp implements DirectMessagesDao {
 
     @Override
-    public List<Request> findAllByReceiver(int userId) {
+    public DirectMessage getLastDirectMessage(int userId, int anotherUserId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean insert(Request object) {
+    public ArrayList<DirectMessage> getAllDirectMessages(int userId, int anotherUserId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean update(Request object) {
+    public boolean insert(DirectMessage object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean delete(Request object) {
+    public boolean update(DirectMessage object) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean delete(DirectMessage object) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

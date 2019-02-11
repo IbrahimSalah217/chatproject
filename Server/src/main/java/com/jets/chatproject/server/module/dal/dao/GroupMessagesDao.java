@@ -12,11 +12,9 @@ import com.jets.chatproject.server.module.dal.entities.GroupMessage;
  *
  * @author salma
  */
-public interface GroupMessagesDao {
+public interface GroupMessagesDao extends AbstractDAO<GroupMessage>{
 
-    void insert(GroupMessage groupMessage);
-
-    void delete(GroupMessage groupMessage);
+    GroupMessage getLastMessage(int groupId);
 
     ArrayList<GroupMessage> getAllGroupMessages(int groupId);
 }

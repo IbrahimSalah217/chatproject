@@ -12,11 +12,7 @@ import java.util.List;
  *
  * @author salma
  */
-public interface RequestsDoa {
+public interface RequestsDoa extends AbstractDAO<Request> {
 
-    void insert(Request request);
-
-    void delete(Request request);
-
-    List<Request> getAllByReceiver(int userId);
+    List<Request> findAllByReceiver(int userId);
 }
