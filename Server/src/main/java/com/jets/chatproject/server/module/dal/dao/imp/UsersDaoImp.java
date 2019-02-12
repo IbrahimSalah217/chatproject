@@ -73,7 +73,7 @@ public class UsersDaoImp implements UsersDao {
 
         try {
             Connection connection = dataSource.getConnection();
-            String query = "select * from users where user_id='"+id+"'";
+            String query = "select * from users where user_id="+id+"";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             if(resultSet.next()){
@@ -142,7 +142,7 @@ public class UsersDaoImp implements UsersDao {
                     "',country = '"+user.getCountry()+
                     "',date_of_birth = '"+user.getDateOfBirth()+
                     "',bio = '"+user.getBio()+
-                    "',picture_id = '"+user.getPictureId()+"';";
+                    "',picture_id = "+user.getPictureId();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.execute();
             isUpdated=true;
