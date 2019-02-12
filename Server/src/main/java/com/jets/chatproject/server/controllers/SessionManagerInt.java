@@ -5,10 +5,15 @@
  */
 package com.jets.chatproject.server.controllers;
 
+
+
 /**
  *
- * @author ibrahim
+ * @author salma
  */
-public interface Dummy {
+public interface SessionManagerInt {
     
+    String createSession(int userId);
+    void removeSession(String session);
+    int findUserId(String session);
 }

@@ -6,6 +6,7 @@
 package com.jets.chatproject.server.module.dal.entities;
 
 import com.jets.chatproject.module.rmi.dto.Gender;
+import com.jets.chatproject.module.rmi.dto.UserStatus;
 import java.sql.Date;
 
 /**
@@ -23,10 +24,10 @@ public class User {
     private String country;
     private Date dateOfBirth;
     private String bio;
-    private String state;
+    private UserStatus state;
     private int pictureId;
 
-    public User(int id, String phoneNumber, String displyName, String email, String password, Gender gender, String country, Date dateOfBirth, String bio, String state, int pictureId) {
+    public User(int id, String phoneNumber, String displyName, String email, String password, Gender gender, String country, Date dateOfBirth, String bio, UserStatus state, int pictureId) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.displyName = displyName;
@@ -104,11 +105,11 @@ public class User {
         this.bio = bio;
     }
 
-    public String getState() {
+    public UserStatus getState() {
         return state;
     }
 
-    public void setState(String status) {
+    public void setState(UserStatus status) {
         this.state = status;
     }
 

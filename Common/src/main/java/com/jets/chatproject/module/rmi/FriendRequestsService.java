@@ -20,7 +20,7 @@ public interface FriendRequestsService extends Remote {
 
     List<RequestDTO> getAllRequests(String session) throws RemoteException;
 
-    void acceptRequest(String session, String senderId) throws RemoteException;
+    void acceptRequest(String session, int senderId) throws RemoteException;
 
-    void rejectRequest(String session, String senderId) throws RemoteException;
+    void rejectRequest(String session, int senderId) throws RemoteException;
 }
