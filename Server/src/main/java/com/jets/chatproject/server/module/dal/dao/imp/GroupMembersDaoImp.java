@@ -25,6 +25,9 @@ public class GroupMembersDaoImp implements GroupMembersDao {
 
     DataSource dataSource;
 
+    public GroupMembersDaoImp(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
     @Override
     public List<GroupMember> findAllByGroup(int groupId) {
         List<GroupMember> myGroupList = null;
