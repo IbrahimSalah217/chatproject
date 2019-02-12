@@ -12,18 +12,19 @@ import com.jets.chatproject.server.controllers.SessionManagerInt;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.dal.entities.User;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
 
 /**
  *
  * @author salma
  */
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl extends UnicastRemoteObject implements AuthService {
 
     UsersDao userdao;
     SessionManagerInt sessionManager;
 
-    public AuthServiceImpl(UsersDao userdao, SessionManagerInt sessionManager) {
+    public AuthServiceImpl(UsersDao userdao, SessionManagerInt sessionManager) throws RemoteException{
         this.userdao = userdao;
         this.sessionManager = sessionManager;
     }
