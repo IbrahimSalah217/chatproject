@@ -92,4 +92,24 @@ public class RequestsDaoImp implements RequestsDoa {
         }
     }
 
+    @Override
+    public Request findByReceiverSender(int senderId, int receiverId) {
+        Request request = null;
+        try {
+            Connection conn = dataSource.getConnection();
+            String query = "select * from Requests where receiver_id = ? AND sender_id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, receiverId);
+            preparedStatement.setInt(2, senderId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            request = new Request(resultSet.getInt(1),
+                    resultSet.getInt(2), resultSet.getTimestamp(3));
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestsDaoImp.class.getName())
+                    .log(Level.SEVERE, null, ex);
+
+        }
+        return request;
+    }
+
 }
