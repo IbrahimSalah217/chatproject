@@ -16,10 +16,10 @@ public class RequestDTO implements Serializable {
 
     private final int senderId;
     private final String senderName;
-    private final String senderPictureId;
+    private final int senderPictureId;
     private final Date timestamp;
 
-    public RequestDTO(int senderId, String senderName, String senderPictureId, Date timestamp) {
+    public RequestDTO(int senderId, String senderName, int senderPictureId, Date timestamp) {
         this.senderId = senderId;
         this.senderName = senderName;
         this.senderPictureId = senderPictureId;
@@ -34,7 +34,7 @@ public class RequestDTO implements Serializable {
         return senderName;
     }
 
-    public String getSenderPictureId() {
+    public int getSenderPictureId() {
         return senderPictureId;
     }
 

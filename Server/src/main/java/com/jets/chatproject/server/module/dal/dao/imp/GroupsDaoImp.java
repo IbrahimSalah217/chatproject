@@ -24,6 +24,9 @@ public class GroupsDaoImp implements GroupsDao {
 
     DataSource dataSource;
 
+    public GroupsDaoImp(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
     @Override
     public ArrayList<Group> findAllForUser(int userId) {
         ArrayList<Group> myGroupList = null;

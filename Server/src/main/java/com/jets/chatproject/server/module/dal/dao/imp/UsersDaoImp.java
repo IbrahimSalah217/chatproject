@@ -6,6 +6,7 @@
 package com.jets.chatproject.server.module.dal.dao.imp;
 
 import com.jets.chatproject.module.rmi.dto.Gender;
+import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.sql.Connection;
@@ -47,7 +48,7 @@ public class UsersDaoImp implements UsersDao {
                 String name = resultSet.getString(3);
                 String email = resultSet.getString(4);
                 String password = resultSet.getString(5);
-                String status = resultSet.getString(6);
+                UserStatus status = UserStatus.valueOf(resultSet.getString(6));
                 String gender = resultSet.getString(7);
                 String country = resultSet.getString(8);
                 Date dateOfBirth = resultSet.getDate(9);
@@ -82,7 +83,7 @@ public class UsersDaoImp implements UsersDao {
                 String name = resultSet.getString(3);
                 String email = resultSet.getString(4);
                 String password = resultSet.getString(5);
-                String status = resultSet.getString(6);
+                UserStatus status = UserStatus.valueOf(resultSet.getString(6));
                 String gender = resultSet.getString(7);
                 String country = resultSet.getString(8);
                 Date dateOfBirth = resultSet.getDate(9);
@@ -112,7 +113,7 @@ public class UsersDaoImp implements UsersDao {
             preparedStatement.setString(3, user.getDisplyName());
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setString(6, user.getState());
+            preparedStatement.setString(6, user.getState().toString());
             preparedStatement.setString(7, user.getGender().toString());
             preparedStatement.setString(8, user.getCountry());
             preparedStatement.setDate(9, user.getDateOfBirth());
