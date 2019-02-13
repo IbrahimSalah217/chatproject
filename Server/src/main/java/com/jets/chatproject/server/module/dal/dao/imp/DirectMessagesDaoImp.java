@@ -51,7 +51,6 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
                 if (((senderId == userId) && (receiverId == anotherUserId)) || ((senderId == anotherUserId) && (receiverId == userId))) {
                     directMessage = new DirectMessage(id, senderId, receiverId, messageType, content, fontStyle, time);
                 }
-
             }
 
         } catch (SQLException ex) {
