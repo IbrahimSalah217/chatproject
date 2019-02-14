@@ -15,7 +15,7 @@ public class FriendshipDTO implements Serializable{
 
     private final int friendId;
     private String friendName;
-    private int memberPictureId;
+    private int friendPictureId;
     private String category;
     private MessageDTO lastMessage;
     private int lastMessageReadByFriend;
@@ -24,7 +24,7 @@ public class FriendshipDTO implements Serializable{
     public FriendshipDTO(int friendId, String friendName, int memberPictureId, String category, MessageDTO lastMessage, int lastMessageReadByFriend, int unreadMessagesCount) {
         this.friendId = friendId;
         this.friendName = friendName;
-        this.memberPictureId = memberPictureId;
+        this.friendPictureId = memberPictureId;
         this.category = category;
         this.lastMessage = lastMessage;
         this.lastMessageReadByFriend = lastMessageReadByFriend;
@@ -44,11 +44,11 @@ public class FriendshipDTO implements Serializable{
     }
 
     public int getMemberPictureId() {
-        return memberPictureId;
+        return friendPictureId;
     }
 
     public void setMemberPictureId(int memberPictureId) {
-        this.memberPictureId = memberPictureId;
+        this.friendPictureId = memberPictureId;
     }
 
     public String getCategory() {

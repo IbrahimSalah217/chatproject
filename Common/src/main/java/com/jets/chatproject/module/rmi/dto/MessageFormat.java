@@ -27,21 +27,18 @@ public class MessageFormat {
         this.fontSize = 12;
     }
 
-    public MessageFormat(String format) throws Exception {
-        if (!format.matches("[Bb][Ii][Uu]:[0-9]+:[0-9]+:[0-9]+")) {
-            throw new Exception();
+    public static MessageFormat of(String format) {
+        MessageFormat messageFormat = new MessageFormat();
+        if (format.matches("[Bb][Ii][Uu]:[0-9]+:[0-9]+:[0-9]+")) {
+            String[] components = format.split(":");
+            messageFormat.bold = components[0].charAt(0) == 'B';
+            messageFormat.italic = components[0].charAt(0) == 'I';
+            messageFormat.underline = components[0].charAt(0) == 'U';
+            messageFormat.textColor = Integer.valueOf(components[1]);
+            messageFormat.backgroundColor = Integer.valueOf(components[2]);
+            messageFormat.fontSize = Integer.valueOf(components[3]);
         }
-        String[] components = format.split(":");
-        this.bold = components[0].charAt(0) == 'B';
-        this.italic = components[0].charAt(0) == 'I';
-        this.underline = components[0].charAt(0) == 'U';
-        try {
-            textColor = Integer.valueOf(components[1]);
-            backgroundColor = Integer.valueOf(components[2]);
-            fontSize = Integer.valueOf(components[3]);
-        } catch (NumberFormatException ex) {
-            throw new Exception(ex);
-        }
+        return messageFormat;
     }
 
     public MessageFormat(boolean bold, boolean italic, boolean underline, int textColor, int backgroundColor, int fontSize) {

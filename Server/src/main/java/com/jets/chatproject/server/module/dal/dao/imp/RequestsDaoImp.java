@@ -93,7 +93,7 @@ public class RequestsDaoImp implements RequestsDoa {
     }
 
     @Override
-    public Request findByReceiverSender(int senderId, int receiverId) {
+    public Request findBySenderReceiver(int senderId, int receiverId) {
         Request request = null;
         try {
             Connection conn = dataSource.getConnection();

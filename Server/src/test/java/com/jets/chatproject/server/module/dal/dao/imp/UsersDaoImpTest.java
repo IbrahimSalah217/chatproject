@@ -7,12 +7,9 @@ package com.jets.chatproject.server.module.dal.dao.imp;
 
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
-import com.jets.chatproject.server.module.dal.cfg.MyDataSourceFactory;
+import com.jets.chatproject.server.module.dal.cfg.DataSourceFactory;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.sql.Date;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,26 +23,26 @@ import static org.junit.Assert.*;
  * @author Hadeer
  */
 public class UsersDaoImpTest {
-    DataSource dataSource = MyDataSourceFactory.getMySQLDataSource();
-    
-    
+
+    DataSource dataSource = DataSourceFactory.getDataSource();
+
     public UsersDaoImpTest() {
-        
-        
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
-    public static void tearDownClass() {    }
-    
+    public static void tearDownClass() {
+    }
+
     @Before
     public void setUp() {
-       
+
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -86,12 +83,10 @@ public class UsersDaoImpTest {
     @Test
     public void testInsert() {
         System.out.println("insert");
-        User user = new User(1, "01006663978", "hadeer", "hadeer.ayman1994@gmail.com", "123456",Gender.FEMALE, "Egypt", new Date(System.currentTimeMillis()), "jvkjdvbkjd", UserStatus.AVAILABLE, 0);
+        User user = new User(1, "01006663978", "hadeer", "hadeer.ayman1994@gmail.com", "123456", Gender.FEMALE, "Egypt", new Date(System.currentTimeMillis()), "jvkjdvbkjd", UserStatus.AVAILABLE, 1);
         UsersDaoImp instance = new UsersDaoImp(dataSource);
         boolean expResult = true;
         boolean result = instance.insert(user);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 }

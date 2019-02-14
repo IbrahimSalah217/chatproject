@@ -18,7 +18,7 @@ public interface MessagesService extends Remote {
 
     List<MessageDTO> getAllGroupMessages(String session, int groupId) throws RemoteException;
 
-    List<MessageDTO> getAllDirectMessages(String session, int groupId) throws RemoteException;
+    List<MessageDTO> getAllDirectMessages(String session, int friendId) throws RemoteException;
 
     void sendGroupMessage(String session, int groupId, MessageDTO message) throws RemoteException;
 

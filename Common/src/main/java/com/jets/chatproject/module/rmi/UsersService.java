@@ -22,10 +22,12 @@ public interface UsersService extends Remote {
 
     UserDTO getProfileById(String session, int userId) throws RemoteException;
 
-    UserDTO getProfileByPhone(String session, int userPhone) throws RemoteException;
+    UserDTO getProfileByPhone(String session, String userPhone) throws RemoteException;
 
     void updateProfile(String session, UserDTO userProfile, byte[] picture) throws RemoteException;
 
     void changeStatus(String session, UserStatus status) throws RemoteException;
+
+    byte[] getPicture(String session, int pictureId) throws RemoteException;
 
 }
