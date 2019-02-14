@@ -69,5 +69,12 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
             return true;
         }
     }
+    
+    @Override
+    public String toString(){
+        String serviceName = "Auth Services";
+        return serviceName;
+    } 
+
 
 }

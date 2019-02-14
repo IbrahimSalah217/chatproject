@@ -80,5 +80,11 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
         Request request = requestsDoa.findByReceiverSender(userId, senderId);
         requestsDoa.delete(request);
     }
+    
+    @Override
+    public String toString(){
+        String serviceName = "FriendRequests Services";
+        return serviceName;
+    }
 
 }
