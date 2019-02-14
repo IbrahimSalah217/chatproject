@@ -63,12 +63,6 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
     public boolean checkPhone(String phone) throws RemoteException {
         return userdao.findByPhone(phone) != null;
     }
-    
-    @Override
-    public String toString(){
-        String serviceName = "Auth Services";
-        return serviceName;
-    } 
 
 
 }
