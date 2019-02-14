@@ -5,7 +5,7 @@
  */
 package com.jets.chatproject.server.module.dal.dao.imp;
 
-import com.jets.chatproject.server.module.dal.cfg.MyDataSourceFactory;
+import com.jets.chatproject.server.module.dal.cfg.DataSourceFactory;
 import com.jets.chatproject.server.module.dal.entities.Request;
 import java.util.List;
 import javax.sql.DataSource;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @author Hadeer
  */
 public class RequestsDaoImpTest {
-    DataSource dataSource = MyDataSourceFactory.getMySQLDataSource();
+    DataSource dataSource = DataSourceFactory.getDataSource();
 
     
     public RequestsDaoImpTest() {

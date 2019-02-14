@@ -7,7 +7,6 @@ package com.jets.chatproject.server.module.rmi.imp;
 
 import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
-import com.jets.chatproject.server.controllers.SessionManagerInt;
 import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
 import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
@@ -18,6 +17,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import com.jets.chatproject.server.module.session.ISessionManager;
 
 /**
  *
@@ -25,12 +25,12 @@ import java.util.List;
  */
 public class FriendRequestsServiceImpl extends UnicastRemoteObject implements FriendRequestsService {
 
-    SessionManagerInt sessionManager;
+    ISessionManager sessionManager;
     UsersDao userdao;
     RequestsDoa requestsDoa;
     FriendshipsDao friendshipsDao;
 
-    public FriendRequestsServiceImpl(UsersDao userdao, SessionManagerInt sessionManager, RequestsDoa requestsDoa, FriendshipsDao friendshipsDao) throws RemoteException{
+    public FriendRequestsServiceImpl(UsersDao userdao, ISessionManager sessionManager, RequestsDoa requestsDoa, FriendshipsDao friendshipsDao) throws RemoteException {
         this.userdao = userdao;
         this.sessionManager = sessionManager;
         this.requestsDoa = requestsDoa;
@@ -39,18 +39,15 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
 
     @Override
     public void sendRequest(String session, String phone, String email) throws RemoteException {
-
         int senderId = sessionManager.findUserId(session);
         int receiverId = userdao.findByPhone(phone).getId();
         Date requestTime = new Date();
-        List<Request> myRequestList = requestsDoa.findAllByReceiver(senderId);
-        for (Request r : myRequestList) {
-            if(r.getSenderId() == receiverId){
-                acceptRequest(session, receiverId);
-            }else{
-                Request request = new Request(senderId, receiverId, requestTime);
-                requestsDoa.insert(request);
-            }
+        Request request = requestsDoa.findBySenderReceiver(receiverId, senderId);
+        if (request != null) {
+            acceptRequest(session, receiverId);
+        } else {
+            request = new Request(senderId, receiverId, requestTime);
+            requestsDoa.insert(request);
         }
     }
 
@@ -77,7 +74,7 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
     @Override
     public void rejectRequest(String session, int senderId) throws RemoteException {
         int userId = sessionManager.findUserId(session);
-        Request request = requestsDoa.findByReceiverSender(userId, senderId);
+        Request request = requestsDoa.findBySenderReceiver(userId, senderId);
         requestsDoa.delete(request);
     }
 

@@ -10,5 +10,5 @@ package com.jets.chatproject.module.rmi.dto;
  * @author ibrahim
  */
 public enum UserStatus {
-    AVAILABLE, BUSY, AWAY
+    AVAILABLE, BUSY, AWAY, OFFLINE
 }
