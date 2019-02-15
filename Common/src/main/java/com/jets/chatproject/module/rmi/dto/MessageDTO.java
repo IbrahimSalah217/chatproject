@@ -16,11 +16,16 @@ public class MessageDTO implements Serializable {
 
     private final int id;
     private final int senderId;
-    private final String senderName;
+    private String senderName;
     private MessageType type;
     private String content;
     private MessageFormat format;
     private Date timestamp;
+
+    public MessageDTO(int id, int senderId) {
+        this.id = id;
+        this.senderId = senderId;
+    }
 
     public MessageDTO(int id, int senderId, String senderName, MessageType type,
             String content, MessageFormat format, Date timestamp) {
@@ -43,6 +48,10 @@ public class MessageDTO implements Serializable {
 
     public String getSenderName() {
         return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
     public MessageType getType() {

@@ -102,7 +102,7 @@ public class UsersDaoImp implements UsersDao {
             preparedStatement.setString(6, user.getState().toString());
             preparedStatement.setString(7, user.getGender().toString());
             preparedStatement.setString(8, user.getCountry());
-            preparedStatement.setDate(9, user.getDateOfBirth());
+            preparedStatement.setDate(9, new Date(user.getDateOfBirth().getTime()));
             preparedStatement.setString(10, user.getBio());
             //preparedStatement.setInt(11, user.getPictureId());
             preparedStatement.execute();
@@ -130,7 +130,7 @@ public class UsersDaoImp implements UsersDao {
             preparedStatement.setString(5, user.getState().toString());
             preparedStatement.setString(6, user.getGender().toString());
             preparedStatement.setString(7, user.getCountry());
-            preparedStatement.setDate(8, user.getDateOfBirth());
+            preparedStatement.setDate(8, new Date(user.getDateOfBirth().getTime()));
             preparedStatement.setString(9, user.getBio());
             preparedStatement.setInt(10, user.getPictureId());
             preparedStatement.executeUpdate();

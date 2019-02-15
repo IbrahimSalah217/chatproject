@@ -13,11 +13,15 @@ import java.io.Serializable;
  */
 public class GroupDTO implements Serializable {
 
-    final private int id;
-    final private int adminId;
+    private final int id;
+    private int adminId;
     private String displayName;
     private int pictureId;
     private MessageDTO lastMessage;
+
+    public GroupDTO(int id) {
+        this.id = id;
+    }
 
     public GroupDTO(int id, int adminId, String displayName, int pictureId, MessageDTO lastMessage) {
         this.id = id;
@@ -33,6 +37,10 @@ public class GroupDTO implements Serializable {
 
     public int getAdminId() {
         return adminId;
+    }
+
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     public String getDisplayName() {

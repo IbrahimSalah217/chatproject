@@ -15,9 +15,13 @@ import java.util.Date;
 public class RequestDTO implements Serializable {
 
     private final int senderId;
-    private final String senderName;
-    private final int senderPictureId;
-    private final Date timestamp;
+    private String senderName;
+    private int senderPictureId;
+    private Date timestamp;
+
+    public RequestDTO(int senderId) {
+        this.senderId = senderId;
+    }
 
     public RequestDTO(int senderId, String senderName, int senderPictureId, Date timestamp) {
         this.senderId = senderId;
@@ -26,20 +30,28 @@ public class RequestDTO implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public int getSenderId() {
-        return senderId;
-    }
-
     public String getSenderName() {
         return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
     public int getSenderPictureId() {
         return senderPictureId;
     }
 
+    public void setSenderPictureId(int senderPictureId) {
+        this.senderPictureId = senderPictureId;
+    }
+
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override

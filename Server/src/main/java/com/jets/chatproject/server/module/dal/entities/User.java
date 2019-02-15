@@ -7,7 +7,7 @@ package com.jets.chatproject.server.module.dal.entities;
 
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
