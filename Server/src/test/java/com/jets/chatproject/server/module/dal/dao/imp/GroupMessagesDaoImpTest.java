@@ -15,29 +15,32 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
  * @author Hadeer
  */
+@Ignore
 public class GroupMessagesDaoImpTest {
+
     DataSource dataSource = DataSourceFactory.getDataSource();
-    
+
     public GroupMessagesDaoImpTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -84,8 +87,7 @@ public class GroupMessagesDaoImpTest {
         boolean result = instance.insert(groupMessage);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-       // fail("The test case is a prototype.");
+        // fail("The test case is a prototype.");
     }
-  
-    
+
 }

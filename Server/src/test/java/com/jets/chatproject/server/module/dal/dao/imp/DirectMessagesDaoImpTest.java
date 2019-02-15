@@ -15,11 +15,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
  * @author Hadeer
  */
+@Ignore
 public class DirectMessagesDaoImpTest {
     DataSource dataSource = DataSourceFactory.getDataSource();
 
