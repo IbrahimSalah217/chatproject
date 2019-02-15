@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.client.views.controllers;
+package com.jets.chatproject.client.views.login;
 
 import com.jets.chatproject.client.ChatApp;
 import java.net.URL;
@@ -70,6 +70,7 @@ public class LoginPasswordController implements Initializable {
         ChatApp clientApp = new ChatApp();
         clientApp.switchToLoginPhoneScreen(stage);
     }
+    
     public void logIn(){
         ChatApp clientApp = new ChatApp();
         try {
