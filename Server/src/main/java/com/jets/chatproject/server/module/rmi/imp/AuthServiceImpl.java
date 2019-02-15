@@ -8,6 +8,7 @@ package com.jets.chatproject.server.module.rmi.imp;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
+import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.dal.entities.User;
@@ -24,8 +25,8 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
     UsersDao userdao;
     ISessionManager sessionManager;
 
-    public AuthServiceImpl(UsersDao userdao, ISessionManager sessionManager) throws RemoteException {
-        this.userdao = userdao;
+    public AuthServiceImpl(DaosFactory daosFactory, ISessionManager sessionManager) throws RemoteException {
+        this.userdao = daosFactory.getUsersDao();
         this.sessionManager = sessionManager;
     }
 
@@ -63,6 +64,5 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
     public boolean checkPhone(String phone) throws RemoteException {
         return userdao.findByPhone(phone) != null;
     }
-
 
 }

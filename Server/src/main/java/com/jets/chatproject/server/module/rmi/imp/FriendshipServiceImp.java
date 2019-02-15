@@ -9,6 +9,7 @@ import com.jets.chatproject.module.rmi.FriendshipService;
 import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.MessageFormat;
+import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.DirectMessagesDao;
 import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
@@ -32,6 +33,14 @@ public class FriendshipServiceImp implements FriendshipService {
     PicturesDao picturesDao;
     FriendshipsDao friendshipsDao;
     DirectMessagesDao messagesDao;
+
+    public FriendshipServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+        usersDao = daosFactory.getUsersDao();
+        picturesDao = daosFactory.getPicturesDao();
+        friendshipsDao = daosFactory.getFriendshipsDao();
+        messagesDao = daosFactory.getDirectMessagesDao();
+    }
 
     @Override
     public List<FriendshipDTO> getAllFriendships(String session) throws RemoteException {

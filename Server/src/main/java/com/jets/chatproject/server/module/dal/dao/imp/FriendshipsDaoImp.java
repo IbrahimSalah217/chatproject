@@ -8,12 +8,19 @@ package com.jets.chatproject.server.module.dal.dao.imp;
 import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
 import com.jets.chatproject.server.module.dal.entities.Friendship;
 import java.util.List;
+import javax.sql.DataSource;
 
 /**
  *
  * @author ibrahim
  */
 public class FriendshipsDaoImp implements FriendshipsDao {
+
+    DataSource datasource;
+
+    public FriendshipsDaoImp(DataSource datasource) {
+        this.datasource = datasource;
+    }
 
     @Override
     public void addMitualFriendship(int userId, int anotherUserId) {
@@ -46,4 +53,3 @@ public class FriendshipsDaoImp implements FriendshipsDao {
     }
 
 }
-

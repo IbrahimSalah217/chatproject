@@ -7,6 +7,8 @@ package com.jets.chatproject.server.module.rmi.imp;
 
 import com.jets.chatproject.module.rmi.MessagesService;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
+import com.jets.chatproject.server.module.dal.dao.DaosFactory;
+import com.jets.chatproject.server.module.session.ISessionManager;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -15,6 +17,12 @@ import java.util.List;
  * @author ibrahim
  */
 public class MessagesServiceImp implements MessagesService {
+
+    ISessionManager sessionManager;
+
+    public MessagesServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
 
     @Override
     public List<MessageDTO> getAllGroupMessages(String session, int groupId) throws RemoteException {
