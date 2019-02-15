@@ -8,6 +8,8 @@ package com.jets.chatproject.server.module.rmi.imp;
 import com.jets.chatproject.module.rmi.GroupsService;
 import com.jets.chatproject.module.rmi.dto.GroupDTO;
 import com.jets.chatproject.module.rmi.dto.GroupMemberDTO;
+import com.jets.chatproject.server.module.dal.dao.DaosFactory;
+import com.jets.chatproject.server.module.session.ISessionManager;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -15,7 +17,13 @@ import java.util.List;
  *
  * @author ibrahim
  */
-public class GroupsServiceImp implements GroupsService{
+public class GroupsServiceImp implements GroupsService {
+
+    ISessionManager sessionManager;
+
+    public GroupsServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
 
     @Override
     public int createGroup(String session, String groupName) throws RemoteException {
@@ -36,5 +44,5 @@ public class GroupsServiceImp implements GroupsService{
     public List<GroupMemberDTO> getGroupMembers(String session, int groupId) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
 }

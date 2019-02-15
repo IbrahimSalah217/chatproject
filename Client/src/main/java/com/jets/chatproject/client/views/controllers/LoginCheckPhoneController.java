@@ -90,7 +90,7 @@ public class LoginCheckPhoneController implements Initializable {
                 notUserPhone.setContentText("this number is not Registered");
                 notUserPhone.show();
             }
-            }catch(RemoteException ex){
+            }catch(Exception ex){
                 Alert errorLoading = new Alert(Alert.AlertType.ERROR);
                 errorLoading.setContentText("Error in server loading please try again");
                 errorLoading.show();

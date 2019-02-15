@@ -7,6 +7,7 @@ package com.jets.chatproject.server.module.rmi.imp;
 
 import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
+import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
 import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
@@ -30,11 +31,11 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
     RequestsDoa requestsDoa;
     FriendshipsDao friendshipsDao;
 
-    public FriendRequestsServiceImpl(UsersDao userdao, ISessionManager sessionManager, RequestsDoa requestsDoa, FriendshipsDao friendshipsDao) throws RemoteException {
-        this.userdao = userdao;
+    public FriendRequestsServiceImpl(DaosFactory daosFactory, ISessionManager sessionManager) throws RemoteException {
         this.sessionManager = sessionManager;
-        this.requestsDoa = requestsDoa;
-        this.friendshipsDao = friendshipsDao;
+        this.userdao = daosFactory.getUsersDao();
+        this.requestsDoa = daosFactory.getRequestsDoa();
+        this.friendshipsDao = daosFactory.getFriendshipsDao();
     }
 
     @Override

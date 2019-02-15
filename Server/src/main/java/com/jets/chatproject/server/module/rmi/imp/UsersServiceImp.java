@@ -8,6 +8,7 @@ package com.jets.chatproject.server.module.rmi.imp;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
+import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.Picture;
@@ -24,6 +25,12 @@ public class UsersServiceImp implements UsersService {
     ISessionManager sessionManager;
     UsersDao usersDao;
     PicturesDao picturesDao;
+
+    public UsersServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+        usersDao = daosFactory.getUsersDao();
+        picturesDao = daosFactory.getPicturesDao();
+    }
 
     @Override
     public void goOnline(String session) throws RemoteException {

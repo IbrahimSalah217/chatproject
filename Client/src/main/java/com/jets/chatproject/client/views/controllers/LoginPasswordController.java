@@ -75,7 +75,7 @@ public class LoginPasswordController implements Initializable {
         try {
             String userSession = clientApp.isRealUser(userPhone,passwordField.getText());
             clientApp.switchToUserScreen(stage,userSession);
-        } catch (RemoteException ex) {
+        } catch (Exception ex) {
              Alert wrongPhone = new Alert(Alert.AlertType.ERROR);
             wrongPhone.setContentText("not Valid Password please enter right Password again");
             wrongPhone.show();

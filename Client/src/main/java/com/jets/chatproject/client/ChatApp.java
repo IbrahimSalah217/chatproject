@@ -117,25 +117,25 @@ public class ChatApp extends Application {
         }
     }
     
-    public boolean isExistPhone(String phone) throws RemoteException{
+    public boolean isExistPhone(String phone) throws Exception{
         boolean PhoneExist = false;
-        AuthService authService = ServiceLocator.getService(AuthService.class);
         try {
+            AuthService authService = ServiceLocator.getService(AuthService.class);
             if(authService.checkPhone(phone)){
                 PhoneExist = true;
             }
-        } catch (RemoteException ex) {
+        } catch (Exception ex) {
             throw ex;                                               //// if throw Exception
         }
         return PhoneExist;
     } 
     
-    public String isRealUser(String phone,String password)throws RemoteException{
+    public String isRealUser(String phone,String password)throws Exception{
         String userSession = null;
-        AuthService authService = ServiceLocator.getService(AuthService.class);
-        try {
+       try {
+            AuthService authService = ServiceLocator.getService(AuthService.class);
             userSession = authService.login(phone, password);
-        } catch (RemoteException ex) {
+        } catch (Exception ex) {
             throw ex;
         }
         return userSession;
