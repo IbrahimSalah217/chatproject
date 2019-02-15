@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
                 MessageType messageType = (MessageType) resultSet.getObject(4);
                 String content = resultSet.getString(5);
                 String fontStyle = resultSet.getString(6);
-                Time time = resultSet.getTime(7);
+                Timestamp time = resultSet.getTimestamp(7);
                 if (((senderId == userId) && (receiverId == anotherUserId)) || ((senderId == anotherUserId) && (receiverId == userId))) {
                     directMessage = new DirectMessage(id, senderId, receiverId, messageType, content, fontStyle, time);
                 }
@@ -77,7 +78,7 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
                 MessageType messageType = (MessageType) resultSet.getObject(4);
                 String content = resultSet.getString(5);
                 String fontStyle = resultSet.getString(6);
-                Time time = resultSet.getTime(7);
+                Timestamp time = resultSet.getTimestamp(7);
                 if (((senderId == userId) && (receiverId == anotherUserId)) || ((senderId == anotherUserId) && (receiverId == userId))) {
                     directMessage = new DirectMessage(id, senderId, receiverId, messageType, content, fontStyle, time);
                     directMessageList.add(directMessage);
@@ -103,7 +104,7 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
             preparedStatement.setString(4, directMessage.getMessageType().toString());
             preparedStatement.setString(5, directMessage.getContent());
             preparedStatement.setString(6, directMessage.getStyle());
-            preparedStatement.setTime(7, directMessage.getMessageTime());
+            preparedStatement.setTimestamp(7, directMessage.getMessageTime());
             preparedStatement.executeUpdate();
             isInserted = true;
         } catch (SQLException ex) {

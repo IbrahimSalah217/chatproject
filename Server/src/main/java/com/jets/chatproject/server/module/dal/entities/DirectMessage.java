@@ -7,6 +7,7 @@ package com.jets.chatproject.server.module.dal.entities;
 
 import com.jets.chatproject.module.rmi.dto.MessageType;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  *
@@ -20,9 +21,9 @@ public class DirectMessage {
     private MessageType messageType;
     private String content;
     private String style;
-    private Time messageTime;
+    private Timestamp messageTime;
 
-    public DirectMessage(int messageId, int senderId, int receiverId, MessageType messageType, String content, String style, Time messageTime) {
+    public DirectMessage(int messageId, int senderId, int receiverId, MessageType messageType, String content, String style, Timestamp messageTime) {
         this.messageId = messageId;
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -68,11 +69,11 @@ public class DirectMessage {
         this.style = style;
     }
 
-    public Time getMessageTime() {
+    public Timestamp getMessageTime() {
         return messageTime;
     }
 
-    public void setMessageTime(Time messageTime) {
+    public void setMessageTime(Timestamp messageTime) {
         this.messageTime = messageTime;
     }
 

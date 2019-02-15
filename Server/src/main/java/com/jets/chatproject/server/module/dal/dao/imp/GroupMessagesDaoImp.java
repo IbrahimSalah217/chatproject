@@ -53,7 +53,7 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
                 MessageType messageType = MessageType.valueOf(resultSet.getString(4));
                 String Content = resultSet.getString(5);
                 String fontStyle = resultSet.getString(6);
-                Time time = Time.valueOf(resultSet.getString(7));
+                Timestamp time = resultSet.getTimestamp(7);
                 
                 groupMessage = new GroupMessage(id, senderId, group_Id, messageType, Content, fontStyle, time);
             }
@@ -77,7 +77,7 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
                 MessageType messageType = MessageType.valueOf(resultSet.getString(4));
                 String Content = resultSet.getString(5);
                 String fontStyle = resultSet.getString(6);
-                Time time = Time.valueOf(resultSet.getString(7));
+                Timestamp time = resultSet.getTimestamp(7);
                 
                 GroupMessage groupMessage = new GroupMessage(id, senderId, group_Id, messageType, Content, fontStyle, time);
                 groupMessages.add(groupMessage);
