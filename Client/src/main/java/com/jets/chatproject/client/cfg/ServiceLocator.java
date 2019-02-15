@@ -5,7 +5,13 @@
  */
 package com.jets.chatproject.client.cfg;
 
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,21 +19,27 @@ import java.rmi.Remote;
  */
 public class ServiceLocator {
 
-    private static Cache cache = new Cache();
+    private static final Cache CACHE = new Cache();
 
-    public static Remote getService(Remote requiredService) {
-
-        Remote service = cache.getService(requiredService);
-        if (service != null) {
-
-            return service;
-
+    public static <T extends Remote> T getService(Class<T> serviceClass) {
+        Remote service = CACHE.getService(serviceClass);
+        if (service == null) {
+            service = lookup(serviceClass);
+            CACHE.addService(service);
         }
-        ServerConnection serverConnection = new ServerConnection();
-        Remote newRequiredService = serverConnection.lookup(requiredService);
-        cache.addService(newRequiredService);
-        return newRequiredService;
+        return (T) service;
+    }
 
+    private static Remote lookup(Class<? extends Remote> serviceClass) {
+        Remote returnedService = null;
+        try {
+            // TODO: set servre ip and port
+            Registry registry = LocateRegistry.getRegistry();
+            returnedService = registry.lookup(serviceClass.getName());
+        } catch (RemoteException | NotBoundException ex) {
+            Logger.getLogger(ServiceLocator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return returnedService;
     }
 
 }

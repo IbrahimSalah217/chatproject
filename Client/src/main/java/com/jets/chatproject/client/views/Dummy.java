@@ -5,12 +5,10 @@
  */
 package com.jets.chatproject.client.views;
 
-import com.jets.chatproject.client.controllers.*;
-
 /**
  *
  * @author ibrahim
  */
 public interface Dummy {
-    
+
 }

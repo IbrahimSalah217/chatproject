@@ -6,8 +6,8 @@
 package com.jets.chatproject.client.cfg;
 
 import java.rmi.Remote;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -15,33 +15,25 @@ import java.util.List;
  */
 public class Cache {
 
-    private List<Remote> services;
+    private final Map<String, Remote> services;
 
     public Cache() {
-        services = new ArrayList<>();
+        services = new HashMap<>();
     }
 
-    public Remote getService(Remote requiredService) {
-
-        for (Remote service : services) {
-            if (requiredService.toString().equals(service.toString())) {
-
-                return service;
+    public Remote getService(Class<? extends Remote> serviceClass) {
+        Remote service = null;
+        for (Map.Entry<String, Remote> entry : services.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals(serviceClass.getName())) {
+                service = entry.getValue();
+                break;
             }
         }
-        return null;
+        return service;
     }
 
-    public void addService(Remote newService) {
-        boolean exists = false;
-
-        if (services.contains(newService)) {
-            exists = true;
-
-        }
-        if (!exists) {
-            services.add(newService);
-        }
-
+    public void addService(Remote service) {
+        services.put(service.getClass().getName(), service);
     }
 }
