@@ -11,6 +11,7 @@ import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
+import com.jets.chatproject.server.module.dal.entities.DTOMapper;
 import com.jets.chatproject.server.module.dal.entities.Picture;
 import com.jets.chatproject.server.module.dal.entities.User;
 import com.jets.chatproject.server.module.session.ISessionManager;
@@ -34,30 +35,24 @@ public class UsersServiceImp implements UsersService {
 
     @Override
     public void goOnline(String session) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        changeStatus(session, UserStatus.AVAILABLE);
     }
 
     @Override
     public void goOffline(String session) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        changeStatus(session, UserStatus.OFFLINE);
     }
 
     @Override
     public UserDTO getProfileById(String session, int userId) throws RemoteException {
         User user = usersDao.findById(userId);
-        return new UserDTO(user.getId(), user.getPhoneNumber(),
-                user.getDisplyName(), user.getEmail(), user.getGender(),
-                user.getCountry(), user.getDateOfBirth(), user.getBio(),
-                user.getPictureId());
+        return DTOMapper.createUserDTO(user);
     }
 
     @Override
     public UserDTO getProfileByPhone(String session, String userPhone) throws RemoteException {
         User user = usersDao.findByPhone(userPhone);
-        return new UserDTO(user.getId(), user.getPhoneNumber(),
-                user.getDisplyName(), user.getEmail(), user.getGender(),
-                user.getCountry(), user.getDateOfBirth(), user.getBio(),
-                user.getPictureId());
+        return DTOMapper.createUserDTO(user);
     }
 
     @Override
@@ -79,7 +74,10 @@ public class UsersServiceImp implements UsersService {
 
     @Override
     public void changeStatus(String session, UserStatus status) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int userId = sessionManager.findUserId(session);
+        User user = usersDao.findById(userId);
+        user.setState(status);
+        usersDao.update(user);
     }
 
     @Override
