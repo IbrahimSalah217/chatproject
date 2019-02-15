@@ -54,12 +54,12 @@ public class Application {
             UsersService usersService
                     = new UsersServiceImp(daosFactory, sessionManager);
 
-            bind(registry, authService);
-            bind(registry, friendRequestsService);
-            bind(registry, friendshipService);
-            bind(registry, groupsService);
-            bind(registry, messagesService);
-            bind(registry, usersService);
+            bind(registry, AuthService.class, authService);
+            bind(registry, FriendRequestsService.class, friendRequestsService);
+            bind(registry, FriendshipService.class, friendshipService);
+            bind(registry, GroupsService.class, groupsService);
+            bind(registry, MessagesService.class, messagesService);
+            bind(registry, UsersService.class, usersService);
 
         } catch (RemoteException ex) {
             Logger.getLogger(Application.class.getName())
@@ -67,8 +67,10 @@ public class Application {
         }
     }
 
-    private static void bind(Registry registry, Remote service) throws RemoteException {
-        registry.rebind(service.getClass().getName(), service);
+    private static <T extends Remote> void bind(Registry registry, Class<T> service, T serviceImp)
+            throws RemoteException {
+        System.out.println("Binding service: " + service.getName());
+        registry.rebind(service.getName(), serviceImp);
     }
 
 }
