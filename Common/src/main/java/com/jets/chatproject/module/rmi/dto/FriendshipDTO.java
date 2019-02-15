@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author ibrahim
  */
-public class FriendshipDTO implements Serializable{
+public class FriendshipDTO implements Serializable {
 
     private final int friendId;
     private String friendName;
@@ -20,6 +20,10 @@ public class FriendshipDTO implements Serializable{
     private MessageDTO lastMessage;
     private int lastMessageReadByFriend;
     private int unreadMessagesCount;
+
+    public FriendshipDTO(int friendId) {
+        this.friendId = friendId;
+    }
 
     public FriendshipDTO(int friendId, String friendName, int memberPictureId, String category, MessageDTO lastMessage, int lastMessageReadByFriend, int unreadMessagesCount) {
         this.friendId = friendId;

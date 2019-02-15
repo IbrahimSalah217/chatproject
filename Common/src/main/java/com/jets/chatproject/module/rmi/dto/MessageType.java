@@ -10,5 +10,5 @@ package com.jets.chatproject.module.rmi.dto;
  * @author ibrahim
  */
 public enum MessageType {
-    PLAIN_TEXT, RICH_TEXT, FILE
+    PLAIN_TEXT, RICH_TEXT
 }

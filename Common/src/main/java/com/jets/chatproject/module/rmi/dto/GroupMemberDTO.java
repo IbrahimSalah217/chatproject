@@ -14,9 +14,13 @@ import java.io.Serializable;
 public class GroupMemberDTO implements Serializable {
 
     private final int memberId;
-    private final String memberName;
-    private final int memberPictureId;
+    private String memberName;
+    private int memberPictureId;
     private int lastMessageRead;
+
+    public GroupMemberDTO(int memberId) {
+        this.memberId = memberId;
+    }
 
     public GroupMemberDTO(int memberId, String memberName, int memberPictureId, int lastMessageRead) {
         this.memberId = memberId;
@@ -33,8 +37,16 @@ public class GroupMemberDTO implements Serializable {
         return memberName;
     }
 
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public int getMemberPictureId() {
         return memberPictureId;
+    }
+
+    public void setMemberPictureId(int memberPictureId) {
+        this.memberPictureId = memberPictureId;
     }
 
     public int getLastMessageRead() {
@@ -64,10 +76,7 @@ public class GroupMemberDTO implements Serializable {
             return false;
         }
         final GroupMemberDTO other = (GroupMemberDTO) obj;
-        if (this.memberId != other.memberId) {
-            return false;
-        }
-        return true;
+        return this.memberId == other.memberId;
     }
 
 }

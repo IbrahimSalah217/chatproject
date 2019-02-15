@@ -6,7 +6,7 @@
 package com.jets.chatproject.module.rmi.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -23,7 +23,16 @@ public class UserDTO implements Serializable {
     private String country;
     private Date dateOfBirth;
     private String bio;
-    private final int pictureId;
+    private int pictureId;
+
+    public UserDTO(int id, String phoneNumber) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public UserDTO(String phoneNumber) {
+        this(Integer.MIN_VALUE, phoneNumber);
+    }
 
     public UserDTO(int id, String phoneNumber, String displyName, String email, Gender gender, String country, Date dateOfBirth, String bio, int pictureId) {
         this.id = id;
@@ -95,6 +104,10 @@ public class UserDTO implements Serializable {
 
     public int getPictureId() {
         return pictureId;
+    }
+
+    public void setPictureId(int pictureId) {
+        this.pictureId = pictureId;
     }
 
     @Override
