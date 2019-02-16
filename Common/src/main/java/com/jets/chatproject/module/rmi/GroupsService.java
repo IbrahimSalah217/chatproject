@@ -18,7 +18,7 @@ import java.util.List;
 public interface GroupsService extends Remote {
 
     //return the id of the newly created group
-    int createGroup(String session, String groupName) throws RemoteException;
+    int createGroup(String session, String groupName, byte[] groupPicture) throws RemoteException;
 
     void addGroupMember(String session, int groupId, int userId) throws RemoteException;
 

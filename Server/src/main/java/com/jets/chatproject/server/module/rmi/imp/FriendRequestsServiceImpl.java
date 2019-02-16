@@ -41,44 +41,59 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
 
     @Override
     public void sendRequest(String session, String phone, String email) throws RemoteException {
-        int senderId = sessionManager.findUserId(session);
-        int receiverId = userdao.findByPhone(phone).getId();
-        Request request = requestsDoa.findBySenderReceiver(receiverId, senderId);
-        if (request != null) {
-            acceptRequest(session, receiverId);
-        } else {
-            Date requestTime = new Date();
-            request = new Request(senderId, receiverId, requestTime);
-            requestsDoa.insert(request);
+        try {
+            int senderId = sessionManager.findUserId(session);
+            int receiverId = userdao.findByPhone(phone).getId();
+            Request request = requestsDoa.findBySenderReceiver(receiverId, senderId);
+            if (request != null) {
+                acceptRequest(session, receiverId);
+            } else {
+                Date requestTime = new Date();
+                request = new Request(senderId, receiverId, requestTime);
+                requestsDoa.insert(request);
+            }
+        } catch (Exception ex) {
+            throw new RemoteException("Database exception", ex);
         }
     }
 
     @Override
     public List<RequestDTO> getAllRequests(String session) throws RemoteException {
-        int userId = sessionManager.findUserId(session);
-        List<Request> myRequestList = requestsDoa.findAllByReceiver(userId);
-        List<RequestDTO> myReturnRequestList = new ArrayList<>();
-        for (Request r : myRequestList) {
-            User user = userdao.findById(r.getSenderId());
-            RequestDTO requestDTO = DTOMapper.createRequestDTO(user, r);
-            myReturnRequestList.add(requestDTO);
+        try {
+            int userId = sessionManager.findUserId(session);
+            List<Request> requests = requestsDoa.findAllByReceiver(userId);
+            List<RequestDTO> requestDTOs = new ArrayList<>();
+            for (Request request : requests) {
+                User user = userdao.findById(request.getSenderId());
+                requestDTOs.add(DTOMapper.createRequestDTO(user, request));
+            }
+            return requestDTOs;
+        } catch (Exception ex) {
+            throw new RemoteException("Database exception", ex);
         }
-        return myReturnRequestList;
     }
 
     @Override
     public void acceptRequest(String session, int senderId) throws RemoteException {
-        deleteRequest(session, senderId);
-        int userId = sessionManager.findUserId(session);
-        friendshipsDao.addMitualFriendship(userId, senderId);
+        try {
+            deleteRequest(session, senderId);
+            int userId = sessionManager.findUserId(session);
+            friendshipsDao.addMitualFriendship(userId, senderId);
+        } catch (Exception ex) {
+            throw new RemoteException("Database falied", ex);
+        }
     }
 
     @Override
     public void rejectRequest(String session, int senderId) throws RemoteException {
-        deleteRequest(session, senderId);
+        try {
+            deleteRequest(session, senderId);
+        } catch (Exception ex) {
+            throw new RemoteException("Database falied", ex);
+        }
     }
 
-    private void deleteRequest(String session, int senderId) {
+    private void deleteRequest(String session, int senderId) throws Exception {
         int userId = sessionManager.findUserId(session);
         Request request = requestsDoa.findBySenderReceiver(userId, senderId);
         requestsDoa.delete(request);
