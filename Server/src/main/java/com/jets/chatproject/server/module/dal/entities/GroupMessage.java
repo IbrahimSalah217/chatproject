@@ -6,7 +6,7 @@
 package com.jets.chatproject.server.module.dal.entities;
 
 import com.jets.chatproject.module.rmi.dto.MessageType;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  *
@@ -20,9 +20,9 @@ public class GroupMessage {
     private MessageType messageType;
     private String content;
     private String style;
-    private Time messageTime;
+    private Date messageTime;
 
-    public GroupMessage(int messageId, int senderId, int groupId, MessageType messageType, String content, String style, Time messageTime) {
+    public GroupMessage(int messageId, int senderId, int groupId, MessageType messageType, String content, String style, Date messageTime) {
         this.messageId = messageId;
         this.senderId = senderId;
         this.groupId = groupId;
@@ -68,11 +68,11 @@ public class GroupMessage {
         this.style = style;
     }
 
-    public Time getMessageTime() {
+    public Date getMessageTime() {
         return messageTime;
     }
 
-    public void setMessageTime(Time messageTime) {
+    public void setMessageTime(Date messageTime) {
         this.messageTime = messageTime;
     }
 

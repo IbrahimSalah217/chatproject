@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface GroupMembersDao extends AbstractDAO<GroupMember> {
 
-    List<GroupMember> findAllByGroup(int groupId);
+    List<GroupMember> findAllByGroup(int groupId) throws Exception;
 
-    GroupMember findByGroupAndUser(int groupId, int userId);
+    GroupMember findByGroupAndUser(int groupId, int userId) throws Exception;
 }

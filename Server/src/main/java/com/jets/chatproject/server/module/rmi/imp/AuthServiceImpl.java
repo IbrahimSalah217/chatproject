@@ -9,12 +9,12 @@ import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
+import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.UUID;
-import com.jets.chatproject.server.module.session.ISessionManager;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -22,12 +22,14 @@ import com.jets.chatproject.server.module.session.ISessionManager;
  */
 public class AuthServiceImpl extends UnicastRemoteObject implements AuthService {
 
+    SessionManager sessionManager;
     UsersDao userdao;
-    ISessionManager sessionManager;
+    PicturesDao picturesDao;
 
-    public AuthServiceImpl(DaosFactory daosFactory, ISessionManager sessionManager) throws RemoteException {
-        this.userdao = daosFactory.getUsersDao();
+    public AuthServiceImpl(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException {
         this.sessionManager = sessionManager;
+        userdao = daosFactory.getUsersDao();
+        picturesDao = daosFactory.getPicturesDao();
     }
 
     @Override
@@ -42,14 +44,16 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
 
     @Override
     public String register(UserDTO user, byte[] picture, String password) throws RemoteException {
+        int pictureId = picturesDao.createPicture(picture);
         if (userdao.findByPhone(user.getPhoneNumber()) == null) {
             User myUser = new User(user.getId(), user.getPhoneNumber(), user.getDisplyName(),
                     user.getEmail(), password, user.getGender(), user.getCountry(), user.getDateOfBirth(),
-                    user.getBio(), UserStatus.AVAILABLE, user.getPictureId());
+                    user.getBio(), UserStatus.AVAILABLE, pictureId);
             if (!userdao.insert(myUser)) {
                 throw new RemoteException("Failed to create account");
             }
-            return UUID.randomUUID().toString();
+            myUser = userdao.findByPhone(user.getPhoneNumber());
+            return sessionManager.createSession(myUser.getId());
         } else {
             throw new RemoteException("Phone already registered");
         }

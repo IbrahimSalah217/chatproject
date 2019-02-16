@@ -9,7 +9,7 @@ package com.jets.chatproject.server.module.session;
  *
  * @author ibrahim
  */
-public class DummySessionManager implements ISessionManager {
+public class DummySessionManager implements SessionManager {
 
     @Override
     public String createSession(int userId) {

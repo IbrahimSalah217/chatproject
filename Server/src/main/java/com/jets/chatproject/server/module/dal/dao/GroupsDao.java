@@ -5,8 +5,8 @@
  */
 package com.jets.chatproject.server.module.dal.dao;
 
-import java.util.ArrayList;
 import com.jets.chatproject.server.module.dal.entities.Group;
+import java.util.List;
 
 /**
  *
@@ -14,6 +14,6 @@ import com.jets.chatproject.server.module.dal.entities.Group;
  */
 public interface GroupsDao extends AbstractDAO<Group> {
 
-    ArrayList<Group> findAllForUser(int userId);
+    List<Group> findAllForUser(int userId) throws Exception;
 
 }

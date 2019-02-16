@@ -5,10 +5,12 @@
  */
 package com.jets.chatproject.module.rmi.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ibrahim
  */
-public enum UserStatus {
+public enum UserStatus implements Serializable{
     AVAILABLE, BUSY, AWAY, OFFLINE
 }

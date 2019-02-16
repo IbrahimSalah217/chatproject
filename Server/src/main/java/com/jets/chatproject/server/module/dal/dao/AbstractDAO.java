@@ -12,9 +12,9 @@ package com.jets.chatproject.server.module.dal.dao;
  */
 public interface AbstractDAO<T> {
 
-    boolean insert(T object);
+    int insert(T object) throws Exception;
 
-    boolean update(T object);
+    boolean update(T object) throws Exception;
 
-    boolean delete(T object);
+    boolean delete(T object) throws Exception;
 }

@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface RequestsDoa extends AbstractDAO<Request> {
 
-    List<Request> findAllByReceiver(int userId);
-    Request findBySenderReceiver(int senderId, int receiverId);
+    List<Request> findAllByReceiver(int userId) throws Exception;
+
+    Request findBySenderReceiver(int senderId, int receiverId) throws Exception;
 }

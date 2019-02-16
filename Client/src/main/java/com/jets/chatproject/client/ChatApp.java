@@ -13,7 +13,6 @@ import com.jets.chatproject.client.views.controllers.RigisterController;
 import com.jets.chatproject.client.views.controllers.userScreenController;
 import com.jets.chatproject.module.rmi.AuthService;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -29,21 +28,22 @@ import javafx.stage.Stage;
 public class ChatApp extends Application {
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         switchToFirstScreen(primaryStage);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
- public void switchToFirstScreen(Stage stage) {
+
+    public void switchToFirstScreen(Stage stage) {
         Stage primaryStage = stage;
         FXMLLoader loader = new FXMLLoader();
         FirstScreenController controller = new FirstScreenController(stage);
         loader.setController(controller);
-       
+
         try {
-            Parent root = loader.load(getClass().getResource("firstScreen.fxml").openStream());
+            Parent root = loader.load(controller.getClass().getResource("firstScreen.fxml").openStream());
             Scene scene = new Scene(root);
             primaryStage.setTitle("ButterFly Chat");
             primaryStage.setScene(scene);
@@ -52,14 +52,15 @@ public class ChatApp extends Application {
             Logger.getLogger(ChatApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void switchToLoginPhoneScreen(Stage stage) {
         Stage primaryStage = stage;
         FXMLLoader loader = new FXMLLoader();
         LoginCheckPhoneController controller = new LoginCheckPhoneController(stage);
         loader.setController(controller);
-       
+
         try {
-            Parent root = loader.load(getClass().getResource("loginCheckPhone.fxml").openStream());
+            Parent root = loader.load(controller.getClass().getResource("loginCheckPhone.fxml").openStream());
             Scene scene = new Scene(root);
             primaryStage.setTitle("ButterFly Chat logIn Phone");
             primaryStage.setScene(scene);
@@ -68,12 +69,13 @@ public class ChatApp extends Application {
             Logger.getLogger(ChatApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void switchToLoginPasswordScreen(Stage stage,String userPhone) {
+
+    public void switchToLoginPasswordScreen(Stage stage, String userPhone) {
         Stage primaryStage = stage;
         FXMLLoader loader = new FXMLLoader();
-        LoginPasswordController controller = new LoginPasswordController(stage,userPhone);
+        LoginPasswordController controller = new LoginPasswordController(stage, userPhone);
         loader.setController(controller);
-       
+
         try {
             Parent root = loader.load(getClass().getResource("loginPassword.fxml").openStream());
             Scene scene = new Scene(root);
@@ -84,12 +86,13 @@ public class ChatApp extends Application {
             Logger.getLogger(ChatApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void switchToRegisterScreen(Stage stage) {
         Stage primaryStage = stage;
         FXMLLoader loader = new FXMLLoader();
         RigisterController controller = new RigisterController(stage);
         loader.setController(controller);
-       
+
         try {
             Parent root = loader.load(getClass().getResource("register.fxml").openStream());
             Scene scene = new Scene(root);
@@ -100,12 +103,13 @@ public class ChatApp extends Application {
             Logger.getLogger(ChatApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void switchToUserScreen(Stage stage,String userSession) {
+
+    public void switchToUserScreen(Stage stage, String userSession) {
         Stage primaryStage = stage;
         FXMLLoader loader = new FXMLLoader();
-        userScreenController controller = new userScreenController(stage,userSession);
+        userScreenController controller = new userScreenController(stage, userSession);
         loader.setController(controller);
-       
+
         try {
             Parent root = loader.load(getClass().getResource("userScreen.fxml").openStream());
             Scene scene = new Scene(root);
@@ -116,29 +120,29 @@ public class ChatApp extends Application {
             Logger.getLogger(ChatApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public boolean isExistPhone(String phone) throws Exception{
+
+    public boolean isExistPhone(String phone) throws Exception {
         boolean PhoneExist = false;
         try {
             AuthService authService = ServiceLocator.getService(AuthService.class);
-            if(authService.checkPhone(phone)){
+            if (authService.checkPhone(phone)) {
                 PhoneExist = true;
             }
         } catch (Exception ex) {
             throw ex;                                               //// if throw Exception
         }
         return PhoneExist;
-    } 
-    
-    public String isRealUser(String phone,String password)throws Exception{
+    }
+
+    public String isRealUser(String phone, String password) throws Exception {
         String userSession = null;
-       try {
+        try {
             AuthService authService = ServiceLocator.getService(AuthService.class);
             userSession = authService.login(phone, password);
         } catch (Exception ex) {
             throw ex;
         }
         return userSession;
-        
+
     }
 }

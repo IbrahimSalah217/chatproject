@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,9 +13,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="updateprofiledummy.UpdateProfileFXMLController">
    <children>
-      <GridPane layoutX="8.0" layoutY="158.0" prefHeight="306.0" prefWidth="657.0">
+      <GridPane layoutX="8.0" layoutY="113.0" prefHeight="360.0" prefWidth="657.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="267.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="124.0" />
@@ -31,8 +30,8 @@
             <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="23.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Verify Password" GridPane.rowIndex="6">
@@ -55,40 +54,45 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label text="Country" GridPane.columnIndex="2">
+            <Label text="Country" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label text="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label text="Phone Number" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label text="Gender" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <Label text="Gender" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label text="Birthdate" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <Label text="Birthdate" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordTxtID" onAction="#getPassword" prefHeight="36.0" prefWidth="263.0" promptText="Password" GridPane.rowIndex="5" />
-            <PasswordField fx:id="verifyPasswordTxtID" onAction="#getVerifyPassword" prefHeight="31.0" prefWidth="263.0" promptText="Verify Password" GridPane.rowIndex="7" />
-            <TextField fx:id="emailTxtID" onAction="#getEmail" prefHeight="32.0" prefWidth="263.0" promptText="You@Example.com" GridPane.rowIndex="3" />
-            <TextField fx:id="nameTxtID" onAction="#getName" prefHeight="31.0" prefWidth="263.0" promptText="Name" GridPane.rowIndex="1" />
-            <TextField fx:id="countryTxtID" onAction="#getCountry" prefHeight="30.0" prefWidth="269.0" promptText="Country" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <TextField fx:id="phoneNumberTxtID" onAction="#getPhoneNumber" prefHeight="32.0" prefWidth="275.0" promptText="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <ComboBox fx:id="genderCBoxID" onAction="#getGender" prefHeight="30.0" prefWidth="175.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <DatePicker fx:id="datePickerID" onAction="#getBirthdate" prefHeight="31.0" prefWidth="174.0" promptText="mm/dd/yyyy" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <Button fx:id="registerBtnID" mnemonicParsing="false" onAction="#register" prefHeight="34.0" prefWidth="118.0" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <PasswordField fx:id="passwordTxtID" prefHeight="36.0" prefWidth="263.0" promptText="Password" GridPane.rowIndex="5" />
+            <PasswordField fx:id="verifyPasswordTxtID" prefHeight="31.0" prefWidth="263.0" promptText="Verify Password" GridPane.rowIndex="7" />
+            <TextField fx:id="emailTxtID" prefHeight="32.0" prefWidth="263.0" promptText="You@Example.com" GridPane.rowIndex="3" />
+            <TextField fx:id="nameTxtID" prefHeight="31.0" prefWidth="263.0" promptText="Name" GridPane.rowIndex="1" />
+            <TextField fx:id="countryTxtID" prefHeight="30.0" prefWidth="274.0" promptText="Country" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <TextField fx:id="phoneNumberTxtID" prefHeight="32.0" prefWidth="275.0" promptText="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ComboBox fx:id="genderCBoxID" prefHeight="30.0" prefWidth="175.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <DatePicker fx:id="datePickerID" prefHeight="31.0" prefWidth="174.0" promptText="mm/dd/yyyy" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label text="Bio" GridPane.rowIndex="8">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="bio" prefHeight="57.0" prefWidth="265.0" promptText="Enter your bio." GridPane.rowIndex="9" />
+            <Button fx:id="registerBtnID" mnemonicParsing="false" onAction="#update" prefHeight="34.0" prefWidth="118.0" text="Update" GridPane.columnIndex="2" GridPane.rowIndex="9" />
          </children>
       </GridPane>
-      <ImageView fx:id="userImageID" fitHeight="108.0" fitWidth="100.0" layoutX="557.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#changePicture">
+      <ImageView fx:id="userImageID" fitHeight="97.0" fitWidth="106.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#changePicture" pickOnBounds="true" preserveRatio="true">
 
       </ImageView>
-      <Button fx:id="choosePictuerBtnID" layoutX="541.0" layoutY="112.0" mnemonicParsing="false" onAction="#choosePicture" prefHeight="25.0" prefWidth="118.0" text="Choose Picture" />
    </children>
 </Pane>

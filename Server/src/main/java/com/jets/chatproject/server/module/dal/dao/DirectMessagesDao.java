@@ -6,7 +6,7 @@
 package com.jets.chatproject.server.module.dal.dao;
 
 import com.jets.chatproject.server.module.dal.entities.DirectMessage;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public interface DirectMessagesDao extends AbstractDAO<DirectMessage> {
 
-    DirectMessage getLastDirectMessage(int userId, int anotherUserId);
+    DirectMessage getLastDirectMessage(int userId, int anotherUserId) throws Exception;
 
-    ArrayList<DirectMessage> getAllDirectMessages(int userId, int anotherUserId);
+    List<DirectMessage> getAllDirectMessages(int userId, int anotherUserId) throws Exception;
 
 }

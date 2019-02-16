@@ -9,7 +9,7 @@ package com.jets.chatproject.server.module.session;
  *
  * @author salma
  */
-public interface ISessionManager {
+public interface SessionManager {
 
     String createSession(int userId);
 

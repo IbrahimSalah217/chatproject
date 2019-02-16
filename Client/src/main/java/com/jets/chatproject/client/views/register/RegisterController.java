@@ -163,7 +163,7 @@ public class RegisterController implements Initializable {
             try {
                 user = new UserDTO(1, phoneNumber, name, email, Gender.valueOf(gender), country, birthdate, "Chat User", 1);
                 AuthService authService = ServiceLocator.getService(AuthService.class);
-                if (authService.checkPhone(phoneNumber)) {
+                if (!authService.checkPhone(phoneNumber)) {
                     authService.register(user, bytesImage, password);
                     getAlert("You've registired successfully","Welcome to our application.",Alert.AlertType.INFORMATION);
                     FXMLLoader fxmlLoader = new FXMLLoader();

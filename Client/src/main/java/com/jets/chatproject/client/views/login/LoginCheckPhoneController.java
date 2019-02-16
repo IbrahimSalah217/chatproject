@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.client.views.login;
 import  com.jets.chatproject.client.ChatApp;
+import com.jets.chatproject.client.util.DialogUtils;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -91,9 +92,7 @@ public class LoginCheckPhoneController implements Initializable {
                 notUserPhone.show();
             }
             }catch(Exception ex){
-                Alert errorLoading = new Alert(Alert.AlertType.ERROR);
-                errorLoading.setContentText("Error in server loading please try again");
-                errorLoading.show();
+                DialogUtils.showException(ex);
             }
         }
         else{

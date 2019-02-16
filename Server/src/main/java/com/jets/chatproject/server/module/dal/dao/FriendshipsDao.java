@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface FriendshipsDao extends AbstractDAO<Friendship> {
 
-    void addMitualFriendship(int userId, int anotherUserId);
+    void addMitualFriendship(int userId, int anotherUserId) throws Exception;
 
-    Friendship findByUserAndFriend(int userId, int friendId);
+    Friendship findByUserAndFriend(int userId, int friendId) throws Exception;
 
-    List<Friendship> getAllFriendshipsForUser(int userId);
+    List<Friendship> getAllFriendshipsForUser(int userId) throws Exception;
 
 }
