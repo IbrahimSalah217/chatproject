@@ -7,6 +7,7 @@ package com.jets.chatproject.module.rmi.dto;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -20,7 +21,7 @@ public class MessageDTO implements Serializable {
     private MessageType type;
     private String content;
     private MessageFormat format;
-    private Timestamp timestamp;
+    private Date timestamp;
 
     public MessageDTO(int id, int senderId) {
         this.id = id;
@@ -28,7 +29,7 @@ public class MessageDTO implements Serializable {
     }
 
     public MessageDTO(int id, int senderId, String senderName, MessageType type,
-            String content, MessageFormat format, Timestamp timestamp) {
+            String content, MessageFormat format, Date timestamp) {
         this.id = id;
         this.senderId = senderId;
         this.senderName = senderName;
@@ -78,11 +79,11 @@ public class MessageDTO implements Serializable {
         this.format = format;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -53,7 +53,7 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
                 requestsDoa.insert(request);
             }
         } catch (Exception ex) {
-            throw new RemoteException("Database falied",ex);
+            throw new RemoteException("Database exception", ex);
         }
     }
 
@@ -61,16 +61,15 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
     public List<RequestDTO> getAllRequests(String session) throws RemoteException {
         try {
             int userId = sessionManager.findUserId(session);
-            List<Request> myRequestList = requestsDoa.findAllByReceiver(userId);
-            List<RequestDTO> myReturnRequestList = new ArrayList<>();
-            for (Request r : myRequestList) {
-                User user = userdao.findById(r.getSenderId());
-                RequestDTO requestDTO = DTOMapper.createRequestDTO(user, r);
-                myReturnRequestList.add(requestDTO);
+            List<Request> requests = requestsDoa.findAllByReceiver(userId);
+            List<RequestDTO> requestDTOs = new ArrayList<>();
+            for (Request request : requests) {
+                User user = userdao.findById(request.getSenderId());
+                requestDTOs.add(DTOMapper.createRequestDTO(user, request));
             }
-            return myReturnRequestList;
+            return requestDTOs;
         } catch (Exception ex) {
-            throw new RemoteException("Database falied",ex);
+            throw new RemoteException("Database exception", ex);
         }
     }
 
@@ -81,23 +80,23 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
             int userId = sessionManager.findUserId(session);
             friendshipsDao.addMitualFriendship(userId, senderId);
         } catch (Exception ex) {
-            throw new RemoteException("Database falied",ex);
+            throw new RemoteException("Database falied", ex);
         }
     }
 
     @Override
     public void rejectRequest(String session, int senderId) throws RemoteException {
-        deleteRequest(session, senderId);
+        try {
+            deleteRequest(session, senderId);
+        } catch (Exception ex) {
+            throw new RemoteException("Database falied", ex);
+        }
     }
 
-    private void deleteRequest(String session, int senderId) throws RemoteException {
-        try {
-            int userId = sessionManager.findUserId(session);
-            Request request = requestsDoa.findBySenderReceiver(userId, senderId);
-            requestsDoa.delete(request);
-        } catch (Exception ex) {
-            throw new RemoteException("Database falied",ex);
-        }
+    private void deleteRequest(String session, int senderId) throws Exception {
+        int userId = sessionManager.findUserId(session);
+        Request request = requestsDoa.findBySenderReceiver(userId, senderId);
+        requestsDoa.delete(request);
     }
 
 }
