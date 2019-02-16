@@ -6,9 +6,7 @@
 package com.jets.chatproject.client.views.updateprofile;
 
 import com.jets.chatproject.client.cfg.ServiceLocator;
-import com.jets.chatproject.client.views.controllers.userScreenController;
-import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
-import com.jets.chatproject.module.rmi.AuthService;
+import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
@@ -45,7 +43,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
 /**
@@ -84,20 +81,22 @@ public class UpdateProfileFXMLController implements Initializable {
     String name, password, verifyPassword, email, country, gender, phoneNumber, bioIn;
     Date birthdate;
     InputsValidation inputsValidation;
-    UserDTO newUser ,oldUser ;
-    Stage stage;
+    UserDTO newUser, oldUser;
+
     String userSession;
     UsersService usersService;
+
+    ScreenController screenController;
 
     /**
      * Initializes the controller class.
      */
-    public UpdateProfileFXMLController(Stage stage, String userSession ,String phoneNumber) {
-        this.stage = stage;
+    public UpdateProfileFXMLController(ScreenController screenController, String userSession, String phoneNumber) {
         this.userSession = userSession;
+        this.screenController = screenController;
         try {
-             usersService = ServiceLocator.getService(UsersService.class);
-             this.oldUser = usersService.getProfileByPhone(userSession, phoneNumber);
+            usersService = ServiceLocator.getService(UsersService.class);
+            this.oldUser = usersService.getProfileByPhone(userSession, phoneNumber);
         } catch (RemoteException ex) {
             Logger.getLogger(UpdateProfileFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -112,8 +111,8 @@ public class UpdateProfileFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Circle clip = new Circle(userImageID.getFitWidth()/2,userImageID.getFitHeight()/2,50);
-            userImageID.setClip(clip);
+        Circle clip = new Circle(userImageID.getFitWidth() / 2, userImageID.getFitHeight() / 2, 50);
+        userImageID.setClip(clip);
         phoneNumberTxtID.setText(oldUser.getPhoneNumber());
         phoneNumberTxtID.setDisable(true);
         bio.setText(oldUser.getBio());
@@ -124,13 +123,13 @@ public class UpdateProfileFXMLController implements Initializable {
         LocalDate localDate = oldUser.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         datePickerID.setValue(localDate);
         try {
-            bytesImage=usersService.getPicture(userSession, oldUser.getPictureId());
-            image =  image = new Image(new ByteArrayInputStream(bytesImage),30, 30, true, true);
+            bytesImage = usersService.getPicture(userSession, oldUser.getPictureId());
+            image = image = new Image(new ByteArrayInputStream(bytesImage), 30, 30, true, true);
             userImageID.setImage(image);
         } catch (RemoteException ex) {
             Logger.getLogger(UpdateProfileFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         genderCBoxID.setItems(FXCollections.observableArrayList("MALE", "FEMALE"));
         inputsValidation = new InputsValidation(this);
     }
@@ -146,15 +145,7 @@ public class UpdateProfileFXMLController implements Initializable {
                 newUser = new UserDTO(1, phoneNumber, name, email, Gender.valueOf(gender), country, birthdate, bioIn, 1);
                 usersService.updateProfile(userSession, newUser, bytesImage);
                 getAlert("You've Updated Your Profile successfully", "", Alert.AlertType.INFORMATION);
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                userScreenController controller = new userScreenController(stage,userSession);
-                fxmlLoader.setController(controller);
-                Parent root = fxmlLoader.load(getClass().getResource("userScreen.fxml").openStream());
-                Scene scene = new Scene(root);
-
-                stage.setScene(scene);
-                stage.show();
-
+                screenController.switchToUserScreen();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

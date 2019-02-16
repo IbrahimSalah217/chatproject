@@ -2,6 +2,7 @@ package com.jets.chatproject.client.views.register;
 
 import com.jets.chatproject.client.ChatApp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
+import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.dto.Gender;
@@ -75,22 +76,21 @@ public class RegisterController implements Initializable {
     InputsValidation inputsValidation;
     UserDTO user;
 
-    ChatApp chatApp;
-    
-    public RegisterController(ChatApp chatApp) {
-        this.chatApp =chatApp;
+    ScreenController screenController;
+
+    public RegisterController(ScreenController screenController) {
+        this.screenController = screenController;
         name = password = verifyPassword = email = country = gender = phoneNumber = "";
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("PNG Image", "*.png"),
-                new FileChooser.ExtensionFilter("JPG Image", "*.jpg"));  
+                new FileChooser.ExtensionFilter("JPG Image", "*.jpg"));
     }
-   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Circle clip = new Circle(userImageID.getFitWidth()/2,userImageID.getFitHeight()/2,50);
-            userImageID.setClip(clip);
+        Circle clip = new Circle(userImageID.getFitWidth() / 2, userImageID.getFitHeight() / 2, 50);
+        userImageID.setClip(clip);
         image = userImageID.getImage();
         genderCBoxID.setItems(FXCollections.observableArrayList("MALE", "FEMALE"));
         inputsValidation = new InputsValidation(this);
@@ -109,7 +109,7 @@ public class RegisterController implements Initializable {
         if (inputsValidation.validatePassword()) {
             Platform.runLater(() -> countryTxtID.requestFocus());
         } else {
-            getAlert("Your Passwords Don't Match!", "Please, re-enter your password correctly.",Alert.AlertType.ERROR);
+            getAlert("Your Passwords Don't Match!", "Please, re-enter your password correctly.", Alert.AlertType.ERROR);
             verifyPasswordTxtID.clear();
         }
     }
@@ -120,7 +120,7 @@ public class RegisterController implements Initializable {
         if (inputsValidation.checkEmail()) {
             Platform.runLater(() -> passwordTxtID.requestFocus());
         } else {
-            getAlert("Your Email Is Not Valid!", "Please, re-enter your email correctly.",Alert.AlertType.ERROR);
+            getAlert("Your Email Is Not Valid!", "Please, re-enter your email correctly.", Alert.AlertType.ERROR);
             emailTxtID.clear();
         }
     }
@@ -141,7 +141,7 @@ public class RegisterController implements Initializable {
         if (inputsValidation.checkPhoneNumber()) {
             Platform.runLater(() -> genderCBoxID.requestFocus());
         } else {
-            getAlert("Phone Numeber Is Invalid !", "Please, re-enter your phone number correctly.",Alert.AlertType.ERROR);
+            getAlert("Phone Numeber Is Invalid !", "Please, re-enter your phone number correctly.", Alert.AlertType.ERROR);
             phoneNumberTxtID.clear();
         }
 
@@ -162,19 +162,19 @@ public class RegisterController implements Initializable {
         getData();
         String state = inputsValidation.checkBeforeLeave();
         if (!state.equals("")) {
-            getAlert("Invalid Data!", state,Alert.AlertType.ERROR);
+            getAlert("Invalid Data!", state, Alert.AlertType.ERROR);
         } else {
             try {
                 user = new UserDTO(1, phoneNumber, name, email, Gender.valueOf(gender), country, birthdate, "Chat User", 1);
                 AuthService authService = ServiceLocator.getService(AuthService.class);
                 if (!authService.checkPhone(phoneNumber)) {
                     authService.register(user, bytesImage, password);
-                    getAlert("You've registired successfully","Welcome to our application.",Alert.AlertType.INFORMATION);
-                    
-                    chatApp.switchToLoginPhoneScreen();
-                    
+                    getAlert("You've registired successfully", "Welcome to our application.", Alert.AlertType.INFORMATION);
+
+                    screenController.switchToLoginPhoneScreen();
+
                 } else {
-                    getAlert("Invalid Phone Number!", "It seems like you entered a phone number that already exists.",Alert.AlertType.ERROR);
+                    getAlert("Invalid Phone Number!", "It seems like you entered a phone number that already exists.", Alert.AlertType.ERROR);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

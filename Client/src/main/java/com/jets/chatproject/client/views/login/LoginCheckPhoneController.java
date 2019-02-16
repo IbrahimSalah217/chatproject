@@ -5,8 +5,10 @@
  */
 package com.jets.chatproject.client.views.login;
 
-import com.jets.chatproject.client.ChatApp;
+import com.jets.chatproject.client.cfg.ServiceLocator;
+import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
+import com.jets.chatproject.module.rmi.AuthService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,10 +42,10 @@ public class LoginCheckPhoneController implements Initializable {
     @FXML
     private Hyperlink registerHLinkID;
 
-    ChatApp chatApp;
+    ScreenController screenController;
 
-    public LoginCheckPhoneController(ChatApp chatApp) {
-        this.chatApp = chatApp;
+    public LoginCheckPhoneController(ScreenController screenController) {
+        this.screenController = screenController;
     }
 
     @Override
@@ -72,8 +74,9 @@ public class LoginCheckPhoneController implements Initializable {
         String phoneNum = phoneNumLoginTxtId.getText();
         if (isRealPhoneNum(phoneNum)) {
             try {
-                if (chatApp.isExistPhone(phoneNum)) {
-                    chatApp.switchToLoginPasswordScreen(phoneNum);
+                if (isExistPhone(phoneNum)) {
+                    screenController.saveSession(null, phoneNum);
+                    screenController.switchToLoginPasswordScreen();
                 } else {
                     Alert notUserPhone = new Alert(Alert.AlertType.ERROR);
                     notUserPhone.setContentText("this number is not Registered");
@@ -97,5 +100,18 @@ public class LoginCheckPhoneController implements Initializable {
             isRealPhone = true;
         }
         return isRealPhone;
+    }
+
+    public boolean isExistPhone(String phone) throws Exception {
+        boolean PhoneExist = false;
+        try {
+            AuthService authService = ServiceLocator.getService(AuthService.class);
+            if (authService.checkPhone(phone)) {
+                PhoneExist = true;
+            }
+        } catch (Exception ex) {
+            throw ex;                                               //// if throw Exception
+        }
+        return PhoneExist;
     }
 }
