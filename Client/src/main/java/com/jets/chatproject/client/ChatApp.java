@@ -9,7 +9,7 @@ import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.views.login.FirstScreenController;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.client.views.login.LoginPasswordController;
-import com.jets.chatproject.client.views.controllers.RigisterController;
+import  com.jets.chatproject.client.views.register.RegisterController;
 import com.jets.chatproject.client.views.controllers.userScreenController;
 import com.jets.chatproject.module.rmi.AuthService;
 import java.io.IOException;
@@ -90,7 +90,7 @@ public class ChatApp extends Application {
     public void switchToRegisterScreen(Stage stage) {
         Stage primaryStage = stage;
         FXMLLoader loader = new FXMLLoader();
-        RigisterController controller = new RigisterController(stage);
+        RegisterController controller = new RegisterController(stage);
         loader.setController(controller);
 
         try {
