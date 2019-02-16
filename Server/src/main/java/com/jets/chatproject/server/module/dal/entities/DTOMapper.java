@@ -6,6 +6,7 @@
 package com.jets.chatproject.server.module.dal.entities;
 
 import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
+import com.jets.chatproject.module.rmi.dto.GroupMemberDTO;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.MessageFormat;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
@@ -47,6 +48,12 @@ public class DTOMapper {
         return new FriendshipDTO(friend.getId(), friend.getDisplyName(),
                 friend.getPictureId(), friendship.getCategory(), messageDto,
                 friendship.getLastSeenMessageId(), 0);
+    }
+    
+    public static GroupMemberDTO createGroupMemberDTO(User member, GroupMember groupMember) {
+        
+        return new GroupMemberDTO(member.getId(), member.getDisplyName(), member.getPictureId(), 
+                groupMember.getLastSeenMessageId());
     }
 
 }
