@@ -5,13 +5,9 @@
  */
 package com.jets.chatproject.client.cfg;
 
-import java.rmi.NotBoundException;
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -31,7 +27,8 @@ public class ServiceLocator {
     }
 
     private static Remote lookup(Class<? extends Remote> serviceClass) throws Exception {
-        Registry registry = LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.getRegistry(
+                ServerConfiguration.REGISTRY_HOST, ServerConfiguration.REGISTRY_PORT);
         return registry.lookup(serviceClass.getName());
     }
 

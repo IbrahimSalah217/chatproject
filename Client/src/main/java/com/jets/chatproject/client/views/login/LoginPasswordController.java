@@ -6,6 +6,7 @@
 package com.jets.chatproject.client.views.login;
 
 import com.jets.chatproject.client.ChatApp;
+import com.jets.chatproject.client.util.DialogUtils;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
@@ -18,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -27,7 +29,7 @@ import javafx.stage.Stage;
  * @author Ibrahim
  */
 public class LoginPasswordController implements Initializable {
-
+    
     @FXML
     private Label passwordLabel;
     @FXML
@@ -40,46 +42,42 @@ public class LoginPasswordController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    Stage stage;
     String userPhone;
-
-    public LoginPasswordController(Stage stage, String userPhone) {
-        this.stage = stage;
+    ChatApp chatApp;
+    
+    public LoginPasswordController(ChatApp chatApp,String userPhone) {
         this.userPhone = userPhone;
+        this.chatApp = chatApp;
     }
-
-   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-
+    
     @FXML
     private void passwordEntered(KeyEvent event) {
-        logIn();
+        if (event.getCode() == KeyCode.ENTER) {
+            logIn();
+        }
     }
-
+    
     @FXML
     private void logInAction(ActionEvent event) {
         logIn();
     }
-
+    
     @FXML
     private void backAction(ActionEvent event) {
-        ChatApp clientApp = new ChatApp();
-        clientApp.switchToLoginPhoneScreen(stage);
+        chatApp.switchToLoginPhoneScreen();
     }
     
-    public void logIn(){
-        ChatApp clientApp = new ChatApp();
+    public void logIn() {
         try {
-            String userSession = clientApp.isRealUser(userPhone,passwordField.getText());
-            clientApp.switchToUserScreen(stage,userSession);
+            String userSession = chatApp.isRealUser(userPhone, passwordField.getText());
+            //chatApp.switchToUserScreen(userSession);
         } catch (Exception ex) {
-             Alert wrongPhone = new Alert(Alert.AlertType.ERROR);
-            wrongPhone.setContentText("not Valid Password please enter right Password again");
-            wrongPhone.show();
+            DialogUtils.showException(ex);
         }
     }
 }

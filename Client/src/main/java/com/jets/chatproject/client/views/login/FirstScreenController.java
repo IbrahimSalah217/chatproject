@@ -41,23 +41,15 @@ public class FirstScreenController implements Initializable {
     @FXML
     private ImageView logoViewer;
 
-    Stage stage;
+    ChatApp chatApp;
 
-    public FirstScreenController(Stage stage) {
-        this.stage = stage;
+    public FirstScreenController(ChatApp chatApp) {
+        this.chatApp = chatApp;
     }
-
-//    public FirstScreenController() {
-//        System.out.println("dummychat.FirstScreenController.<init>()2222222222222");
-//    }
-    /**
-     * Initializes the controller class.
-     *
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("dummychat.FirstScreenController.initialize()");
-        // TODO
     }
 
     @FXML
@@ -67,18 +59,7 @@ public class FirstScreenController implements Initializable {
 
     @FXML
     private void registerAction(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            RegisterController controller = new RegisterController(stage);
-            fxmlLoader.setController(controller);
-            Parent root = fxmlLoader.load(RegisterController.class.getResource("register.fxml").openStream());
-            Scene scene = new Scene(root);
-            
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(FirstScreenController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        chatApp.switchToRegisterScreen();
     }
 
     @FXML
@@ -87,7 +68,7 @@ public class FirstScreenController implements Initializable {
 
     @FXML
     private void loginAction(ActionEvent event) {
-        new ChatApp().switchToLoginPhoneScreen(stage);
+        chatApp.switchToLoginPhoneScreen();
     }
 
     @FXML

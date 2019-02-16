@@ -1,5 +1,6 @@
 package com.jets.chatproject.client.views.register;
 
+import com.jets.chatproject.client.ChatApp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.module.rmi.AuthService;
@@ -72,11 +73,11 @@ public class RegisterController implements Initializable {
     Date birthdate;
     InputsValidation inputsValidation;
     UserDTO user;
-    Stage stage;
 
+    ChatApp chatApp;
     
-    public RegisterController(Stage stage) {
-        this.stage=stage;
+    public RegisterController(ChatApp chatApp) {
+        this.chatApp =chatApp;
         name = password = verifyPassword = email = country = gender = phoneNumber = "";
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
@@ -166,14 +167,9 @@ public class RegisterController implements Initializable {
                 if (!authService.checkPhone(phoneNumber)) {
                     authService.register(user, bytesImage, password);
                     getAlert("You've registired successfully","Welcome to our application.",Alert.AlertType.INFORMATION);
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    LoginCheckPhoneController controller = new LoginCheckPhoneController(stage);
-                    fxmlLoader.setController(controller);
-                    Parent root = fxmlLoader.load(getClass().getResource("loginCheckPhone.fxml").openStream());
-                    Scene scene = new Scene(root);
                     
-                    stage.setScene(scene);
-                    stage.show();
+                    chatApp.switchToLoginPhoneScreen();
+                    
                 } else {
                     getAlert("Invalid Phone Number!", "It seems like you entered a phone number that already exists.",Alert.AlertType.ERROR);
                 }

@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.client.views.controllers;
 
+import com.jets.chatproject.client.ChatApp;
 import javafx.stage.Stage;
 
 /**
@@ -12,10 +13,10 @@ import javafx.stage.Stage;
  * @author Ibrahim
  */
 public class userScreenController {
-
+    ChatApp chatApp;
    
-    public userScreenController(Stage stage, String userSession) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public userScreenController(ChatApp chatApp, String userSession) {
+        this.chatApp = chatApp;
     }
-    
+
 }

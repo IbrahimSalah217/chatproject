@@ -9,7 +9,7 @@ import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.views.login.FirstScreenController;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.client.views.login.LoginPasswordController;
-import  com.jets.chatproject.client.views.register.RegisterController;
+import com.jets.chatproject.client.views.register.RegisterController;
 import com.jets.chatproject.client.views.controllers.userScreenController;
 import com.jets.chatproject.module.rmi.AuthService;
 import java.io.IOException;
@@ -27,19 +27,21 @@ import javafx.stage.Stage;
  */
 public class ChatApp extends Application {
 
+    Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) {
-        switchToFirstScreen(primaryStage);
+        this.primaryStage = primaryStage;
+        switchToFirstScreen();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void switchToFirstScreen(Stage stage) {
-        Stage primaryStage = stage;
+    public void switchToFirstScreen() {
         FXMLLoader loader = new FXMLLoader();
-        FirstScreenController controller = new FirstScreenController(stage);
+        FirstScreenController controller = new FirstScreenController(this);
         loader.setController(controller);
 
         try {
@@ -53,10 +55,9 @@ public class ChatApp extends Application {
         }
     }
 
-    public void switchToLoginPhoneScreen(Stage stage) {
-        Stage primaryStage = stage;
+    public void switchToLoginPhoneScreen() {
         FXMLLoader loader = new FXMLLoader();
-        LoginCheckPhoneController controller = new LoginCheckPhoneController(stage);
+        LoginCheckPhoneController controller = new LoginCheckPhoneController(this);
         loader.setController(controller);
 
         try {
@@ -70,14 +71,13 @@ public class ChatApp extends Application {
         }
     }
 
-    public void switchToLoginPasswordScreen(Stage stage, String userPhone) {
-        Stage primaryStage = stage;
+    public void switchToLoginPasswordScreen(String userPhone) {
         FXMLLoader loader = new FXMLLoader();
-        LoginPasswordController controller = new LoginPasswordController(stage, userPhone);
+        LoginPasswordController controller = new LoginPasswordController(this, userPhone);
         loader.setController(controller);
 
         try {
-            Parent root = loader.load(getClass().getResource("loginPassword.fxml").openStream());
+            Parent root = loader.load(controller.getClass().getResource("loginPassword.fxml").openStream());
             Scene scene = new Scene(root);
             primaryStage.setTitle("ButterFly Chat logIn Password");
             primaryStage.setScene(scene);
@@ -87,10 +87,9 @@ public class ChatApp extends Application {
         }
     }
 
-    public void switchToRegisterScreen(Stage stage) {
-        Stage primaryStage = stage;
+    public void switchToRegisterScreen() {
         FXMLLoader loader = new FXMLLoader();
-        RegisterController controller = new RegisterController(stage);
+        RegisterController controller = new RegisterController(this);
         loader.setController(controller);
 
         try {
@@ -104,10 +103,9 @@ public class ChatApp extends Application {
         }
     }
 
-    public void switchToUserScreen(Stage stage, String userSession) {
-        Stage primaryStage = stage;
+    public void switchToUserScreen(String userSession) {
         FXMLLoader loader = new FXMLLoader();
-        userScreenController controller = new userScreenController(stage, userSession);
+        userScreenController controller = new userScreenController(this, userSession);
         loader.setController(controller);
 
         try {
