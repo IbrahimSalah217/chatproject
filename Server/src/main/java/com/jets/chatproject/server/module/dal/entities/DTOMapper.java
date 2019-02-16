@@ -29,11 +29,18 @@ public class DTOMapper {
                 sender.getPictureId(), request.getRequestTime());
     }
 
-    public static MessageDTO createMessageDTO(User sender, DirectMessage lastMessage) {
-        return new MessageDTO(lastMessage.getMessageId(),
+    public static MessageDTO createMessageDTO(User sender, DirectMessage message) {
+        return new MessageDTO(message.getMessageId(),
                 sender.getId(), sender.getDisplyName(),
-                lastMessage.getMessageType(), lastMessage.getContent(),
-                MessageFormat.of(lastMessage.getStyle()), lastMessage.getMessageTime());
+                message.getMessageType(), message.getContent(),
+                MessageFormat.of(message.getStyle()), message.getMessageTime());
+    }
+
+    public static MessageDTO createMessageDTO(User sender, GroupMessage message) {
+        return new MessageDTO(message.getMessageId(),
+                sender.getId(), sender.getDisplyName(),
+                message.getMessageType(), message.getContent(),
+                MessageFormat.of(message.getStyle()), message.getMessageTime());
     }
 
     public static FriendshipDTO createFriendshipDTO(User friend, Friendship friendship, MessageDTO messageDto) {

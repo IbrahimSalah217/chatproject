@@ -6,18 +6,15 @@
 package com.jets.chatproject.server.module.rmi.imp;
 
 import com.jets.chatproject.module.rmi.MessagesService;
-import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.MessageFormat;
-import com.jets.chatproject.module.rmi.dto.MessageType;
-import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.DirectMessagesDao;
 import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
 import com.jets.chatproject.server.module.dal.dao.GroupMembersDao;
 import com.jets.chatproject.server.module.dal.dao.GroupMessagesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
-import com.jets.chatproject.server.module.dal.dao.imp.DirectMessagesDaoImp;
+import com.jets.chatproject.server.module.dal.entities.DTOMapper;
 import com.jets.chatproject.server.module.dal.entities.DirectMessage;
 import com.jets.chatproject.server.module.dal.entities.Friendship;
 import com.jets.chatproject.server.module.dal.entities.GroupMember;
@@ -27,8 +24,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import com.jets.chatproject.server.module.session.SessionManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -54,60 +49,62 @@ public class MessagesServiceImp implements MessagesService {
 
     @Override
     public List<MessageDTO> getAllGroupMessages(String session, int groupId) throws RemoteException {
-        List<MessageDTO> messageDtoList = new ArrayList<>();
         try {
             int userId = sessionManager.findUserId(session);
             User user = userDoa.findById(userId);
-            List<GroupMessage> messageList = groupMessageDao.getAllGroupMessages(groupId);
-            for (GroupMessage m : messageList) {
-                messageDtoList.add(new MessageDTO(m.getMessageId(), userId, user.getDisplyName(),
-                        m.getMessageType(), m.getContent(), MessageFormat.of(m.getStyle()), m.getMessageTime()));
-            }
+            List<MessageDTO> messages = new ArrayList<>();
+            groupMessageDao.getAllGroupMessages(groupId).forEach((message) -> {
+                messages.add(DTOMapper.createMessageDTO(user, message));
+            });
+            return messages;
         } catch (Exception ex) {
             throw new RemoteException("database Error getAllGroupMessages", ex);
         }
 
-        return messageDtoList;
     }
 
     @Override
     public List<MessageDTO> getAllDirectMessages(String session, int friendId) throws RemoteException {
-        List<MessageDTO> messageDtoList = new ArrayList<>();
         try {
             int userId = sessionManager.findUserId(session);
             User user = userDoa.findById(userId);
-            List<DirectMessage> messageList = directmessageDao.getAllDirectMessages(userId, friendId);
-            for (DirectMessage m : messageList) {
-                messageDtoList.add(new MessageDTO(m.getMessageId(), userId, user.getDisplyName(),
-                        m.getMessageType(), m.getContent(), MessageFormat.of(m.getStyle()), m.getMessageTime()));
-            }
+            List<MessageDTO> messages = new ArrayList<>();
+            directmessageDao.getAllDirectMessages(userId, friendId).forEach((message) -> {
+                messages.add(DTOMapper.createMessageDTO(user, message));
+            });
+            return messages;
         } catch (Exception ex) {
-            throw new RemoteException("database Error getAllDirectMessages", ex);
-        }
-
-        return messageDtoList;
-    }
-
-    @Override
-    public void sendGroupMessage(String session, int groupId, MessageDTO message) throws RemoteException {
-        try {
-            int userId = sessionManager.findUserId(session);
-            groupMessageDao.insert(new GroupMessage(message.getId(), userId, groupId, message.getType(), message.getContent(),
-                    message.getFormat().toString(), message.getTimestamp()));
-        } catch (Exception ex) {
-            throw new RemoteException("database Error insert new group message", ex);
-
+            throw new RemoteException("Database exception", ex);
         }
     }
 
     @Override
-    public void sendDirectMessage(String session, int friendId, MessageDTO message) throws RemoteException {
+    public void sendGroupMessage(String session, int groupId, MessageDTO messageDto) throws RemoteException {
         try {
             int userId = sessionManager.findUserId(session);
-            directmessageDao.insert(new DirectMessage(message.getId(), userId, friendId, message.getType(), message.getContent(),
-                    message.getFormat().toString(), message.getTimestamp()));
+            GroupMessage message
+                    = new GroupMessage(messageDto.getId(), userId, groupId,
+                            messageDto.getType(), messageDto.getContent(),
+                            messageDto.getFormat().toString(),
+                            messageDto.getTimestamp());
+            groupMessageDao.insert(message);
         } catch (Exception ex) {
-            throw new RemoteException("database Error insert new direct message", ex);
+            throw new RemoteException("Database exception", ex);
+        }
+    }
+
+    @Override
+    public void sendDirectMessage(String session, int friendId, MessageDTO messageDto) throws RemoteException {
+        try {
+            int userId = sessionManager.findUserId(session);
+            DirectMessage message
+                    = new DirectMessage(messageDto.getId(), userId, friendId,
+                            messageDto.getType(), messageDto.getContent(),
+                            messageDto.getFormat().toString(),
+                            messageDto.getTimestamp());
+            directmessageDao.insert(message);
+        } catch (Exception ex) {
+            throw new RemoteException("Database exception", ex);
         }
     }
 
@@ -118,10 +115,9 @@ public class MessagesServiceImp implements MessagesService {
             GroupMember groupMember = groupMembersDao.findByGroupAndUser(groubId, userId);
             GroupMessage lastMessage = groupMessageDao.getLastMessage(groubId);
             groupMember.setLastSeenMessageId(lastMessage.getMessageId());
-            groupMembersDao.update(new GroupMember(groubId, userId, lastMessage.getMessageId()));
+            groupMembersDao.update(groupMember);
         } catch (Exception ex) {
-            throw new RemoteException("database Error set last group message", ex);
-
+            throw new RemoteException("Database exception", ex);
         }
     }
 
@@ -129,16 +125,13 @@ public class MessagesServiceImp implements MessagesService {
     public void markDirectMessageRead(String session, int friendId) throws RemoteException {
         try {
             int userId = sessionManager.findUserId(session);
+            DirectMessage lasMessage = directmessageDao.getLastDirectMessage(userId, friendId);
             Friendship friendShip = friendShipDao.findByUserAndFriend(userId, friendId);
-            int lastMessageId = directmessageDao.getLastDirectMessage(friendId, userId).getMessageId();
-            friendShip.setLastSeenMessageId(lastMessageId);
-            friendShipDao.update(new Friendship(userId, friendId, friendShip.getCategory(),
-                    friendShip.isBlocked(), lastMessageId));
+            friendShip.setLastSeenMessageId(lasMessage.getMessageId());
+            friendShipDao.update(friendShip);
         } catch (Exception ex) {
-            throw new RemoteException("database Error set last direct message", ex);
-
+            throw new RemoteException("Database exception", ex);
         }
-
     }
 
 }
