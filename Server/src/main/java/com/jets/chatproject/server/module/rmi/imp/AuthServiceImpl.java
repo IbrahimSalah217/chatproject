@@ -11,12 +11,10 @@ import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
-import com.jets.chatproject.server.module.dal.entities.Picture;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.UUID;
-import com.jets.chatproject.server.module.session.ISessionManager;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -24,11 +22,11 @@ import com.jets.chatproject.server.module.session.ISessionManager;
  */
 public class AuthServiceImpl extends UnicastRemoteObject implements AuthService {
 
-    ISessionManager sessionManager;
+    SessionManager sessionManager;
     UsersDao userdao;
     PicturesDao picturesDao;
 
-    public AuthServiceImpl(DaosFactory daosFactory, ISessionManager sessionManager) throws RemoteException {
+    public AuthServiceImpl(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException {
         this.sessionManager = sessionManager;
         userdao = daosFactory.getUsersDao();
         picturesDao = daosFactory.getPicturesDao();

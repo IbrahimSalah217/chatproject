@@ -10,10 +10,10 @@ import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
 import javax.sql.DataSource;
 
 /**
@@ -21,129 +21,108 @@ import javax.sql.DataSource;
  * @author Hadeer
  */
 public class UsersDaoImp implements UsersDao {
-
+    
     DataSource dataSource;
-
+    
     public UsersDaoImp(DataSource dataSource) {
         this.dataSource = dataSource;
-
+        
     }
-
+    
     @Override
-    public User findByPhone(String phone) {
-        User user;
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "select * from users where phone_number = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, phone);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
+    public User findByPhone(String phone) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String query = "select * from users where phone_number = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, phone);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
             int id = resultSet.getInt(1);
             String phoneNumber = resultSet.getString(2);
             String name = resultSet.getString(3);
             String email = resultSet.getString(4);
             String password = resultSet.getString(5);
             UserStatus status = UserStatus.valueOf(resultSet.getString(6));
-            String gender = resultSet.getString(7);
+            Gender gender = Gender.valueOf(resultSet.getString(7));
             String country = resultSet.getString(8);
             Date dateOfBirth = resultSet.getDate(9);
             String bio = resultSet.getString(10);
-            int pictureId = 0;//resultSet.getInt(11);
-
-            user = new User(id, phoneNumber, name, email, password, Gender.MALE, country, dateOfBirth, bio, status, pictureId);
-        } catch (SQLException ex) {
-            user = null;
+            int pictureId = resultSet.getInt(11);
+            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId);
+        } else {
+            return null;
         }
-        return user;
     }
-
+    
     @Override
-    public User findById(int id) {
-        User user;
+    public User findById(int id) throws Exception {
+        Connection connection = dataSource.getConnection();
         String query = "select * from users where user_id = ?";
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            int userId = resultSet.getInt(1);
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            id = resultSet.getInt(1);
             String phoneNumber = resultSet.getString(2);
             String name = resultSet.getString(3);
             String email = resultSet.getString(4);
             String password = resultSet.getString(5);
             UserStatus status = UserStatus.valueOf(resultSet.getString(6));
-            String gender = resultSet.getString(7);
+            Gender gender = Gender.valueOf(resultSet.getString(7));
             String country = resultSet.getString(8);
             Date dateOfBirth = resultSet.getDate(9);
             String bio = resultSet.getString(10);
-            int pictureId = 0;//resultSet.getInt(11);
-
-            user = new User(id, phoneNumber, name, email, password, Gender.MALE, country, dateOfBirth, bio, status, pictureId);
-        } catch (SQLException ex) {
-            user = null;
+            int pictureId = resultSet.getInt(11);
+            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId);
+        } else {
+            return null;
         }
-        return user;
     }
-
+    
     @Override
-    public boolean insert(User user) {
-        boolean isInserted;
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "insert into users values(?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setString(2, user.getPhoneNumber());
-            preparedStatement.setString(3, user.getDisplyName());
-            preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setString(6, user.getState().toString());
-            preparedStatement.setString(7, user.getGender().toString());
-            preparedStatement.setString(8, user.getCountry());
-            preparedStatement.setDate(9, new Date(user.getDateOfBirth().getTime()));
-            preparedStatement.setString(10, user.getBio());
-            //preparedStatement.setInt(11, user.getPictureId());
-            preparedStatement.execute();
-            isInserted = true;
-        } catch (SQLException ex) {
-            isInserted = false;
-            ex.printStackTrace();
-        }
-        return isInserted;
+    public int insert(User user) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String query = "insert into users (phone_number, display_name, email, password, state, gender, country, date_of_birth, bio, picture_id) values(?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setString(1, user.getPhoneNumber());
+        preparedStatement.setString(2, user.getDisplyName());
+        preparedStatement.setString(3, user.getEmail());
+        preparedStatement.setString(4, user.getPassword());
+        preparedStatement.setString(5, user.getState().toString());
+        preparedStatement.setString(6, user.getGender().toString());
+        preparedStatement.setString(7, user.getCountry());
+        preparedStatement.setDate(8, new java.sql.Date(user.getDateOfBirth().getTime()));
+        preparedStatement.setString(9, user.getBio());
+        preparedStatement.setInt(10, user.getPictureId());
+        preparedStatement.executeUpdate();
+        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+        generatedKeys.next();
+        return generatedKeys.getInt(1);
     }
-
+    
     @Override
-    public boolean update(User user) {
-        boolean isUpdated;
-        String query = "update users set phone_number = ?, display_name = ?, "
-                + "email = ?, password = ?, state = ?, gender = ?, country = ?,"
-                + " date_of_birth = ?, bio = ?, picture_id = ?";
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, user.getPhoneNumber());
-            preparedStatement.setString(2, user.getDisplyName());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setString(5, user.getState().toString());
-            preparedStatement.setString(6, user.getGender().toString());
-            preparedStatement.setString(7, user.getCountry());
-            preparedStatement.setDate(8, new Date(user.getDateOfBirth().getTime()));
-            preparedStatement.setString(9, user.getBio());
-            preparedStatement.setInt(10, user.getPictureId());
-            preparedStatement.executeUpdate();
-            isUpdated = true;
-        } catch (SQLException ex) {
-            isUpdated = false;
-        }
-        return isUpdated;
+    public boolean update(User user) throws Exception {
+        String query = "update users set phone_number = ?, display_name = ?, email = ?, password = ?, state = ?, gender = ?, country = ?, date_of_birth = ?, bio = ?, picture_id = ? where user_id = ?";
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, user.getPhoneNumber());
+        preparedStatement.setString(2, user.getDisplyName());
+        preparedStatement.setString(3, user.getEmail());
+        preparedStatement.setString(4, user.getPassword());
+        preparedStatement.setString(5, user.getState().toString());
+        preparedStatement.setString(6, user.getGender().toString());
+        preparedStatement.setString(7, user.getCountry());
+        preparedStatement.setDate(8, new java.sql.Date(user.getDateOfBirth().getTime()));
+        preparedStatement.setString(9, user.getBio());
+        preparedStatement.setInt(10, user.getPictureId());
+        preparedStatement.setInt(11, user.getId());
+        preparedStatement.executeUpdate();
+        return true;
     }
-
+    
     @Override
-    public boolean delete(User object) {
+    public boolean delete(User object) throws Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
 }

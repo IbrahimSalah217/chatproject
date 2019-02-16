@@ -10,10 +10,9 @@ import com.jets.chatproject.server.module.dal.entities.Group;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.sql.DataSource;
 
 /**
@@ -24,85 +23,49 @@ public class GroupsDaoImp implements GroupsDao {
 
     DataSource dataSource;
 
-    public GroupsDaoImp(DataSource dataSource){
+    public GroupsDaoImp(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     @Override
-    public ArrayList<Group> findAllForUser(int userId) {
-        ArrayList<Group> myGroupList = null;
-        try {
-            Connection conn = dataSource.getConnection();
-            String query = "select * from groups g JOIN group_messages gm ON g.groub_id = gm.groub_id where gm.user_id = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setInt(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            myGroupList = new ArrayList<>();
-            while (resultSet.next()) {
-                Group group = new Group(resultSet.getInt(1),
-                        resultSet.getInt(2), resultSet.getString(3),
-                         resultSet.getInt(4));
-                myGroupList.add(group);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(RequestsDaoImp.class.getName())
-                    .log(Level.SEVERE, null, ex);
+    public List<Group> findAllForUser(int userId) throws Exception {
+        Connection conn = dataSource.getConnection();
+        String query = "select * from groups g JOIN group_members gm ON g.groub_id = gm.groub_id where gm.user_id = ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(query);
+        preparedStatement.setInt(1, userId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<Group> groups = new ArrayList<>();
+        while (resultSet.next()) {
+            groups.add(new Group(resultSet.getInt(1),
+                    resultSet.getInt(2), resultSet.getString(3),
+                    resultSet.getInt(4)));
         }
-        return myGroupList;
+        return groups;
     }
 
     @Override
-    public boolean insert(Group object) {
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "insert into groups values(?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, object.getGroupId());
-            preparedStatement.setInt(2, object.getAdminId());
-            preparedStatement.setString(3, object.getGroupName());
-            preparedStatement.setInt(4, object.getPictureId());
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(RequestsDaoImp.class.getName())
-                    .log(Level.SEVERE, null, ex);
-            return false;
-        }
+    public int insert(Group object) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String query = "insert into groups (admin_id,disply_name,picture_id) values(?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query,
+                Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setInt(1, object.getAdminId());
+        preparedStatement.setString(2, object.getGroupName());
+        preparedStatement.setInt(3, object.getPictureId());
+        preparedStatement.executeUpdate();
+        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+        generatedKeys.next();
+        return generatedKeys.getInt(1);
     }
 
     @Override
-    public boolean update(Group object) {
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "update groups set admin_id = ? display_name = ? picture_id = ?  WHERE group_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, object.getAdminId());
-            preparedStatement.setString(2, object.getGroupName());
-            preparedStatement.setInt(3, object.getPictureId());
-            preparedStatement.setInt(4, object.getGroupId());
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(RequestsDaoImp.class.getName())
-                    .log(Level.SEVERE, null, ex);
-            return false;
-        }
-
+    public boolean update(Group object) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean delete(Group object) {
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "DELETE FROM groups WHERE group_id = ? ";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, object.getGroupId());
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(RequestsDaoImp.class.getName())
-                    .log(Level.SEVERE, null, ex);
-            return false;
-        }
+    public boolean delete(Group object) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

@@ -10,11 +10,8 @@ import com.jets.chatproject.server.module.dal.entities.Friendship;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 /**
@@ -22,6 +19,7 @@ import javax.sql.DataSource;
  * @author ibrahim
  */
 public class FriendshipsDaoImp implements FriendshipsDao {
+
     DataSource dataSource;
 
     public FriendshipsDaoImp(DataSource dataSource) {
@@ -29,113 +27,74 @@ public class FriendshipsDaoImp implements FriendshipsDao {
     }
 
     @Override
-    public void addMitualFriendship(int userId, int anotherUserId) {
-        if(findByUserAndFriend(userId, anotherUserId)==null){
-            try {
-                Connection connection = dataSource.getConnection();
-                String Query = "update friendships set friend_id = ? where user_id=?";
-                PreparedStatement update = connection.prepareStatement(Query);
-                update.setInt(1,anotherUserId);
-                update.setInt(2, userId);
-                update.executeUpdate();
-            } catch (SQLException ex) {
-                Logger.getLogger(FriendshipsDaoImp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-            
+    public void addMitualFriendship(int userId, int anotherUserId) throws Exception {
+        insert(new Friendship(userId, anotherUserId, "", false, -1));
+        insert(new Friendship(anotherUserId, userId, "", false, -1));
     }
 
     @Override
-    public Friendship findByUserAndFriend(int userId, int friendId) {
-        
-            Friendship friendShip = null;
-        try {
-            
-            Connection connection = dataSource.getConnection();
-            String Query = "select * from friendships where user_id=? friend_id =?";
-            PreparedStatement select = connection.prepareStatement(Query);
-            select.setInt(1, userId);
-            ResultSet set = select.executeQuery();
-            while(set.next())
-                friendShip = new Friendship(userId, friendId,set.getString(3),set.getBoolean(4),set.getInt(5));            
-        } catch (SQLException ex) {
-            Logger.getLogger(FriendshipsDaoImp.class.getName()).log(Level.SEVERE, null, ex);
+    public Friendship findByUserAndFriend(int userId, int friendId) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String Query = "select * from friendships where user_id = ? and friend_id = ?";
+        PreparedStatement select = connection.prepareStatement(Query);
+        select.setInt(1, userId);
+        select.setInt(2, friendId);
+        ResultSet result = select.executeQuery();
+        if (result.next()) {
+            return new Friendship(result.getInt(1), result.getInt(2),
+                    result.getString(3), result.getBoolean(4), result.getInt(5));
+        } else {
+            return null;
         }
-        return friendShip;
-        
     }
 
     @Override
-    public List<Friendship> getAllFriendshipsForUser(int userId) {
+    public List<Friendship> getAllFriendshipsForUser(int userId) throws Exception {
         List<Friendship> friendList = null;
-        try {
-            
-            Connection connection = dataSource.getConnection();
-            String Query = "select * from friendships where user_id=?";
-            PreparedStatement select = connection.prepareStatement(Query);
-            select.setInt(1, userId);
-            ResultSet set = select.executeQuery();
-            friendList = new ArrayList<>();
-            while(set.next())
-                friendList.add(new Friendship(set.getInt(1),set.getInt(2),set.getString(3),set.getBoolean(4),set.getInt(5)));           
-        } catch (SQLException ex) {
-            Logger.getLogger(FriendshipsDaoImp.class.getName()).log(Level.SEVERE, null, ex);
+        Connection connection = dataSource.getConnection();
+        String Query = "select * from friendships where user_id = ?";
+        PreparedStatement select = connection.prepareStatement(Query);
+        select.setInt(1, userId);
+        ResultSet result = select.executeQuery();
+        friendList = new ArrayList<>();
+        while (result.next()) {
+            friendList.add(new Friendship(result.getInt(1), result.getInt(2),
+                    result.getString(3), result.getBoolean(4), result.getInt(5)));
         }
         return friendList;
     }
 
     @Override
-    public boolean insert(Friendship object) {
-            try {
-                Connection connection = dataSource.getConnection();
-                String Query = "insert into friendships values(?,?,?,?,?)";
-                PreparedStatement insert = connection.prepareStatement(Query);
-                insert.setInt(1,object.getUserId());
-                insert.setInt(2,object.getFriendId());
-                insert.setString(3,object.getCategory());
-                insert.setBoolean(4,object.isBlocked());
-                insert.setInt(5,object.getLastSeenMessageId());
-                insert.executeUpdate();
-                return true;
-            } catch (SQLException ex) {
-                Logger.getLogger(FriendshipsDaoImp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        return false;
+    public int insert(Friendship object) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String Query = "insert into friendships values(?,?,?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(Query);
+        statement.setInt(1, object.getUserId());
+        statement.setInt(2, object.getFriendId());
+        statement.setString(3, object.getCategory());
+        statement.setBoolean(4, object.isBlocked());
+        statement.setInt(5, object.getLastSeenMessageId());
+        statement.executeUpdate();
+        return -1;
     }
 
     @Override
-    public boolean update(Friendship object) {
-        if(findByUserAndFriend(object.getUserId(), object.getFriendId())==null){
-            try {
-                Connection connection = dataSource.getConnection();
-                String Query = "update friendships set friend_id = ? where user_id=?";
-                PreparedStatement update = connection.prepareStatement(Query);
-                update.setInt(1,object.getFriendId());
-                update.setInt(2, object.getUserId());
-                update.executeUpdate();
-                return true;
-            } catch (SQLException ex) {
-                Logger.getLogger(FriendshipsDaoImp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return false;
-        
+    public boolean update(Friendship object) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String Query = "update friendships set category = ?, blocked = ?, last_seen_message = ? where  user_id = ? and friend_id = ?";
+        PreparedStatement update = connection.prepareStatement(Query);
+        update.setString(1, object.getCategory());
+        update.setBoolean(2, object.isBlocked());
+        update.setInt(3, object.getLastSeenMessageId());
+        update.setInt(4, object.getUserId());
+        update.setInt(5, object.getFriendId());
+        update.executeUpdate();
+        return true;
     }
 
     @Override
-    public boolean delete(Friendship object) {
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "DELETE FROM firendships WHERE user_id = ? and friend_id = ? ";
-            PreparedStatement delete = connection.prepareStatement(query);
-            delete.setInt(1, object.getUserId());
-            delete.setInt(2,object.getFriendId());
-            delete.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(FriendshipsDaoImp.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+    public boolean delete(Friendship object) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

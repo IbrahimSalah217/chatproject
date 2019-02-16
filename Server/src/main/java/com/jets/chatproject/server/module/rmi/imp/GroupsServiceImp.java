@@ -9,9 +9,9 @@ import com.jets.chatproject.module.rmi.GroupsService;
 import com.jets.chatproject.module.rmi.dto.GroupDTO;
 import com.jets.chatproject.module.rmi.dto.GroupMemberDTO;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
-import com.jets.chatproject.server.module.session.ISessionManager;
 import java.rmi.RemoteException;
 import java.util.List;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class GroupsServiceImp implements GroupsService {
 
-    ISessionManager sessionManager;
+    SessionManager sessionManager;
 
-    public GroupsServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+    public GroupsServiceImp(DaosFactory daosFactory, SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 

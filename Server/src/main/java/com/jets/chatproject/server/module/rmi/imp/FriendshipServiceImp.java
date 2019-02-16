@@ -17,10 +17,10 @@ import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.DirectMessage;
 import com.jets.chatproject.server.module.dal.entities.Friendship;
 import com.jets.chatproject.server.module.dal.entities.User;
-import com.jets.chatproject.server.module.session.ISessionManager;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -28,13 +28,13 @@ import java.util.List;
  */
 public class FriendshipServiceImp implements FriendshipService {
 
-    ISessionManager sessionManager;
+    SessionManager sessionManager;
     UsersDao usersDao;
     PicturesDao picturesDao;
     FriendshipsDao friendshipsDao;
     DirectMessagesDao messagesDao;
 
-    public FriendshipServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+    public FriendshipServiceImp(DaosFactory daosFactory, SessionManager sessionManager) {
         this.sessionManager = sessionManager;
         usersDao = daosFactory.getUsersDao();
         picturesDao = daosFactory.getPicturesDao();

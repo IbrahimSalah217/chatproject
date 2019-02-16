@@ -11,13 +11,11 @@ import com.jets.chatproject.server.module.dal.entities.DirectMessage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
+import java.util.List;
 import javax.sql.DataSource;
 
 /**
@@ -33,109 +31,79 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
     }
 
     @Override
-    public DirectMessage getLastDirectMessage(int userId, int anotherUserId) {
+    public DirectMessage getLastDirectMessage(int userId, int anotherUserId) throws Exception {
         DirectMessage directMessage = null;
-
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "select * from direct_messages";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            if (resultSet.last()) {
-                int id = resultSet.getInt(1);
-                int senderId = resultSet.getInt(2);
-                int receiverId = resultSet.getInt(3);
-                MessageType messageType = (MessageType) resultSet.getObject(4);
-                String content = resultSet.getString(5);
-                String fontStyle = resultSet.getString(6);
-                Timestamp time = resultSet.getTimestamp(7);
-                if (((senderId == userId) && (receiverId == anotherUserId)) || ((senderId == anotherUserId) && (receiverId == userId))) {
-                    directMessage = new DirectMessage(id, senderId, receiverId, messageType, content, fontStyle, time);
-                }
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        Connection connection = dataSource.getConnection();
+        String query = "select * from direct_messages where (sender_id = ? and receiver_id = ?) or (receiver_id = ? and sender_id = ?) order by time desc limit 1";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, userId);
+        statement.setInt(2, anotherUserId);
+        statement.setInt(3, userId);
+        statement.setInt(4, anotherUserId);
+        ResultSet resultSet = statement.executeQuery(query);
+        if (resultSet.next()) {
+            int id = resultSet.getInt(1);
+            int senderId = resultSet.getInt(2);
+            int receiverId = resultSet.getInt(3);
+            MessageType messageType = MessageType.valueOf(resultSet.getString(4));
+            String content = resultSet.getString(5);
+            String fontStyle = resultSet.getString(6);
+            Date time = resultSet.getTimestamp(7);
+            directMessage = new DirectMessage(id, senderId, receiverId,
+                    messageType, content, fontStyle, time);
         }
         return directMessage;
     }
 
     @Override
-    public ArrayList<DirectMessage> getAllDirectMessages(int userId, int anotherUserId) {
-        ArrayList<DirectMessage> directMessageList = new ArrayList<DirectMessage>();
-        DirectMessage directMessage = null;
-
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "select * from direct_messages";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            do {
-                resultSet.next();
-                int id = resultSet.getInt(1);
-                int senderId = resultSet.getInt(2);
-                int receiverId = resultSet.getInt(3);
-                MessageType messageType = (MessageType) resultSet.getObject(4);
-                String content = resultSet.getString(5);
-                String fontStyle = resultSet.getString(6);
-                Timestamp time = resultSet.getTimestamp(7);
-                if (((senderId == userId) && (receiverId == anotherUserId)) || ((senderId == anotherUserId) && (receiverId == userId))) {
-                    directMessage = new DirectMessage(id, senderId, receiverId, messageType, content, fontStyle, time);
-                    directMessageList.add(directMessage);
-                }
-            } while (!resultSet.isLast());
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public List<DirectMessage> getAllDirectMessages(int userId, int anotherUserId) throws Exception {
+        ArrayList<DirectMessage> list = new ArrayList<DirectMessage>();
+        Connection connection = dataSource.getConnection();
+        String query = "select * from direct_messages where (sender_id = ? and receiver_id = ?) or (receiver_id = ? and sender_id = ?) order by time";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, userId);
+        statement.setInt(2, anotherUserId);
+        statement.setInt(3, userId);
+        statement.setInt(4, anotherUserId);
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            int id = resultSet.getInt(1);
+            int senderId = resultSet.getInt(2);
+            int receiverId = resultSet.getInt(3);
+            MessageType messageType = MessageType.valueOf(resultSet.getString(4));
+            String content = resultSet.getString(5);
+            String fontStyle = resultSet.getString(6);
+            Date time = resultSet.getTimestamp(7);
+            list.add(new DirectMessage(id, senderId, receiverId,
+                    messageType, content, fontStyle, time));
         }
-        return directMessageList;
+        return list;
     }
 
     @Override
-    public boolean insert(DirectMessage directMessage) {
-        boolean isInserted = false;
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "insert into direct_messages (sender_id,receiver_id,message_type,content,font_style,time) values(?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            //preparedStatement.setInt(1, directMessage.getMessageId());
-            preparedStatement.setInt(2, directMessage.getSenderId());
-            preparedStatement.setInt(3, directMessage.getReceiverId());
-            preparedStatement.setString(4, directMessage.getMessageType().toString());
-            preparedStatement.setString(5, directMessage.getContent());
-            preparedStatement.setString(6, directMessage.getStyle());
-            preparedStatement.setTimestamp(7, directMessage.getMessageTime());
-            preparedStatement.executeUpdate();
-            isInserted = true;
-        } catch (SQLException ex) {
-            isInserted = false;
-        }
-        return isInserted;
+    public int insert(DirectMessage directMessage) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String query = "insert into direct_messages (sender_id,receiver_id,message_type,content,font_style,time) values(?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setInt(1, directMessage.getSenderId());
+        preparedStatement.setInt(2, directMessage.getReceiverId());
+        preparedStatement.setString(3, directMessage.getMessageType().toString());
+        preparedStatement.setString(4, directMessage.getContent());
+        preparedStatement.setString(5, directMessage.getStyle());
+        preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+        preparedStatement.executeUpdate();
+        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+        generatedKeys.next();
+        return generatedKeys.getInt(1);
     }
 
     @Override
-    public boolean update(DirectMessage directMessage) {
+    public boolean update(DirectMessage directMessage) throws Exception {
         throw new UnsupportedOperationException("Not supported yet.");
-       /* boolean isUpdated = false;
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "update direct_messages set message_type = '" + directMessage.getMessageType()
-                    + "',content = '" + directMessage.getContent()
-                    + "',font_style = '" + directMessage.getStyle()
-                    + "',time = '" + directMessage.getMessageTime()
-                    + "',sender_id = '" + directMessage.getSenderId()
-                    + "',receiver_id = '" + directMessage.getReceiverId() + "';";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.execute();
-            isUpdated = true;
-        } catch (SQLException ex) {
-            isUpdated = false;
-        }
-        return isUpdated;*/
     }
 
     @Override
-    public boolean delete(DirectMessage object) {
+    public boolean delete(DirectMessage object) throws Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

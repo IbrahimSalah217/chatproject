@@ -13,7 +13,5 @@ import com.jets.chatproject.server.module.dal.entities.Picture;
  */
 public interface PicturesDao extends AbstractDAO<Picture> {
 
-    Picture findById(int id);
-
-    int createPicture(byte[] picture);
+    Picture findById(int id) throws Exception;
 }

@@ -13,7 +13,7 @@ import com.jets.chatproject.server.module.dal.entities.User;
  */
 public interface UsersDao extends AbstractDAO<User> {
 
-    User findByPhone(String phone);
+    User findByPhone(String phone) throws Exception;
 
-    User findById(int id);
+    User findById(int id) throws Exception;
 }

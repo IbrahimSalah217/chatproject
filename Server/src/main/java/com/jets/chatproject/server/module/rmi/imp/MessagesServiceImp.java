@@ -21,10 +21,10 @@ import com.jets.chatproject.server.module.dal.entities.DirectMessage;
 import com.jets.chatproject.server.module.dal.entities.Friendship;
 import com.jets.chatproject.server.module.dal.entities.GroupMessage;
 import com.jets.chatproject.server.module.dal.entities.User;
-import com.jets.chatproject.server.module.session.ISessionManager;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -32,13 +32,13 @@ import java.util.List;
  */
 public class MessagesServiceImp implements MessagesService {
 
-    ISessionManager sessionManager;
+    SessionManager sessionManager;
     UsersDao userDoa;
     DirectMessagesDao directmessageDao;
     FriendshipsDao friendShipDao;
     GroupMessagesDao groupMessageDao;
 
-    public MessagesServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+    public MessagesServiceImp(DaosFactory daosFactory, SessionManager sessionManager) {
         this.sessionManager = sessionManager;
         userDoa = daosFactory.getUsersDao();
         directmessageDao = daosFactory.getDirectMessagesDao();
