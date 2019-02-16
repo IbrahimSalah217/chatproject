@@ -30,7 +30,7 @@ import javafx.scene.layout.Pane;
  * @author Ibrahim
  */
 public class LoginCheckPhoneController implements Initializable {
-
+    
     @FXML
     private Pane loginPane;
     @FXML
@@ -41,13 +41,13 @@ public class LoginCheckPhoneController implements Initializable {
     private Button nextLoginBtnID;
     @FXML
     private Hyperlink registerHLinkID;
-
+    
     ScreenController screenController;
-
+    
     public LoginCheckPhoneController(ScreenController screenController) {
         this.screenController = screenController;
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         phoneNumLoginTxtId.setStyle("-fx-text-inner-color: red;");
@@ -56,10 +56,13 @@ public class LoginCheckPhoneController implements Initializable {
             if (isRealPhoneNum(phoneNumLoginTxtId.getText())) {
                 phoneNumLoginTxtId.setStyle("-fx-text-inner-color: black;");
             }
-
+            
+        });
+        registerHLinkID.setOnAction(a -> {
+            screenController.switchToRegisterScreen();
         });
     }
-
+    
     @FXML
     private void phoneNumEntered(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
@@ -68,7 +71,7 @@ public class LoginCheckPhoneController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void nextLoginAction(ActionEvent event) {
         String phoneNum = phoneNumLoginTxtId.getText();
@@ -90,9 +93,9 @@ public class LoginCheckPhoneController implements Initializable {
             wrongPhone.setContentText("not Valid Phone Number please enter right again");
             wrongPhone.show();
         }
-
+        
     }
-
+    
     private boolean isRealPhoneNum(String phone) {
         boolean isRealPhone = false;
         String pattern = "\\d{11}|(?:\\d{3}-){3}\\d{5}";
@@ -101,7 +104,7 @@ public class LoginCheckPhoneController implements Initializable {
         }
         return isRealPhone;
     }
-
+    
     public boolean isExistPhone(String phone) throws Exception {
         boolean PhoneExist = false;
         try {

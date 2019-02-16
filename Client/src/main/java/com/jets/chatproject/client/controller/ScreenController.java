@@ -84,7 +84,7 @@ public class ScreenController {
         loader.setController(controller);
 
         try {
-            Parent root = loader.load(getClass().getResource("register.fxml").openStream());
+            Parent root = loader.load(controller.getClass().getResource("register.fxml").openStream());
             Scene scene = new Scene(root);
             stage.setTitle("ButterFly Chat Register");
             stage.setScene(scene);
