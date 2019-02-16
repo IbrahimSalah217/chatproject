@@ -8,7 +8,6 @@ package com.jets.chatproject.server.module.rmi.imp;
 import com.jets.chatproject.module.rmi.FriendshipService;
 import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
-import com.jets.chatproject.module.rmi.dto.MessageFormat;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.DirectMessagesDao;
 import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;

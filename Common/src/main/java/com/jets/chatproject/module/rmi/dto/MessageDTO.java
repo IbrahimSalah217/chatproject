@@ -6,7 +6,6 @@
 package com.jets.chatproject.module.rmi.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
