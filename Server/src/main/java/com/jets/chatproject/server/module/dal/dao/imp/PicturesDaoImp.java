@@ -31,7 +31,6 @@ public class PicturesDaoImp implements PicturesDao {
     @Override
     public Picture findById(int id) {
         Picture userPic = null;
-
         try {
             Connection connection = dataSource.getConnection();
             String query = "select * from pictures where picture_id=" + id + "";
@@ -39,10 +38,8 @@ public class PicturesDaoImp implements PicturesDao {
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
                 int pictureId = resultSet.getInt(1);
-                Blob picture = resultSet.getBlob(2);
-                byte[] pictureToBytes = picture.getBytes(1, (int) picture.length());
-
-                userPic = new Picture(pictureId, pictureToBytes);
+                byte[] pictureData = resultSet.getBytes(2);
+                userPic = new Picture(pictureId, pictureData);
             }
         } catch (SQLException ex) {
             userPic = null;
@@ -58,11 +55,9 @@ public class PicturesDaoImp implements PicturesDao {
             String query = "insert into pictures values(?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, picture.getId());
-            Blob picData = new SerialBlob(picture.getData());
-            preparedStatement.setBlob(2, picData);
+            preparedStatement.setBytes(2, picture.getData());
             preparedStatement.execute();
             isInserted = true;
-
         } catch (SQLException ex) {
             isInserted = false;
         }
@@ -74,13 +69,12 @@ public class PicturesDaoImp implements PicturesDao {
         boolean isUpdated = false;
         try {
             Connection connection = dataSource.getConnection();
-            String query = "update pictures set picture = '" + picture.getData()
-                    + "where picture_id = " + picture.getId();
-
+            String query = "update pictures set picture = ? where picture_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBytes(1, picture.getData());
+            preparedStatement.setInt(2, picture.getId());
             preparedStatement.execute();
             isUpdated = true;
-
         } catch (SQLException ex) {
             isUpdated = false;
         }
@@ -90,6 +84,24 @@ public class PicturesDaoImp implements PicturesDao {
     @Override
     public boolean delete(Picture object) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int createPicture(byte[] picture) {
+        int pictureId;
+        try {
+            Connection connection = dataSource.getConnection();
+            String query = "insert into pictures(picture) values(?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBytes(1, picture);
+            preparedStatement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            generatedKeys.next();
+            pictureId = generatedKeys.getInt(1);
+        } catch (SQLException ex) {
+            pictureId = -1;
+        }
+        return pictureId;
     }
 
 }
