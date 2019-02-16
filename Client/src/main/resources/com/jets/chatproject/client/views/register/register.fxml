@@ -87,9 +87,7 @@
          </children>
       </GridPane>
       <ImageView fx:id="userImageID" fitHeight="108.0" fitWidth="100.0" layoutX="557.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#changePicture">
-         <image>
-            <Image url="@/images/clipart-homer.png" />
-         </image>
+
       </ImageView>
       <Button fx:id="choosePictuerBtnID" layoutX="541.0" layoutY="112.0" mnemonicParsing="false" onAction="#choosePicture" prefHeight="25.0" prefWidth="118.0" text="Choose Picture" />
    </children>
