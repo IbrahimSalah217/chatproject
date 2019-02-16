@@ -14,7 +14,6 @@ import com.jets.chatproject.server.module.rmi.imp.FriendshipServiceImp;
 import com.jets.chatproject.server.module.rmi.imp.GroupsServiceImp;
 import com.jets.chatproject.server.module.rmi.imp.MessagesServiceImp;
 import com.jets.chatproject.server.module.rmi.imp.UsersServiceImp;
-import com.jets.chatproject.server.module.session.ISessionManager;
 import com.jets.chatproject.server.module.session.DummySessionManager;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -22,6 +21,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -38,7 +38,7 @@ public class Application {
                 registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
             }
 
-            ISessionManager sessionManager = new DummySessionManager();
+            SessionManager sessionManager = new DummySessionManager();
             DaosFactory daosFactory = new DbDaosFactory();
 
             AuthService authService

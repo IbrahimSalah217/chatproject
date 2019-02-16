@@ -14,8 +14,8 @@ import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.DTOMapper;
 import com.jets.chatproject.server.module.dal.entities.Picture;
 import com.jets.chatproject.server.module.dal.entities.User;
-import com.jets.chatproject.server.module.session.ISessionManager;
 import java.rmi.RemoteException;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -23,11 +23,11 @@ import java.rmi.RemoteException;
  */
 public class UsersServiceImp implements UsersService {
 
-    ISessionManager sessionManager;
+    SessionManager sessionManager;
     UsersDao usersDao;
     PicturesDao picturesDao;
 
-    public UsersServiceImp(DaosFactory daosFactory, ISessionManager sessionManager) {
+    public UsersServiceImp(DaosFactory daosFactory, SessionManager sessionManager) {
         this.sessionManager = sessionManager;
         usersDao = daosFactory.getUsersDao();
         picturesDao = daosFactory.getPicturesDao();

@@ -5,16 +5,16 @@
  */
 package com.jets.chatproject.server.module.dal.dao;
 
-import java.util.ArrayList;
 import com.jets.chatproject.server.module.dal.entities.GroupMessage;
+import java.util.List;
 
 /**
  *
  * @author salma
  */
-public interface GroupMessagesDao extends AbstractDAO<GroupMessage>{
+public interface GroupMessagesDao extends AbstractDAO<GroupMessage> {
 
-    GroupMessage getLastMessage(int groupId);
+    GroupMessage getLastMessage(int groupId) throws Exception;
 
-    ArrayList<GroupMessage> getAllGroupMessages(int groupId);
+    List<GroupMessage> getAllGroupMessages(int groupId) throws Exception;
 }

@@ -19,7 +19,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.jets.chatproject.server.module.session.ISessionManager;
+import com.jets.chatproject.server.module.session.SessionManager;
 
 /**
  *
@@ -27,12 +27,12 @@ import com.jets.chatproject.server.module.session.ISessionManager;
  */
 public class FriendRequestsServiceImpl extends UnicastRemoteObject implements FriendRequestsService {
 
-    ISessionManager sessionManager;
+    SessionManager sessionManager;
     UsersDao userdao;
     RequestsDoa requestsDoa;
     FriendshipsDao friendshipsDao;
 
-    public FriendRequestsServiceImpl(DaosFactory daosFactory, ISessionManager sessionManager) throws RemoteException {
+    public FriendRequestsServiceImpl(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException {
         this.sessionManager = sessionManager;
         this.userdao = daosFactory.getUsersDao();
         this.requestsDoa = daosFactory.getRequestsDoa();
