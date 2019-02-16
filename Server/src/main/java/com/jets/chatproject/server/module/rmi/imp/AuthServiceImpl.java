@@ -11,6 +11,7 @@ import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
+import com.jets.chatproject.server.module.dal.entities.Picture;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.rmi.server.UnicastRemoteObject;
@@ -34,28 +35,32 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
 
     @Override
     public String login(String phone, String password) throws RemoteException {
-        User myUser = userdao.findByPhone(phone);
-        if (myUser == null || !myUser.getPassword().equals(password)) {
-            throw new RemoteException("Login Failed");
+        try {
+            User myUser = userdao.findByPhone(phone);
+            if (myUser == null || !myUser.getPassword().equals(password)) {
+                throw new RemoteException("Login Failed");
+            }
+            return sessionManager.createSession(myUser.getId());
+        } catch (Exception ex) {
+            throw new RemoteException("Database exception", ex);
         }
-        String uuid = sessionManager.createSession(myUser.getId());
-        return uuid;
     }
 
     @Override
     public String register(UserDTO user, byte[] picture, String password) throws RemoteException {
-        int pictureId = picturesDao.createPicture(picture);
-        if (userdao.findByPhone(user.getPhoneNumber()) == null) {
-            User myUser = new User(user.getId(), user.getPhoneNumber(), user.getDisplyName(),
-                    user.getEmail(), password, user.getGender(), user.getCountry(), user.getDateOfBirth(),
-                    user.getBio(), UserStatus.AVAILABLE, pictureId);
-            if (!userdao.insert(myUser)) {
-                throw new RemoteException("Failed to create account");
+        try {
+            if (userdao.findByPhone(user.getPhoneNumber()) == null) {
+                int pictureId = picturesDao.insert(new Picture(0, picture));
+                User myUser = new User(user.getId(), user.getPhoneNumber(), user.getDisplyName(),
+                        user.getEmail(), password, user.getGender(), user.getCountry(), user.getDateOfBirth(),
+                        user.getBio(), UserStatus.AVAILABLE, pictureId);
+                int userId = userdao.insert(myUser);
+                return sessionManager.createSession(userId);
+            } else {
+                throw new RemoteException("Phone already registered");
             }
-            myUser = userdao.findByPhone(user.getPhoneNumber());
-            return sessionManager.createSession(myUser.getId());
-        } else {
-            throw new RemoteException("Phone already registered");
+        } catch (Exception ex) {
+            throw new RemoteException("Database exception", ex);
         }
     }
 
@@ -66,7 +71,11 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
 
     @Override
     public boolean checkPhone(String phone) throws RemoteException {
-        return userdao.findByPhone(phone) != null;
+        try {
+            return userdao.findByPhone(phone) != null;
+        } catch (Exception ex) {
+            throw new RemoteException("Database exception", ex);
+        }
     }
 
 }
