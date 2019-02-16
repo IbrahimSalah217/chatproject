@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
@@ -87,6 +88,8 @@ public class RegisterController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Circle clip = new Circle(userImageID.getFitWidth()/2,userImageID.getFitHeight()/2,50);
+            userImageID.setClip(clip);
         image = userImageID.getImage();
         genderCBoxID.setItems(FXCollections.observableArrayList("MALE", "FEMALE"));
         inputsValidation = new InputsValidation(this);
