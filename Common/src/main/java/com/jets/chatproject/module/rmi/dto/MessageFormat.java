@@ -5,11 +5,13 @@
  */
 package com.jets.chatproject.module.rmi.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ibrahim
  */
-public class MessageFormat {
+public class MessageFormat implements Serializable {
 
     private boolean bold;
     private boolean italic;
@@ -76,8 +78,8 @@ public class MessageFormat {
 
     @Override
     public String toString() {
-        return String.format("%c%c%c:%d:%d:%d", bold ? "B" : "b",
-                italic ? "I" : "i", underline ? "U" : "u",
+        return String.format("%c%c%c:%d:%d:%d", bold ? 'B' : 'b',
+                italic ? 'I' : 'i', underline ? 'U' : 'u',
                 textColor, backgroundColor, fontSize);
     }
 

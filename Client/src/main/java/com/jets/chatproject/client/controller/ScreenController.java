@@ -155,8 +155,7 @@ public class ScreenController {
     public void switchToMessagesScreen() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            MessagesController controller
-                    = new MessagesController(this, MessagesController.ChatType.Direct, 1);
+            MessagesController controller = new MessagesController(this);
             loader.setController(controller);
             Parent root = loader.load(controller.getClass().getResourceAsStream("Messages.fxml"));
             Scene scene = new Scene(root);
