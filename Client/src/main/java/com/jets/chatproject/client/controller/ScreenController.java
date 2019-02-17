@@ -105,12 +105,12 @@ public class ScreenController {
             FXMLLoader fxmlLoader = new FXMLLoader();
             UserScreenController controller = new UserScreenController(this);
             fxmlLoader.setController(controller);
-            Parent root = fxmlLoader.load(controller.getClass().getResource("userScreen.fxml").openStream());
+            Parent root = fxmlLoader.load(controller.getClass().getResource("userscreen.fxml").openStream());
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
