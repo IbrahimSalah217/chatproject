@@ -134,6 +134,7 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void groupsAction(MouseEvent event) {
+        
     }
 
     @FXML

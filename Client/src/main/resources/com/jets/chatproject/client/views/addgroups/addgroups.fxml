@@ -21,23 +21,23 @@
             </Button>
             <ImageView fitHeight="115.0" fitWidth="122.0" layoutX="25.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@image/addgroup2.png" />
+                  <Image url="@images/addgroup2.png" />
                </image>
             </ImageView>
             <TextField fx:id="memberTxtField" layoutX="24.0" layoutY="230.0" prefHeight="25.0" prefWidth="183.0" promptText="new member phone" />
             <ImageView fx:id="addMemberBtn" fitHeight="25.0" fitWidth="31.0" layoutX="258.0" layoutY="230.0" onMousePressed="#addMemberAction" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@image/add.png" />
+                  <Image url="@images/add.png" />
                </image>
             </ImageView>
             <ImageView fx:id="removeMemberBtn" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="230.0" onMousePressed="#removeMemberAction" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@image/add2.png" />
+                  <Image url="@images/add2.png" />
                </image>
             </ImageView>
             <ImageView fx:id="submitView" fitHeight="51.0" fitWidth="54.0" layoutX="245.0" layoutY="4.0" onMousePressed="#SubmitAction" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@image/Contract-512.png" />
+                  <Image url="@images/Contract-512.png" />
                </image>
             </ImageView>
          </children>
