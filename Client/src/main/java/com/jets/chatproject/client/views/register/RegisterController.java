@@ -1,9 +1,7 @@
 package com.jets.chatproject.client.views.register;
 
-import com.jets.chatproject.client.ChatApp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
-import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
@@ -20,10 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -35,7 +30,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
 /**
@@ -171,7 +165,7 @@ public class RegisterController implements Initializable {
                     authService.register(user, bytesImage, password);
                     getAlert("You've registired successfully", "Welcome to our application.", Alert.AlertType.INFORMATION);
 
-                    screenController.switchToLoginPhoneScreen();
+                    screenController.switchToUpdateProfileScreen();
 
                 } else {
                     getAlert("Invalid Phone Number!", "It seems like you entered a phone number that already exists.", Alert.AlertType.ERROR);

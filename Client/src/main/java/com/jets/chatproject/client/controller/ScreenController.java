@@ -6,9 +6,11 @@
 package com.jets.chatproject.client.controller;
 
 import com.jets.chatproject.client.ChatApp;
+import com.jets.chatproject.client.views.addcontacts.AddContactsController;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.client.views.login.LoginPasswordController;
 import com.jets.chatproject.client.views.register.RegisterController;
+import com.jets.chatproject.client.views.updateprofile.UpdateProfileFXMLController;
 import com.jets.chatproject.client.views.userscreen.UserScreenController;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -95,11 +97,43 @@ public class ScreenController {
     }
 
     public void switchToUserScreen() {
+        switchToUpdateProfileScreen();
+        if (1 < 10) {
+            return;
+        }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             UserScreenController controller = new UserScreenController(this);
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("userScreen.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void switchToAddContactsScreen() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            AddContactsController controller = new AddContactsController(this);
+            fxmlLoader.setController(controller);
+            Parent root = fxmlLoader.load(controller.getClass().getResource("AddContacts.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void switchToUpdateProfileScreen() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            UpdateProfileFXMLController controller = new UpdateProfileFXMLController(this);
+            fxmlLoader.setController(controller);
+            Parent root = fxmlLoader.load(controller.getClass().getResource("updateProfileFXML.fxml").openStream());
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();

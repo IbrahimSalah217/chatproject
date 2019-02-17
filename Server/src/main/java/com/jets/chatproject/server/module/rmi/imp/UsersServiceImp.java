@@ -57,6 +57,11 @@ public class UsersServiceImp implements UsersService {
     public UserDTO getProfileByPhone(String session, String userPhone) throws RemoteException {
         try {
             User user = usersDao.findByPhone(userPhone);
+            if(user==null){
+                System.out.println(session+":"+userPhone);
+            }else{
+                System.out.println("Ok");
+            }
             return DTOMapper.createUserDTO(user);
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
