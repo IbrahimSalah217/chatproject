@@ -70,11 +70,14 @@ public class userProfileController implements Initializable {
     ObservableList<FriendshipDTO> myFriendsList;
     public userProfileController(ScreenController screenController) {
         this.screenController = screenController;
+        userSession = screenController.getSession();
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            
+            System.out.println("user profile "+screenController.getSession());
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             friendshipService.getAllFriendships(userSession);
         } catch (Exception ex) {

@@ -165,7 +165,7 @@ public class RegisterController implements Initializable {
                     authService.register(user, bytesImage, password);
                     getAlert("You've registired successfully", "Welcome to our application.", Alert.AlertType.INFORMATION);
 
-                    screenController.switchToUpdateProfileScreen();
+                    screenController.switchToLoginPhoneScreen();
 
                 } else {
                     getAlert("Invalid Phone Number!", "It seems like you entered a phone number that already exists.", Alert.AlertType.ERROR);
@@ -173,7 +173,6 @@ public class RegisterController implements Initializable {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
         }
 
     }

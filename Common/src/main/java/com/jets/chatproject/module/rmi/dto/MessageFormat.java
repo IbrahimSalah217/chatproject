@@ -5,11 +5,13 @@
  */
 package com.jets.chatproject.module.rmi.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ibrahim
  */
-public class MessageFormat {
+public class MessageFormat implements Serializable{
 
     private boolean bold;
     private boolean italic;
