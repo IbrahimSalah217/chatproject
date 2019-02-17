@@ -9,6 +9,7 @@ import com.jets.chatproject.client.ChatApp;
 import com.jets.chatproject.client.views.addcontacts.AddContactsController;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.client.views.login.LoginPasswordController;
+import com.jets.chatproject.client.views.messages.MessagesController;
 import com.jets.chatproject.client.views.register.RegisterController;
 import com.jets.chatproject.client.views.updateprofile.UpdateProfileFXMLController;
 import com.jets.chatproject.client.views.userscreen.UserScreenController;
@@ -30,6 +31,7 @@ public class ScreenController {
 
     private String session;
     private String phone;
+    private int id;
 
     public ScreenController(Stage stage) {
         this.stage = stage;
@@ -46,6 +48,14 @@ public class ScreenController {
 
     public String getPhone() {
         return phone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void switchToLoginPhoneScreen() {
@@ -137,6 +147,22 @@ public class ScreenController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void switchToMessagesScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            MessagesController controller
+                    = new MessagesController(this, MessagesController.ChatType.Direct, 1);
+            loader.setController(controller);
+            Parent root = loader.load(controller.getClass().getResourceAsStream("Messages.fxml"));
+            Scene scene = new Scene(root);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.show();
         } catch (IOException ex) {
             Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
