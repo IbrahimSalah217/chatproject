@@ -74,12 +74,12 @@ public class userProfileController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        try {
-//            friendshipService = ServiceLocator.getService(FriendshipService.class);
-//            friendshipService.getAllFriendships(userSession);
-//        } catch (Exception ex) {
-//            DialogUtils.showException(ex);
-//        }
+        try {
+            friendshipService = ServiceLocator.getService(FriendshipService.class);
+            friendshipService.getAllFriendships(userSession);
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
         
     }    
 

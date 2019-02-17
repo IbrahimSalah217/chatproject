@@ -72,6 +72,7 @@ public class AddContactsController implements Initializable {
                 contactsToAdd.add(phoneTextField.getText().trim());
                 phoneTextField.clear();
             }
+            
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
