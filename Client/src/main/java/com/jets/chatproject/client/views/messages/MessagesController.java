@@ -25,6 +25,7 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -97,9 +98,14 @@ public class MessagesController implements Initializable {
         messagesListView.setCellFactory(listView -> {
             return new ListCell<MessageDTO>() {
                 @Override
-                protected void updateItem(MessageDTO item, boolean empty) {
-                    if (item != null) {
-                        this.setText(item.getSenderName() + ": " + item.getContent());
+                protected void updateItem(MessageDTO message, boolean empty) {
+                    if (message != null) {
+                        if (message.getSenderId() == screenController.getId()) {
+                            this.setAlignment(Pos.CENTER_RIGHT);
+                            this.setText(message.getContent() + " :" + message.getSenderName());
+                        } else {
+                            this.setText(message.getSenderName() + ": " + message.getContent());
+                        }
                     }
                 }
             };
