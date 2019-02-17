@@ -35,6 +35,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
@@ -68,7 +69,7 @@ public class userProfileController implements Initializable {
     @FXML
     private Circle statusCircle;
     @FXML
-    private Pane switchPane;
+    private BorderPane borderPane;
 
     ScreenController screenController;
     MessagesService messageService;
@@ -98,7 +99,9 @@ public class userProfileController implements Initializable {
                 .addListener(new ChangeListener<FriendshipDTO>() {
                     @Override
                     public void changed(ObservableValue<? extends FriendshipDTO> observable, FriendshipDTO oldValue, FriendshipDTO newValue) {
-                        showChatFor(newValue);
+                        if (newValue != null) {
+                            showChatFor(newValue);
+                        }
                     }
                 });
     }
@@ -111,10 +114,9 @@ public class userProfileController implements Initializable {
             loader.setController(controller);
             Parent root = loader.load(controller.getClass()
                     .getResourceAsStream("Messages.fxml"));
-            switchPane.getChildren().clear();
-            switchPane.getChildren().add(root);
+            borderPane.setCenter(root);
         } catch (IOException ex) {
-            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            DialogUtils.showException(ex);
         }
     }
 
