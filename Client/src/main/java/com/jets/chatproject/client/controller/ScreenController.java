@@ -8,6 +8,7 @@ package com.jets.chatproject.client.controller;
 import com.jets.chatproject.client.ChatApp;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.views.addcontacts.AddContactsController;
+import com.jets.chatproject.client.views.addgroups.AddgroupsController;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.client.views.login.LoginPasswordController;
 import com.jets.chatproject.client.views.register.RegisterController;
@@ -153,6 +154,20 @@ public class ScreenController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        } catch (IOException ex) {
+            DialogUtils.showException(ex);
+        }
+    }
+    public void switchToAddGroupsScreen() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            AddgroupsController controller = new AddgroupsController(this);
+            fxmlLoader.setController(controller);
+            Parent root = fxmlLoader.load(controller.getClass().getResource("addgroups.fxml").openStream());
+            Scene scene = new Scene(root);
+            Stage groupStage = new Stage();
+            groupStage.setScene(scene);
+            groupStage.show();
         } catch (IOException ex) {
             DialogUtils.showException(ex);
         }
