@@ -9,9 +9,16 @@ import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.module.rmi.AuthService;
+import com.jets.chatproject.module.rmi.FriendRequestsService;
 import java.net.URL;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,22 +39,39 @@ public class AddContactsController implements Initializable {
     private TextField phoneTextField;
 
     private ScreenController screenController;
+    
+    ObservableList<String> contactsToAdd;
+    
+    FriendRequestsService friendRequestsService;
 
     public AddContactsController(ScreenController screenController) {
-        this.screenController = screenController;
+        try {
+            this.screenController = screenController;
+            contactsToAdd = FXCollections.observableArrayList();
+            friendRequestsService = ServiceLocator.getService(FriendRequestsService.class);
+        } catch (Exception ex) {
+            Logger.getLogger(AddContactsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         listView.setFocusTraversable(false);
         Platform.runLater(() -> phoneTextField.requestFocus());
+        listView.setItems(contactsToAdd);
+
     }
 
     @FXML
     private void checkPhone(ActionEvent ae) {
         try {
             AuthService authService = ServiceLocator.getService(AuthService.class);
-            authService.checkPhone(phoneTextField.getText().trim());
+            boolean isExist = authService.checkPhone(phoneTextField.getText().trim());
+            if(isExist){
+                contactsToAdd.add(phoneTextField.getText().trim());
+                phoneTextField.clear();
+            }
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -55,6 +79,14 @@ public class AddContactsController implements Initializable {
 
     @FXML
     private void addAll(ActionEvent ae) {
+        contactsToAdd.stream().forEach(
+                (s)->{
+            try {
+                friendRequestsService.sendRequest(screenController.getSession(),s);
+            } catch (RemoteException ex) {
+                DialogUtils.showException(ex);
+            }
+        });
 
     }
 

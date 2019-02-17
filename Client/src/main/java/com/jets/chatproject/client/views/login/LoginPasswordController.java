@@ -71,6 +71,7 @@ public class LoginPasswordController implements Initializable {
             screenController.saveSession(userSession, userPhone);
            // System.out.println(screenController.getSession()+"  "+screenController.getPhone());
             screenController.switchToUserScreen();
+            //screenController.switchToAddContactsScreen();
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
