@@ -29,6 +29,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
 /**
@@ -60,6 +61,8 @@ public class userProfileController implements Initializable {
     private Label userNameLable;
     @FXML
     private Circle statusCircle;
+    @FXML
+    private Pane switchPane;
     
     ScreenController screenController;
     MessagesService messageService ;
@@ -88,6 +91,7 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void addcontactAction(MouseEvent event) {
+        screenController.switchToAddContactsScreen();
     }
 
     @FXML
@@ -105,7 +109,6 @@ public class userProfileController implements Initializable {
     @FXML
     private void contactsAction(MouseEvent event) {
         
-            
         try {
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             userSession = screenController.getSession();

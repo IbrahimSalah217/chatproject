@@ -29,7 +29,7 @@ public class PicturesDaoImp implements PicturesDao {
     @Override
     public Picture findById(int id) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "select * from pictures where picture_id = ?";
+        String query = "select * from pictures where picture_id = "+id;
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery(query);
         if (resultSet.next()) {

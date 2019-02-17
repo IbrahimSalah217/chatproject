@@ -123,8 +123,9 @@ public class ScreenController {
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("AddContacts.fxml").openStream());
             Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            Stage contactsStage = new Stage();
+            contactsStage.setScene(scene);
+            contactsStage.show();
         } catch (IOException ex) {
             Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
