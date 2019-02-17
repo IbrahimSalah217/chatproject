@@ -9,7 +9,6 @@ import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
-import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.MessagesService;
 import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
@@ -17,23 +16,19 @@ import com.jets.chatproject.module.rmi.dto.MessageFormat;
 import com.jets.chatproject.module.rmi.dto.MessageType;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
@@ -112,6 +107,25 @@ public class MessagesController implements Initializable {
         messagesListView.getItems().addListener((ListChangeListener.Change<? extends MessageDTO> c) -> {
             messagesListView.scrollTo(c.getList().size() - 1);
         });
+
+        try {
+            switch (chatType) {
+                case Direct:
+                    List<MessageDTO> allDirectMessages
+                            = messagesService.getAllDirectMessages(screenController.getSession(), id);
+                    messagesListView.getItems().addAll(allDirectMessages);
+                    break;
+
+                case Group:
+                    List<MessageDTO> allGroupMessages
+                            = messagesService.getAllGroupMessages(screenController.getSession(), id);
+                    messagesListView.getItems().addAll(allGroupMessages);
+                    break;
+
+            }
+        } catch (RemoteException ex) {
+            DialogUtils.showException(ex);
+        }
     }
 
     @FXML

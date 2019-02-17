@@ -59,12 +59,12 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
     public List<DirectMessage> getAllDirectMessages(int userId, int anotherUserId) throws Exception {
         ArrayList<DirectMessage> list = new ArrayList<DirectMessage>();
         Connection connection = dataSource.getConnection();
-        String query = "select * from direct_messages where (sender_id = ? and receiver_id = ?) or (receiver_id = ? and sender_id = ?) order by time";
+        String query = "select * from direct_messages where (sender_id =" +userId +" and receiver_id = "+ anotherUserId+") or (receiver_id = "+userId+" and sender_id = "+anotherUserId+") order by time";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, userId);
-        statement.setInt(2, anotherUserId);
-        statement.setInt(3, userId);
-        statement.setInt(4, anotherUserId);
+//        statement.setInt(1, userId);
+//        statement.setInt(2, anotherUserId);
+//        statement.setInt(3, userId);
+//        statement.setInt(4, anotherUserId);
         ResultSet resultSet = statement.executeQuery(query);
         while (resultSet.next()) {
             int id = resultSet.getInt(1);
