@@ -16,18 +16,19 @@ import com.jets.chatproject.server.module.dal.entities.Picture;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.session.SessionManager;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
  * @author ibrahim
  */
-public class UsersServiceImp implements UsersService {
+public class UsersServiceImp extends UnicastRemoteObject implements UsersService {
 
     SessionManager sessionManager;
     UsersDao usersDao;
     PicturesDao picturesDao;
 
-    public UsersServiceImp(DaosFactory daosFactory, SessionManager sessionManager) {
+    public UsersServiceImp(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException  {
         this.sessionManager = sessionManager;
         usersDao = daosFactory.getUsersDao();
         picturesDao = daosFactory.getPicturesDao();
@@ -57,9 +58,9 @@ public class UsersServiceImp implements UsersService {
     public UserDTO getProfileByPhone(String session, String userPhone) throws RemoteException {
         try {
             User user = usersDao.findByPhone(userPhone);
-            if(user==null){
-                System.out.println(session+":"+userPhone);
-            }else{
+            if (user == null) {
+                System.out.println(session + ":" + userPhone);
+            } else {
                 System.out.println("Ok");
             }
             return DTOMapper.createUserDTO(user);

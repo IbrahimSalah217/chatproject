@@ -24,12 +24,13 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import com.jets.chatproject.server.module.session.SessionManager;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
  * @author ibrahim
  */
-public class MessagesServiceImp implements MessagesService {
+public class MessagesServiceImp extends UnicastRemoteObject implements MessagesService {
 
     SessionManager sessionManager;
     UsersDao userDoa;
@@ -38,7 +39,7 @@ public class MessagesServiceImp implements MessagesService {
     GroupMessagesDao groupMessageDao;
     GroupMembersDao groupMembersDao;
 
-    public MessagesServiceImp(DaosFactory daosFactory, SessionManager sessionManager) {
+    public MessagesServiceImp(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException  {
         this.sessionManager = sessionManager;
         userDoa = daosFactory.getUsersDao();
         directmessageDao = daosFactory.getDirectMessagesDao();
