@@ -69,7 +69,8 @@ public class LoginPasswordController implements Initializable {
         try {
             String userSession = isRealUser(userPhone, passwordField.getText());
             screenController.saveSession(userSession, userPhone);
-            screenController.switchToUserScreen();
+           // System.out.println(screenController.getSession()+"  "+screenController.getPhone());
+            screenController.switchToUserProfileScreen();
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }

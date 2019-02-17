@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.client.views.userscreen;
 
+import com.jets.chatproject.client.util.ContactHbox;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.module.rmi.FriendshipService;
@@ -40,13 +41,11 @@ public class UserScreenController implements Initializable {
     String session;
 
     public UserScreenController(ScreenController screenController) {
-
         this.screenController = screenController;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         try {
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             session = screenController.getSession();

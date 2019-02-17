@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="addContactImage" onMouseEntered="#addContactsign" prefHeight="570.0" prefWidth="835.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="1.0" layoutY="-2.0" prefHeight="570.0" prefWidth="264.0">
+         <children>
+            <ImageView fx:id="addContatact" fitHeight="37.0" fitWidth="39.0" layoutY="115.0" onMousePressed="#addcontactAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/add3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="addGroupAction" fitHeight="37.0" fitWidth="37.0" layoutX="-3.0" layoutY="189.0" onMousePressed="#addGroupAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/addgroup.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="setting" fitHeight="37.0" fitWidth="37.0" layoutX="-1.0" layoutY="275.0" onMousePressed="#settingAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/setting2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="groupsBtn" fitHeight="37.0" fitWidth="37.0" layoutX="-2.0" layoutY="358.0" onMousePressed="#groupsAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/addgroup2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="contactsBtn" fitHeight="37.0" fitWidth="37.0" layoutX="-2.0" layoutY="442.0" onMousePressed="#contactsAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/contacts3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="logoutLable" fitHeight="37.0" fitWidth="37.0" layoutY="521.0" onMouseEntered="#logoutLable" onMousePressed="#logoutAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logout.png" />
+               </image>
+            </ImageView>
+            <Pane layoutX="37.0" layoutY="73.0" prefHeight="499.0" prefWidth="228.0">
+               <children>
+                  <ListView fx:id="listMessages" editable="true" prefHeight="499.0" prefWidth="228.0" style="-fx-background-color: #486F56;" />
+               </children>
+            </Pane>
+            <ImageView fx:id="userImage" fitHeight="75.0" fitWidth="84.0" layoutY="2.0" onMouseEntered="#updateProfileLable" onMousePressed="#updateProfileAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/user-512.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="userNameLable" layoutX="76.0" layoutY="-1.0" prefHeight="74.0" prefWidth="157.0" text="USER NAME" textFill="#1b2280">
+               <font>
+                  <Font name="Algerian" size="25.0" />
+               </font>
+            </Label>
+            <Circle fx:id="statusCircle" fill="#10d39c" layoutX="244.0" layoutY="21.0" onKeyPressed="#statusAction" onMouseDragEntered="#statusLable" radius="18.0" rotate="10.3" stroke="#612424" strokeLineCap="ROUND" strokeWidth="0.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="265.0" layoutY="-2.0" prefHeight="570.0" prefWidth="570.0" />
+   </children>
+</AnchorPane>

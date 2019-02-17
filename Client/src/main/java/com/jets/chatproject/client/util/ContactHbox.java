@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.client.views.userscreen;
+package com.jets.chatproject.client.util;
 
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.module.rmi.UsersService;
@@ -27,17 +27,16 @@ public class ContactHbox extends ListCell<FriendshipDTO> {
     UsersService usersService;
     String session;
     HBox hBox = new HBox();
-    Label userName = new Label();
+    Label friendName = new Label();
     ImageView userImage = new ImageView();
 
     public ContactHbox(String session) {
-        
         this.session = session;
-        hBox.getChildren().addAll(userImage, userName);
+        hBox.getChildren().addAll(userImage, friendName);
         try {
             usersService = ServiceLocator.getService(UsersService.class);
         } catch (Exception ex) {
-            Logger.getLogger(ContactHbox.class.getName()).log(Level.SEVERE, null, ex);
+            DialogUtils.showException(ex);
         }
     }
 
@@ -51,7 +50,7 @@ public class ContactHbox extends ListCell<FriendshipDTO> {
             try {
                 Image image = new Image(new ByteArrayInputStream(usersService.getPicture(session, friend.getMemberPictureId())));
                 userImage.setImage(image);
-                userName.setText(friend.getFriendName());
+                friendName.setText(friend.getFriendName());
                 setGraphic(hBox);
             } catch (RemoteException ex) {
                 Logger.getLogger(ContactHbox.class.getName()).log(Level.SEVERE, null, ex);

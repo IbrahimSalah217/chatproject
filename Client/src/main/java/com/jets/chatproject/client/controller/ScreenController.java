@@ -9,6 +9,7 @@ import com.jets.chatproject.client.ChatApp;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.client.views.login.LoginPasswordController;
 import com.jets.chatproject.client.views.register.RegisterController;
+import com.jets.chatproject.client.views.userProfile.userProfileController;
 import com.jets.chatproject.client.views.userscreen.UserScreenController;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -99,12 +100,27 @@ public class ScreenController {
             FXMLLoader fxmlLoader = new FXMLLoader();
             UserScreenController controller = new UserScreenController(this);
             fxmlLoader.setController(controller);
-            Parent root = fxmlLoader.load(controller.getClass().getResource("userScreen.fxml").openStream());
+            Parent root = fxmlLoader.load(controller.getClass().getResource("userscreen.fxml").openStream());
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
+    
+    public void switchToUserProfileScreen() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            userProfileController controller = new userProfileController(this);
+            fxmlLoader.setController(controller);
+            Parent root = fxmlLoader.load(controller.getClass().getResource("userProfileFXML.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
 }
