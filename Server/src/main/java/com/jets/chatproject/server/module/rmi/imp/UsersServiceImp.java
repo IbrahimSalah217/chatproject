@@ -28,7 +28,7 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
     UsersDao usersDao;
     PicturesDao picturesDao;
 
-    public UsersServiceImp(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException  {
+    public UsersServiceImp(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException {
         this.sessionManager = sessionManager;
         usersDao = daosFactory.getUsersDao();
         picturesDao = daosFactory.getPicturesDao();
@@ -58,11 +58,6 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
     public UserDTO getProfileByPhone(String session, String userPhone) throws RemoteException {
         try {
             User user = usersDao.findByPhone(userPhone);
-            if (user == null) {
-                System.out.println(session + ":" + userPhone);
-            } else {
-                System.out.println("Ok");
-            }
             return DTOMapper.createUserDTO(user);
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
