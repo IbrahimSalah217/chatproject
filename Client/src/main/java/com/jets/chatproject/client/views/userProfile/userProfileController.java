@@ -127,6 +127,7 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void addGroupAction(MouseEvent event) {
+        screenController.switchToAddGroupsScreen();
     }
 
     @FXML
