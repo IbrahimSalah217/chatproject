@@ -77,7 +77,7 @@ public class RequestsDaoImp implements RequestsDoa {
     @Override
     public Request findBySenderReceiver(int senderId, int receiverId) throws Exception {
         Connection conn = dataSource.getConnection();
-        String query = "select * from Requests where sender_id = ? and receiver_id = ?";
+        String query = "select * from requests where sender_id = ? and receiver_id = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(query);
         preparedStatement.setInt(1, senderId);
         preparedStatement.setInt(2, receiverId);

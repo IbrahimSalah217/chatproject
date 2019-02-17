@@ -6,6 +6,7 @@
 package com.jets.chatproject.client.controller;
 
 import com.jets.chatproject.client.ChatApp;
+import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.views.addcontacts.AddContactsController;
 import com.jets.chatproject.client.views.addgroups.AddgroupsController;
@@ -15,6 +16,9 @@ import com.jets.chatproject.client.views.register.RegisterController;
 import com.jets.chatproject.client.views.updateprofile.UpdateProfileFXMLController;
 import com.jets.chatproject.client.views.userProfile.userProfileController;
 import com.jets.chatproject.client.views.userscreen.UserScreenController;
+import com.jets.chatproject.module.rmi.AuthService;
+import com.jets.chatproject.module.rmi.UsersService;
+import com.jets.chatproject.module.rmi.client.ClientCallback;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +37,7 @@ public class ScreenController {
 
     private String session;
     private String phone;
+    private int id;
 
     public ScreenController(Stage stage) {
         this.stage = stage;
@@ -41,6 +46,20 @@ public class ScreenController {
     public void saveSession(String session, String phone) {
         this.session = session;
         this.phone = phone;
+        try {
+            if (session != null) {
+                ClientCallback clientCallback
+                        = ServiceLocator.getService(ClientCallback.class);
+                AuthService authService
+                        = ServiceLocator.getService(AuthService.class);
+                authService.setCallBack(session, clientCallback);
+                UsersService usersService
+                        = ServiceLocator.getService(UsersService.class);
+                this.id = usersService.getProfileByPhone(session, phone).getId();
+            }
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
     }
 
     public String getSession() {
@@ -49,6 +68,14 @@ public class ScreenController {
 
     public String getPhone() {
         return phone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void switchToLoginPhoneScreen() {
@@ -100,10 +127,6 @@ public class ScreenController {
     }
 
     public void switchToUserScreen() {
-        switchToUpdateProfileScreen();
-        if (1 < 10) {
-            return;
-        }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             UserScreenController controller = new UserScreenController(this);
@@ -145,6 +168,7 @@ public class ScreenController {
             Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void switchToUSerProfileScreen() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();

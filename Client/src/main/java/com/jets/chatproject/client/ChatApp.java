@@ -5,7 +5,11 @@
  */
 package com.jets.chatproject.client;
 
+import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
+import com.jets.chatproject.client.util.DialogUtils;
+import com.jets.chatproject.module.rmi.AuthService;
+import com.jets.chatproject.module.rmi.client.ClientCallback;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -21,9 +25,13 @@ public class ChatApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        screenController = new ScreenController(primaryStage);
-        screenController.switchToLoginPhoneScreen();
+        try {
+            this.primaryStage = primaryStage;
+            screenController = new ScreenController(primaryStage);
+            screenController.switchToLoginPhoneScreen();
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
     }
 
     public static void main(String[] args) {

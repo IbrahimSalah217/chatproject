@@ -109,4 +109,24 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public DirectMessage findMessageById(int id) throws Exception {
+        Connection connection = dataSource.getConnection();
+        String query = "select * from direct_messages where id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery(query);
+        if (resultSet.next()) {
+            int senderId = resultSet.getInt(2);
+            int receiverId = resultSet.getInt(3);
+            MessageType messageType = MessageType.valueOf(resultSet.getString(4));
+            String content = resultSet.getString(5);
+            String fontStyle = resultSet.getString(6);
+            Date time = resultSet.getTimestamp(7);
+            return new DirectMessage(id, senderId, receiverId,
+                    messageType, content, fontStyle, time);
+        }
+        return null;
+    }
+
 }

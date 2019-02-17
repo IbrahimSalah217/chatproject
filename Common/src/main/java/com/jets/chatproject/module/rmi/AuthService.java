@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.module.rmi;
 
+import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -22,5 +23,7 @@ public interface AuthService extends Remote {
     void logout(String session) throws RemoteException;
 
     boolean checkPhone(String phone) throws RemoteException;
+
+    void setCallBack(String session, ClientCallback clientCallback) throws RemoteException;
 
 }
