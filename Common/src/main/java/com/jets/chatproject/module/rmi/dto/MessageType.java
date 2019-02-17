@@ -5,10 +5,12 @@
  */
 package com.jets.chatproject.module.rmi.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ibrahim
  */
-public enum MessageType {
+public enum MessageType implements Serializable{
     PLAIN_TEXT, RICH_TEXT
 }

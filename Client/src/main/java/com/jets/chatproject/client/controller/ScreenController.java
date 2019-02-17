@@ -6,12 +6,14 @@
 package com.jets.chatproject.client.controller;
 
 import com.jets.chatproject.client.ChatApp;
+import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.views.addcontacts.AddContactsController;
 import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.client.views.login.LoginPasswordController;
 import com.jets.chatproject.client.views.messages.MessagesController;
 import com.jets.chatproject.client.views.register.RegisterController;
 import com.jets.chatproject.client.views.updateprofile.UpdateProfileFXMLController;
+import com.jets.chatproject.client.views.userProfile.userProfileController;
 import com.jets.chatproject.client.views.userscreen.UserScreenController;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -131,8 +133,9 @@ public class ScreenController {
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("AddContacts.fxml").openStream());
             Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            Stage contactsStage = new Stage();
+            contactsStage.setScene(scene);
+            contactsStage.show();
         } catch (IOException ex) {
             Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -149,6 +152,20 @@ public class ScreenController {
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void switchToUSerProfileScreen() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            userProfileController controller = new userProfileController(this);
+            fxmlLoader.setController(controller);
+            Parent root = fxmlLoader.load(controller.getClass().getResource("userProfileFXML.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            DialogUtils.showException(ex);
         }
     }
 

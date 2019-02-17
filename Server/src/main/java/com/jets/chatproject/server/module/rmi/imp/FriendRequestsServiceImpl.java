@@ -40,7 +40,7 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
     }
 
     @Override
-    public void sendRequest(String session, String phone, String email) throws RemoteException {
+    public void sendRequest(String session, String phone) throws RemoteException {
         try {
             int senderId = sessionManager.findUserId(session);
             int receiverId = userdao.findByPhone(phone).getId();

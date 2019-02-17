@@ -50,6 +50,8 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
         try {
             int userId = sessionManager.findUserId(session);
             List<Friendship> friendships = friendshipsDao.getAllFriendshipsForUser(userId);
+            System.out.println("com.jets.chatproject.server.module.rmi.imp.FriendshipServiceImp.getAllFriendships()");
+            
             List<FriendshipDTO> result = new ArrayList<>();
             for (Friendship friendship : friendships) {
                 User friend = usersDao.findById(friendship.getFriendId());

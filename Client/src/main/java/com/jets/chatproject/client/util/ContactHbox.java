@@ -17,6 +17,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /**
  *
@@ -32,6 +33,11 @@ public class ContactHbox extends ListCell<FriendshipDTO> {
 
     public ContactHbox(String session) {
         this.session = session;
+        
+        userImage.setFitHeight(60);
+        userImage.setFitWidth(60);
+        //Circle clip = new Circle(30);
+        //userImage.setClip(clip);
         hBox.getChildren().addAll(userImage, friendName);
         try {
             usersService = ServiceLocator.getService(UsersService.class);
@@ -50,7 +56,7 @@ public class ContactHbox extends ListCell<FriendshipDTO> {
             try {
                 Image image = new Image(new ByteArrayInputStream(usersService.getPicture(session, friend.getMemberPictureId())));
                 userImage.setImage(image);
-                friendName.setText(friend.getFriendName());
+                friendName.setText(friend.getFriendName()+"\n"+friend.getLastMessage().getContent());
                 setGraphic(hBox);
             } catch (RemoteException ex) {
                 Logger.getLogger(ContactHbox.class.getName()).log(Level.SEVERE, null, ex);

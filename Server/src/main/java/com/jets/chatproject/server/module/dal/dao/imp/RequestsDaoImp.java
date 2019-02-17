@@ -52,9 +52,10 @@ public class RequestsDaoImp implements RequestsDoa {
         preparedStatement.setInt(2, request.getReceiverId());
         preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
         preparedStatement.executeUpdate();
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        generatedKeys.next();
-        return generatedKeys.getInt(1);
+//        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+//        generatedKeys.next();
+//        return generatedKeys.getInt(1);
+       return 0;
     }
 
     @Override

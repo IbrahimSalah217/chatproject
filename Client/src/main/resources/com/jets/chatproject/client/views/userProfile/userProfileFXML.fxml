@@ -61,6 +61,6 @@
             <Circle fx:id="statusCircle" fill="#10d39c" layoutX="244.0" layoutY="21.0" onKeyPressed="#statusAction" onMouseDragEntered="#statusLable" radius="18.0" rotate="10.3" stroke="#612424" strokeLineCap="ROUND" strokeWidth="0.0" />
          </children>
       </Pane>
-      <Pane layoutX="265.0" layoutY="-2.0" prefHeight="570.0" prefWidth="570.0" />
+      <Pane fx:id="switchPane" layoutX="265.0" layoutY="-2.0" prefHeight="570.0" prefWidth="570.0" />
    </children>
 </AnchorPane>
