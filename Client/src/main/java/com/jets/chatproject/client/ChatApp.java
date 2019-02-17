@@ -27,16 +27,8 @@ public class ChatApp extends Application {
     public void start(Stage primaryStage) {
         try {
             this.primaryStage = primaryStage;
-            ClientCallback clientCallback
-                    = ServiceLocator.getService(ClientCallback.class);
-            AuthService authService
-                    = ServiceLocator.getService(AuthService.class);
-            String session = "19";
-            authService.setCallBack(session, clientCallback);
             screenController = new ScreenController(primaryStage);
-            screenController.saveSession(session, "01014348668");
-            screenController.setId(Integer.valueOf(session));
-            screenController.switchToMessagesScreen();
+            screenController.switchToLoginPhoneScreen();
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }

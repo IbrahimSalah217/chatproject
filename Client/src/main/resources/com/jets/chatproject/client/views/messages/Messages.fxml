@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -30,12 +29,4 @@
     <center>
         <ListView fx:id="messagesListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
     </center>
-    <top>
-        <HBox prefWidth="200.0" BorderPane.alignment="CENTER">
-            <children>
-                <TextField fx:id="chatId" onAction="#changeId" />
-                <ComboBox fx:id="typeComboBox" prefWidth="150.0" />
-            </children>
-        </HBox>
-    </top>
 </BorderPane>
