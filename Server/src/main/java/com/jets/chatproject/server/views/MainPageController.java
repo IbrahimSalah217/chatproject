@@ -5,6 +5,8 @@ package com.jets.chatproject.server.views;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.jets.chatproject.server.module.dal.dao.DaosFactory;
+import com.jets.chatproject.server.module.dal.dao.imp.DbDaosFactory;
 import com.jets.chatproject.server.views.manageservice.ServerManagerController;
 import com.jets.chatproject.server.views.serverstatistics.ServerStatisticsController;
 import com.jets.chatproject.server.views.userregister.RegisterController;
@@ -44,9 +46,11 @@ public class MainPageController implements Initializable {
     @FXML
     private Button ManageService;
     Stage stage;
+    DaosFactory daosFactory ;
 
     public MainPageController(Stage stage) {
         this.stage = stage;
+        daosFactory = new DbDaosFactory();
     }
 
     @Override
@@ -55,7 +59,7 @@ public class MainPageController implements Initializable {
         UserRegistration.setOnAction((ActionEvent event) -> {
             
             FXMLLoader loader = new FXMLLoader();
-            RegisterController controller = new RegisterController();
+            RegisterController controller = new RegisterController(daosFactory);
             loader.setController(controller);
             try {
                 Parent root = loader.load(getClass().getResource("register.fxml"));
@@ -70,7 +74,7 @@ public class MainPageController implements Initializable {
         ServerStatistics.setOnAction((ActionEvent event) -> {
 
             FXMLLoader loader = new FXMLLoader();
-            ServerStatisticsController controller = new ServerStatisticsController();
+            ServerStatisticsController controller = new ServerStatisticsController(daosFactory);
             loader.setController(controller);
             try {
                 Parent root = loader.load(getClass().getResource("ServerStatistics.fxml"));
