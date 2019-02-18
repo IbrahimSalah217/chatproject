@@ -9,6 +9,7 @@ package com.jets.chatproject.server.views.userregister;
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
+import com.jets.chatproject.server.module.dal.dao.imp.DbDaosFactory;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.net.URL;
 import java.sql.Date;
@@ -59,13 +60,15 @@ public class RegisterController implements Initializable {
     InputsValidation inputsValidation;
     User user;
     UsersDao userDao ; 
+    DbDaosFactory daosFactory ;
 
 
 
     public RegisterController() {
         
         name = password = verifyPassword = email = country = gender = phoneNumber = "";
-        
+        daosFactory = new DbDaosFactory();
+        userDao = daosFactory.getUsersDao();
     }
 
     @Override
