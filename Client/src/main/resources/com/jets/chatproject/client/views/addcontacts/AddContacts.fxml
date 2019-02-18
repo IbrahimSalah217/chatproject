@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
@@ -20,7 +20,10 @@
    <bottom>
       <StackPane>
          <children>
-            <Button mnemonicParsing="false" onAction="#addAll" text="Add All" StackPane.alignment="CENTER_RIGHT" />
+            <Button mnemonicParsing="false" onAction="#addAll" text="Add All" StackPane.alignment="CENTER_RIGHT">
+               <font>
+                  <Font name="Showcard Gothic" size="12.0" />
+               </font></Button>
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -28,10 +31,16 @@
       </StackPane>
    </bottom>
    <top>
-      <HBox spacing="10.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="paneAddContacts" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="phoneTextField" onAction="#checkPhone" promptText="Phone Number" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#checkPhone" text="Check" />
+            <TextField fx:id="phoneTextField" onAction="#checkPhone" promptText="Phone Number" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></TextField>
+            <Button mnemonicParsing="false" onAction="#checkPhone" text="Check">
+               <font>
+                  <Font name="Showcard Gothic" size="12.0" />
+               </font></Button>
          </children>
          <padding>
             <Insets left="100.0" right="100.0" />
