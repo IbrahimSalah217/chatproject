@@ -30,6 +30,10 @@ public class RequestDTO implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public int getSenderId() {
+        return senderId;
+    }
+
     public String getSenderName() {
         return senderName;
     }

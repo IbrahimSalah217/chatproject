@@ -9,10 +9,16 @@ import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.ContactHbox;
 import com.jets.chatproject.client.util.DialogUtils;
+import com.jets.chatproject.client.util.GroupHbox;
+import com.jets.chatproject.client.util.RequestHbox;
 import com.jets.chatproject.client.views.messages.MessagesController;
+import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.FriendshipService;
+import com.jets.chatproject.module.rmi.GroupsService;
 import com.jets.chatproject.module.rmi.MessagesService;
 import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
+import com.jets.chatproject.module.rmi.dto.GroupDTO;
+import com.jets.chatproject.module.rmi.dto.RequestDTO;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -27,9 +33,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
@@ -60,7 +68,14 @@ public class userProfileController implements Initializable {
     @FXML
     private ImageView logoutLable;
     @FXML
+    private ImageView requestsView;
+    @FXML
     private ListView<FriendshipDTO> listMessages;
+    @FXML
+    private ListView<GroupDTO> listGroups;
+    @FXML
+    private ListView<RequestDTO> listRequests;
+
     @FXML
     private ImageView userImage;
     @FXML
@@ -72,24 +87,46 @@ public class userProfileController implements Initializable {
 
     ScreenController screenController;
     MessagesService messageService;
+    GroupsService groupsService;
+    GroupDTO groupDto;
     FriendshipService friendshipService;
+    FriendRequestsService requestsService;
     String userSession;
     String userPhone;
     FriendshipDTO friendshipDTO;
     ObservableList<FriendshipDTO> myFriendsList;
+    ObservableList<GroupDTO> myGroupsList;
+    ObservableList<RequestDTO> myRequestsList;
 
     public userProfileController(ScreenController screenController) {
         this.screenController = screenController;
         userSession = screenController.getSession();
+        userPhone = screenController.getPhone();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
+        Tooltip.install(userImage, new Tooltip("Update profile"));
+        Tooltip.install(contactsBtn, new Tooltip("conatcts"));
+        Tooltip.install(groupsBtn, new Tooltip("groups"));
+        Tooltip.install(setting, new Tooltip("setting"));
+        Tooltip.install(addContactImage, new Tooltip("add contact"));
+        Tooltip.install(addGroupAction, new Tooltip("create group"));
+        Tooltip.install(logoutLable, new Tooltip("log Out"));
 
-            System.out.println("user profile " + screenController.getSession());
+        try {
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             friendshipService.getAllFriendships(userSession);
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
+        try {
+            groupsService = ServiceLocator.getService(GroupsService.class);
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
+        try {
+            requestsService = ServiceLocator.getService(FriendRequestsService.class);
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -114,7 +151,7 @@ public class userProfileController implements Initializable {
             switchPane.getChildren().clear();
             switchPane.getChildren().add(root);
         } catch (IOException ex) {
-            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            DialogUtils.showException(ex);
         }
     }
 
@@ -134,13 +171,29 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void groupsAction(MouseEvent event) {
-        
+        try {
+            listGroups.setVisible(true);
+            listMessages.setVisible(false);
+            listRequests.setVisible(false);
+            List<GroupDTO> returnedGroups = groupsService.getAllGroups(userSession);
+            myGroupsList = FXCollections.observableArrayList(returnedGroups);
+            listGroups.getItems().clear();
+            listGroups.setItems(myGroupsList);
+            listGroups.setCellFactory((param) -> {
+                return new GroupHbox(userSession);
+            });
+        } catch (RemoteException ex) {
+            DialogUtils.showException(ex);
+        }
     }
 
     @FXML
     private void contactsAction(MouseEvent event) {
 
         try {
+            listMessages.setVisible(true);
+            listGroups.setVisible(false);
+            listRequests.setVisible(false);
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             userSession = screenController.getSession();
             List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
@@ -153,6 +206,29 @@ public class userProfileController implements Initializable {
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
+    }
+    @FXML
+    private void requestsViewAction(MouseEvent event) {
+        
+        listRequests.setVisible(true);
+        listMessages.setVisible(false);
+        listGroups.setVisible(false);
+        try {
+            List<RequestDTO> returnedRequests = requestsService.getAllRequests(userSession);
+            myRequestsList = FXCollections.observableArrayList(returnedRequests);
+            listRequests.getItems().clear();
+            listRequests.setItems(myRequestsList);
+            System.out.println(returnedRequests.get(0).getSenderName());
+            listRequests.setCellFactory((param) -> {
+                System.out.println("com.jets.chatproject.client.views.userProfile.userProfileController.requestsViewAction()");
+                return new RequestHbox(userSession);
+                
+            });
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @FXML
@@ -169,6 +245,7 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void updateProfileAction(MouseEvent event) {
+
     }
 
     @FXML
@@ -182,5 +259,7 @@ public class userProfileController implements Initializable {
     @FXML
     private void addContactsign(MouseEvent event) {
     }
+
+    
 
 }
