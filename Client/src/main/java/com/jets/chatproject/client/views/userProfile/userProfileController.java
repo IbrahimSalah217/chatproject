@@ -228,7 +228,7 @@ public class userProfileController implements Initializable {
             });
             
         } catch (RemoteException ex) {
-            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            DialogUtils.showException(ex);
         }
         
     }

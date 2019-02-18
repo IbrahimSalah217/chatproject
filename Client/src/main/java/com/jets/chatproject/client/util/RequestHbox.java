@@ -52,6 +52,7 @@ public class RequestHbox extends ListCell<RequestDTO> {
         hBox.getChildren().addAll(userImage, friendName,acceptBtn,pane,rejectBtn);
         try {
             usersService = ServiceLocator.getService(UsersService.class);
+            requestService = ServiceLocator.getService(FriendRequestsService.class);
             
         } catch (Exception ex) {
             DialogUtils.showException(ex);

@@ -47,7 +47,7 @@ import javafx.scene.text.TextFlow;
  * @author ibrahim
  */
 public class MessagesController implements Initializable {
-    
+
     @FXML
     private ToggleButton boldToggle;
     @FXML
@@ -66,11 +66,11 @@ public class MessagesController implements Initializable {
     private Button sendButton;
     @FXML
     private ListView<MessageDTO> messagesListView;
-    
+
     ScreenController screenController;
     MessagesService messagesService;
     ClientCallbackImp clientCallback;
-    
+
     private final ClientCallbackImp.MessageListener messageListener
             = new ClientCallbackImp.MessageListener() {
         @Override
@@ -82,7 +82,7 @@ public class MessagesController implements Initializable {
                 });
             }
         }
-        
+
         @Override
         public void onGroupMessageReceived(int groupId, MessageDTO message) {
             System.out.println(groupId);
@@ -93,15 +93,15 @@ public class MessagesController implements Initializable {
             }
         }
     };
-    
+
     ChatType chatType;
     int id;
     MessageFormat messageFormat = new MessageFormat();
-    
+
     public enum ChatType {
         Direct, Group
     }
-    
+
     public MessagesController(ScreenController screenController, ChatType chatType, int id) {
         this.screenController = screenController;
         this.chatType = chatType;
@@ -114,10 +114,9 @@ public class MessagesController implements Initializable {
             Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         messagesListView.setCellFactory(listView -> {
             return new ListCell<MessageDTO>() {
                 @Override
@@ -136,7 +135,7 @@ public class MessagesController implements Initializable {
                         text.setFont(Font.font(Font.getDefault().getFamily(),
                                 weight, posture, message.getFormat().getFontSize()));
                         setGraphic(flow);
-                    }else{
+                    } else {
                         setGraphic(null);
                     }
                 }
@@ -145,7 +144,7 @@ public class MessagesController implements Initializable {
         messagesListView.getItems().addListener((ListChangeListener.Change<? extends MessageDTO> c) -> {
             messagesListView.scrollTo(c.getList().size() - 1);
         });
-        
+
         try {
             switch (chatType) {
                 case Direct:
@@ -153,7 +152,7 @@ public class MessagesController implements Initializable {
                             = messagesService.getAllDirectMessages(screenController.getSession(), id);
                     messagesListView.getItems().addAll(allDirectMessages);
                     break;
-                
+
                 case Group:
                     List<MessageDTO> allGroupMessages
                             = messagesService.getAllGroupMessages(screenController.getSession(), id);
@@ -163,7 +162,7 @@ public class MessagesController implements Initializable {
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-        
+
         fontSizeCombo.getItems().addAll(12, 14, 16, 18, 20, 22, 26, 30, 36, 44);
         fontSizeCombo.setButtonCell(new ListCell<Integer>() {
             @Override
@@ -172,10 +171,10 @@ public class MessagesController implements Initializable {
                     setText("Font size: " + item);
                 }
             }
-            
+
         });
     }
-    
+
     @FXML
     private void sendMessage(ActionEvent event) {
         try {
@@ -201,37 +200,44 @@ public class MessagesController implements Initializable {
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-        
+
     }
-    
+
     @FXML
     private void toggleBold(ActionEvent event) {
         messageFormat.setBold(boldToggle.isSelected());
     }
-    
+
     @FXML
     private void toggleItalic(ActionEvent event) {
         messageFormat.setItalic(italicToggle.isSelected());
     }
-    
+
     @FXML
     private void toggleUnderline(ActionEvent event) {
         messageFormat.setUnderline(underlineToggle.isSelected());
     }
-    
+
     @FXML
     private void pickTextColor(ActionEvent event) {
         messageFormat.setTextColor((int) Long.decode(textColorPicker.getValue().toString()).longValue());
     }
-    
+
     @FXML
     private void pickBackgroundColor(ActionEvent event) {
         messageFormat.setBackgroundColor(backgroundColorPicker.getValue().hashCode());
     }
-    
+
     @FXML
     private void setFontSize(ActionEvent event) {
         messageFormat.setFontSize(fontSizeCombo.getValue());
     }
     
+    private void updateStyle(){
+        FontWeight weight = messageFormat.isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
+        FontPosture posture = messageFormat.isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
+        messageTextField.setFont(Font.font(Font.getDefault().getFamily(),
+                weight, posture, messageFormat.getFontSize()));
+    }
+
 }
