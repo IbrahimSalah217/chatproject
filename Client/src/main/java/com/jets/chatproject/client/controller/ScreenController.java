@@ -86,6 +86,7 @@ public class ScreenController {
         try {
             Parent root = loader.load(controller.getClass().getResource("loginCheckPhone.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/loginCheckPhone.css").toExternalForm());
             stage.setTitle("ButterFly Chat logIn Phone");
             stage.setScene(scene);
             stage.show();
@@ -102,6 +103,7 @@ public class ScreenController {
         try {
             Parent root = loader.load(controller.getClass().getResource("loginPassword.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/loginPassword.css").toExternalForm());
             stage.setTitle("ButterFly Chat logIn Password");
             stage.setScene(scene);
             stage.show();
@@ -118,6 +120,7 @@ public class ScreenController {
         try {
             Parent root = loader.load(controller.getClass().getResource("register.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/register.css").toExternalForm());
             stage.setTitle("ButterFly Chat Register");
             stage.setScene(scene);
             stage.show();
@@ -133,6 +136,7 @@ public class ScreenController {
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("userscreen.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/userscreen.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
@@ -147,6 +151,7 @@ public class ScreenController {
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("AddContacts.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/AddContacts.css").toExternalForm());
             Stage contactsStage = new Stage();
             contactsStage.setScene(scene);
             contactsStage.show();
@@ -162,6 +167,7 @@ public class ScreenController {
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("updateProfileFXML.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/updateProfileCSS.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
@@ -176,6 +182,7 @@ public class ScreenController {
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("userProfileFXML.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/userProfileCSS.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
@@ -189,6 +196,7 @@ public class ScreenController {
             fxmlLoader.setController(controller);
             Parent root = fxmlLoader.load(controller.getClass().getResource("addgroups.fxml").openStream());
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/addgroups.css").toExternalForm());
             Stage groupStage = new Stage();
             groupStage.setScene(scene);
             groupStage.show();
