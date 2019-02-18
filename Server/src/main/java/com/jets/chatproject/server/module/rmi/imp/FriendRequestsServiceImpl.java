@@ -95,7 +95,7 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
 
     private void deleteRequest(String session, int senderId) throws Exception {
         int userId = sessionManager.findUserId(session);
-        Request request = requestsDoa.findBySenderReceiver(userId, senderId);
+        Request request = requestsDoa.findBySenderReceiver(senderId,userId);
         requestsDoa.delete(request);
     }
 

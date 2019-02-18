@@ -23,4 +23,5 @@ public interface FriendRequestsService extends Remote {
     void acceptRequest(String session, int senderId) throws RemoteException;
 
     void rejectRequest(String session, int senderId) throws RemoteException;
+    
 }
