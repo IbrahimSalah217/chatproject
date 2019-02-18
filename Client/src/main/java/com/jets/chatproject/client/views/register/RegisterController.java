@@ -123,6 +123,11 @@ public class RegisterController implements Initializable {
     private void getName(ActionEvent event) {
         Platform.runLater(() -> emailTxtID.requestFocus());
     }
+    @FXML
+    private void backToLogIn(ActionEvent event)
+    {
+        screenController.switchToLoginPhoneScreen();
+    }
 
     @FXML
     private void getCountry(ActionEvent event) {
