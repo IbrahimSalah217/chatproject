@@ -6,6 +6,7 @@
 package com.jets.chatproject.module.rmi.dto;
 
 import java.io.Serializable;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -29,6 +30,18 @@ public class MessageFormat implements Serializable {
         this.fontSize = 12;
     }
 
+    public static void main(String[] args) {
+        MessageFormat format = new MessageFormat();
+        String formatString = format.toString();
+        System.out.println(format);
+        format = MessageFormat.of(formatString);
+        System.out.println(format.toString());
+        String c = Color.RED.toString();
+        System.out.println(c);
+        format.setTextColor((int) Long.decode(c).longValue());
+        System.out.println(format);
+    }
+
     public static MessageFormat of(String format) {
         MessageFormat messageFormat = new MessageFormat();
         if (format.matches("[Bb][Ii][Uu]:[0-9a-fA-F]{8}:[0-9a-fA-F]{8}:[0-9]+")) {
@@ -36,8 +49,8 @@ public class MessageFormat implements Serializable {
             messageFormat.bold = components[0].charAt(0) == 'B';
             messageFormat.italic = components[0].charAt(0) == 'I';
             messageFormat.underline = components[0].charAt(0) == 'U';
-            messageFormat.textColor = (int)Long.parseLong(components[1], 16);
-            messageFormat.backgroundColor = (int)Long.parseLong(components[2], 16);
+            messageFormat.textColor = (int) Long.parseLong(components[1], 16);
+            messageFormat.backgroundColor = (int) Long.parseLong(components[2], 16);
             messageFormat.fontSize = Integer.valueOf(components[3]);
         }
         return messageFormat;
@@ -80,12 +93,20 @@ public class MessageFormat implements Serializable {
         return textColor;
     }
 
+    public String getTextColorCode() {
+        return String.format("#%08x", textColor);
+    }
+
     public void setTextColor(int textColor) {
         this.textColor = textColor;
     }
 
     public int getBackgroundColor() {
         return backgroundColor;
+    }
+
+    public String getBackgroundColorCode() {
+        return String.format("#%08x", backgroundColor);
     }
 
     public void setBackgroundColor(int backgroundColor) {
@@ -102,9 +123,9 @@ public class MessageFormat implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%c%c%c:%s:%s:%d", bold ? 'B' : 'b',
+        return String.format("%c%c%c:%08x:%08x:%d", bold ? 'B' : 'b',
                 italic ? 'I' : 'i', underline ? 'U' : 'u',
-                Integer.toHexString(textColor), Integer.toHexString(backgroundColor),
+                textColor, backgroundColor,
                 fontSize);
     }
 
