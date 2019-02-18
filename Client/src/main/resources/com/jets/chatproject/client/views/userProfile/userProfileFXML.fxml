@@ -4,14 +4,14 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="addContactImage" onMouseEntered="#addContactsign" prefHeight="570.0" prefWidth="835.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Pane layoutX="1.0" layoutY="-2.0" prefHeight="570.0" prefWidth="264.0">
+<BorderPane fx:id="borderPane" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
          <children>
             <ImageView fx:id="addContatact" fitHeight="37.0" fitWidth="39.0" layoutY="85.0" onMousePressed="#addcontactAction" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -68,6 +68,5 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="switchPane" layoutX="265.0" layoutY="-2.0" prefHeight="570.0" prefWidth="570.0" />
-   </children>
-</AnchorPane>
+   </left>
+</BorderPane>

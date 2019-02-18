@@ -54,9 +54,10 @@ public class MessagesServiceImp extends UnicastRemoteObject implements MessagesS
             int userId = sessionManager.findUserId(session);
             User user = userDoa.findById(userId);
             List<MessageDTO> messages = new ArrayList<>();
-            groupMessageDao.getAllGroupMessages(groupId).forEach((message) -> {
-                messages.add(DTOMapper.createMessageDTO(user, message));
-            });
+            for (GroupMessage message : groupMessageDao.getAllGroupMessages(groupId)) {
+                User sender = userDoa.findById(message.getSenderId());
+                messages.add(DTOMapper.createMessageDTO(sender, message));
+            }
             return messages;
         } catch (Exception ex) {
             throw new RemoteException("database Error getAllGroupMessages", ex);
@@ -70,9 +71,10 @@ public class MessagesServiceImp extends UnicastRemoteObject implements MessagesS
             int userId = sessionManager.findUserId(session);
             User user = userDoa.findById(userId);
             List<MessageDTO> messages = new ArrayList<>();
-            directmessageDao.getAllDirectMessages(userId, friendId).forEach((message) -> {
-                messages.add(DTOMapper.createMessageDTO(user, message));
-            });
+            for (DirectMessage message : directmessageDao.getAllDirectMessages(userId, friendId)) {
+                User sender = userDoa.findById(message.getSenderId());
+                messages.add(DTOMapper.createMessageDTO(sender, message));
+            }
             return messages;
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);

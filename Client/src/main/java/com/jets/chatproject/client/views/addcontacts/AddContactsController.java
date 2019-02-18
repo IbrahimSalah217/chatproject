@@ -22,6 +22,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -39,9 +41,9 @@ public class AddContactsController implements Initializable {
     private TextField phoneTextField;
 
     private ScreenController screenController;
-    
+
     ObservableList<String> contactsToAdd;
-    
+
     FriendRequestsService friendRequestsService;
 
     public AddContactsController(ScreenController screenController) {
@@ -52,7 +54,7 @@ public class AddContactsController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(AddContactsController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @Override
@@ -68,11 +70,16 @@ public class AddContactsController implements Initializable {
         try {
             AuthService authService = ServiceLocator.getService(AuthService.class);
             boolean isExist = authService.checkPhone(phoneTextField.getText().trim());
-            if(isExist){
+            if (isExist) {
                 contactsToAdd.add(phoneTextField.getText().trim());
                 phoneTextField.clear();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setTitle("User not fould");
+                alert.setContentText("Unfortunately this user is not registered");
+                alert.showAndWait();
             }
-            
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -81,14 +88,14 @@ public class AddContactsController implements Initializable {
     @FXML
     private void addAll(ActionEvent ae) {
         contactsToAdd.stream().forEach(
-                (s)->{
-            try {
-                friendRequestsService.sendRequest(screenController.getSession(),s);
-            } catch (RemoteException ex) {
-                DialogUtils.showException(ex);
-            }
-        });
-
+                (s) -> {
+                    try {
+                        friendRequestsService.sendRequest(screenController.getSession(), s);
+                    } catch (RemoteException ex) {
+                        DialogUtils.showException(ex);
+                    }
+                });
+        listView.getScene().getWindow().hide();
     }
 
 }
