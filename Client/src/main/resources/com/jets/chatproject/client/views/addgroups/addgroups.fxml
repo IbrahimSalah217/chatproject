@@ -19,7 +19,7 @@
                   <Font name="Algerian" size="15.0" />
                </font>
             </Button>
-            <ImageView fitHeight="115.0" fitWidth="122.0" layoutX="25.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="groupImg" fitHeight="115.0" fitWidth="122.0" layoutX="25.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/addgroup2.png" />
                </image>
