@@ -6,18 +6,19 @@ package com.jets.chatproject.server.views.serverstatistics;
  * and open the template in the editor.
  */
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
-import com.jets.chatproject.server.module.dal.dao.UsersDao;
-import com.jets.chatproject.server.module.dal.entities.User;
+import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -27,30 +28,86 @@ import javafx.scene.chart.NumberAxis;
 public class ServerStatisticsController implements Initializable {
 
     @FXML
-    private BarChart barChart;
+    private Button onlineOffline;
     @FXML
-    private CategoryAxis xAxis;
+    private Button gender;
     @FXML
-    private NumberAxis yAxis;
-    UsersDao userDao;
-    List<User> userList;
+    private Button allUsers;
+    @FXML
+    private Button country;
+    Stage stage;
+    DaosFactory daosFactory;
+
 
     public ServerStatisticsController(DaosFactory daosFactory) {
-        userDao = daosFactory.getUsersDao();
+        
+        this.daosFactory = daosFactory;
+        stage = new Stage();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        try {
-            xAxis.setLabel("Users");
-            yAxis.setLabel("categories");
-            userList = userDao.findAllUser();
+        
+        onlineOffline.setOnAction((ActionEvent event)->{
+        
+            FXMLLoader loader = new FXMLLoader();
+            OnlineStatisticsController controller = new OnlineStatisticsController(daosFactory);
+            loader.setController(controller);
+            try {
+                Parent root = loader.load(getClass().getResource("OnlineStatistics.fxml"));
+                Scene scene = new Scene(root);
+                stage.setTitle("Online Statistics");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(ServerStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        gender.setOnAction((ActionEvent event)->{
             
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
+            FXMLLoader loader = new FXMLLoader();
+            GenderStatisticsController controller = new GenderStatisticsController(daosFactory);
+            loader.setController(controller);
+            try {
+                Parent root = loader.load(getClass().getResource("GenderStatistics.fxml"));
+                Scene scene = new Scene(root);
+                stage.setTitle("Gender Statistics");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(ServerStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        country.setOnAction((ActionEvent event)->{
+        
+            FXMLLoader loader = new FXMLLoader();
+            CountryStatisticsController controller = new CountryStatisticsController(daosFactory);
+            loader.setController(controller);
+            try {
+                Parent root = loader.load(getClass().getResource("CountryStatistics.fxml"));
+                Scene scene = new Scene(root);
+                stage.setTitle("Country Statistics");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(ServerStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        allUsers.setOnAction((ActionEvent event)->{
+        
+            FXMLLoader loader = new FXMLLoader();
+            AllUsersStatisticsController controller = new AllUsersStatisticsController(daosFactory);
+            loader.setController(controller);
+            try {
+                Parent root = loader.load(getClass().getResource("AllUsersStatistics.fxml"));
+                Scene scene = new Scene(root);
+                stage.setTitle("All Users Statistics");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(ServerStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
 }

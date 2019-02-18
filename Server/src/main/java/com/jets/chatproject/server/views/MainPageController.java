@@ -8,7 +8,9 @@ package com.jets.chatproject.server.views;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.imp.DbDaosFactory;
 import com.jets.chatproject.server.views.manageservice.ServerManagerController;
+import com.jets.chatproject.server.views.serverannouncement.ServerAnnouncementController;
 import com.jets.chatproject.server.views.serverstatistics.ServerStatisticsController;
+import com.jets.chatproject.server.views.userdatamodification.UserDataModificationController;
 import com.jets.chatproject.server.views.userregister.RegisterController;
 import java.io.IOException;
 import java.net.URL;
@@ -36,11 +38,7 @@ public class MainPageController implements Initializable {
     @FXML
     private Button ServerStatistics;
     @FXML
-    private Button ServerAvailability;
-    @FXML
     private Button ServerAnnouncement;
-    @FXML
-    private Button DataAvailability;
     @FXML
     private Button UserDataModification;
     @FXML
@@ -87,70 +85,39 @@ public class MainPageController implements Initializable {
             }
 
         });
-//        ServerAvailability.setOnAction((ActionEvent event) -> {
-//
-//            FXMLLoader loader = new FXMLLoader();
-//            RegisterController controller = new RegisterController();
-//            loader.setController(controller);
-//            try {
-//                Parent root = loader.load(getClass().getResource("chatPageFXML.fxml"));
-//                Scene scene = new Scene(root);
-//                stage.setTitle("Server Manager");
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException ex) {
-//                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//        });
-//        ServerAnnouncement.setOnAction((ActionEvent event) -> {
-//
-//            FXMLLoader loader = new FXMLLoader();
-//            RegisterController controller = new RegisterController();
-//            loader.setController(controller);
-//            try {
-//                Parent root = loader.load(getClass().getResource("chatPageFXML.fxml"));
-//                Scene scene = new Scene(root);
-//                stage.setTitle("Server Manager");
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException ex) {
-//                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//        });
-//        DataAvailability.setOnAction((ActionEvent event) -> {
-//
-//            FXMLLoader loader = new FXMLLoader();
-//            RegisterController controller = new RegisterController();
-//            loader.setController(controller);
-//            try {
-//                Parent root = loader.load(getClass().getResource("chatPageFXML.fxml"));
-//                Scene scene = new Scene(root);
-//                stage.setTitle("Server Manager");
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException ex) {
-//                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//        });
-//        UserDataModification.setOnAction((ActionEvent event) -> {
-//            
-//            FXMLLoader loader = new FXMLLoader();
-//            RegisterController controller = new RegisterController();
-//            loader.setController(controller);
-//            try {
-//                Parent root = loader.load(getClass().getResource("chatPageFXML.fxml"));
-//                Scene scene = new Scene(root);
-//                stage.setTitle("Server Manager");
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException ex) {
-//                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//        });
+
+        ServerAnnouncement.setOnAction((ActionEvent event) -> {
+
+            FXMLLoader loader = new FXMLLoader();
+            ServerAnnouncementController controller = new ServerAnnouncementController();
+            loader.setController(controller);
+            try {
+                Parent root = loader.load(getClass().getResource("ServerAnnouncement.fxml"));
+                Scene scene = new Scene(root);
+                stage.setTitle("Server Manager");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        });
+        UserDataModification.setOnAction((ActionEvent event) -> {
+            
+            FXMLLoader loader = new FXMLLoader();
+            UserDataModificationController controller = new UserDataModificationController(daosFactory);
+            loader.setController(controller);
+            try {
+                Parent root = loader.load(getClass().getResource("UserDataModification.fxml"));
+                Scene scene = new Scene(root);
+                stage.setTitle("Server Manager");
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        });
         ManageService.setOnAction((ActionEvent event) -> {
 
             FXMLLoader loader = new FXMLLoader();
