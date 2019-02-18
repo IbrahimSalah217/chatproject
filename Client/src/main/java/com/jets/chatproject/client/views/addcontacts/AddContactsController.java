@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -70,14 +72,21 @@ public class AddContactsController implements Initializable {
         try {
             AuthService authService = ServiceLocator.getService(AuthService.class);
             boolean isExist = authService.checkPhone(phoneTextField.getText().trim());
-            if (isExist) {
-                contactsToAdd.add(phoneTextField.getText().trim());
-                phoneTextField.clear();
+            if (checkPhoneNumber(phoneTextField.getText())) {
+                if (isExist) {
+                    contactsToAdd.add(phoneTextField.getText().trim());
+                    phoneTextField.clear();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText(null);
+                    alert.setTitle("User not fould");
+                    alert.setContentText("Unfortunately this user is not registered");
+                    alert.showAndWait();
+                }
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
-                alert.setTitle("User not fould");
-                alert.setContentText("Unfortunately this user is not registered");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Invalid Phone Number!");
+                alert.setContentText("Please, Enter the phone number correctly");
                 alert.showAndWait();
             }
         } catch (Exception ex) {
@@ -96,6 +105,16 @@ public class AddContactsController implements Initializable {
                     }
                 });
         listView.getScene().getWindow().hide();
+    }
+
+    public boolean checkPhoneNumber(String phoneNumber) {
+        boolean isCorrect = true;
+        Pattern pattern = Pattern.compile("\\d{11}");
+        Matcher matcher = pattern.matcher(phoneNumber);
+        if (!matcher.matches()) {
+            isCorrect = false;
+        }
+        return isCorrect;
     }
 
 }

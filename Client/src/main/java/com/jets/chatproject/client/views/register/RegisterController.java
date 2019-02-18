@@ -197,15 +197,16 @@ public class RegisterController implements Initializable {
     }
 
     public byte[] extractBytes(Image img) {
+        byte[] imageToBytes = null;
         try {
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(img, null);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ImageIO.write(bufferedImage, "png", stream);
-            bytesImage = stream.toByteArray();
+            imageToBytes = stream.toByteArray();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return (bytesImage);
+        return imageToBytes;
     }
 
     private void getAlert(String header, String content, Alert.AlertType alertType) {
