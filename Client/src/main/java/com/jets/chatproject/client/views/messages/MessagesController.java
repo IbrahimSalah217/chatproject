@@ -18,14 +18,11 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -47,13 +44,11 @@ import javafx.scene.text.TextFlow;
  * @author ibrahim
  */
 public class MessagesController implements Initializable {
-    
+
     @FXML
     private ToggleButton boldToggle;
     @FXML
     private ToggleButton italicToggle;
-    @FXML
-    private ToggleButton underlineToggle;
     @FXML
     private ColorPicker textColorPicker;
     @FXML
@@ -66,11 +61,15 @@ public class MessagesController implements Initializable {
     private Button sendButton;
     @FXML
     private ListView<MessageDTO> messagesListView;
-    
+
     ScreenController screenController;
     MessagesService messagesService;
     ClientCallbackImp clientCallback;
-    
+
+    ChatType chatType;
+    int id;
+    MessageFormat messageFormat = new MessageFormat();
+
     private final ClientCallbackImp.MessageListener messageListener
             = new ClientCallbackImp.MessageListener() {
         @Override
@@ -82,7 +81,7 @@ public class MessagesController implements Initializable {
                 });
             }
         }
-        
+
         @Override
         public void onGroupMessageReceived(int groupId, MessageDTO message) {
             System.out.println(groupId);
@@ -93,31 +92,27 @@ public class MessagesController implements Initializable {
             }
         }
     };
-    
-    ChatType chatType;
-    int id;
-    MessageFormat messageFormat = new MessageFormat();
-    
+
     public enum ChatType {
         Direct, Group
     }
-    
+
     public MessagesController(ScreenController screenController, ChatType chatType, int id) {
-        this.screenController = screenController;
-        this.chatType = chatType;
-        this.id = id;
         try {
+            this.screenController = screenController;
+            this.chatType = chatType;
+            this.id = id;
             messagesService = ServiceLocator.getService(MessagesService.class);
             clientCallback = (ClientCallbackImp) ServiceLocator.getService(ClientCallback.class);
             clientCallback.addMessageListener(messageListener);
         } catch (Exception ex) {
-            Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+            DialogUtils.showException(ex);
         }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         messagesListView.setCellFactory(listView -> {
             return new ListCell<MessageDTO>() {
                 @Override
@@ -131,12 +126,17 @@ public class MessagesController implements Initializable {
                         } else {
                             text.setText(message.getSenderName() + ": " + message.getContent());
                         }
-                        FontWeight weight = message.getFormat().isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
-                        FontPosture posture = message.getFormat().isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
+                        FontWeight weight
+                                = message.getFormat().isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
+                        FontPosture posture
+                                = message.getFormat().isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
                         text.setFont(Font.font(Font.getDefault().getFamily(),
                                 weight, posture, message.getFormat().getFontSize()));
+                        text.setFill(Color.web(message.getFormat().getTextColorCode()));
+                        flow.setStyle("-fx-background-color:" + message.getFormat().getBackgroundColorCode());
                         setGraphic(flow);
-                    }else{
+                        setStyle("-fx-padding: 0px;");
+                    } else {
                         setGraphic(null);
                     }
                 }
@@ -145,7 +145,7 @@ public class MessagesController implements Initializable {
         messagesListView.getItems().addListener((ListChangeListener.Change<? extends MessageDTO> c) -> {
             messagesListView.scrollTo(c.getList().size() - 1);
         });
-        
+
         try {
             switch (chatType) {
                 case Direct:
@@ -153,7 +153,7 @@ public class MessagesController implements Initializable {
                             = messagesService.getAllDirectMessages(screenController.getSession(), id);
                     messagesListView.getItems().addAll(allDirectMessages);
                     break;
-                
+
                 case Group:
                     List<MessageDTO> allGroupMessages
                             = messagesService.getAllGroupMessages(screenController.getSession(), id);
@@ -163,7 +163,7 @@ public class MessagesController implements Initializable {
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-        
+
         fontSizeCombo.getItems().addAll(12, 14, 16, 18, 20, 22, 26, 30, 36, 44);
         fontSizeCombo.setButtonCell(new ListCell<Integer>() {
             @Override
@@ -172,10 +172,13 @@ public class MessagesController implements Initializable {
                     setText("Font size: " + item);
                 }
             }
-            
+
         });
+
+        textColorPicker.setStyle("-fx-color-label-visible: false;");
+        backgroundColorPicker.setStyle("-fx-color-label-visible: false;");
     }
-    
+
     @FXML
     private void sendMessage(ActionEvent event) {
         try {
@@ -201,37 +204,49 @@ public class MessagesController implements Initializable {
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-        
+
     }
-    
+
     @FXML
     private void toggleBold(ActionEvent event) {
         messageFormat.setBold(boldToggle.isSelected());
+        updateTextField();
     }
-    
+
     @FXML
     private void toggleItalic(ActionEvent event) {
         messageFormat.setItalic(italicToggle.isSelected());
+        updateTextField();
     }
-    
-    @FXML
-    private void toggleUnderline(ActionEvent event) {
-        messageFormat.setUnderline(underlineToggle.isSelected());
-    }
-    
+
     @FXML
     private void pickTextColor(ActionEvent event) {
         messageFormat.setTextColor((int) Long.decode(textColorPicker.getValue().toString()).longValue());
+        updateTextField();
     }
-    
+
     @FXML
     private void pickBackgroundColor(ActionEvent event) {
-        messageFormat.setBackgroundColor(backgroundColorPicker.getValue().hashCode());
+        messageFormat.setBackgroundColor((int) Long.decode(backgroundColorPicker.getValue().toString()).longValue());
+        updateTextField();
     }
-    
+
     @FXML
     private void setFontSize(ActionEvent event) {
         messageFormat.setFontSize(fontSizeCombo.getValue());
+        updateTextField();
     }
-    
+
+    private void updateTextField() {
+        FontWeight weight
+                = messageFormat.isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
+        FontPosture posture
+                = messageFormat.isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
+        messageTextField.setFont(Font.font(Font.getDefault().getFamily(),
+                weight, posture, messageFormat.getFontSize()));
+
+        messageTextField.setStyle("-fx-text-fill:" + messageFormat.getTextColorCode() + ";"
+                + "-fx-control-inner-background:" + messageFormat.getBackgroundColorCode());
+    }
+
 }
