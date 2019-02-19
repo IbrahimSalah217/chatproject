@@ -30,7 +30,7 @@ public class GroupsDaoImp implements GroupsDao {
     @Override
     public List<Group> findAllForUser(int userId) throws Exception {
         Connection conn = dataSource.getConnection();
-        String query = "select * from groups g JOIN group_members gm ON g.groub_id = gm.groub_id where gm.user_id = ?";
+        String query = "select groub_id , admin_id , display_name , picture_id from groups g join group_members gm where (groub_id = groub_id) and gm.user_id = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(query);
         preparedStatement.setInt(1, userId);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -46,12 +46,13 @@ public class GroupsDaoImp implements GroupsDao {
     @Override
     public int insert(Group object) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "insert into groups (admin_id,disply_name,picture_id) values(?,?,?)";
+        String query = "insert into groups (admin_id,display_name,picture_id) values("+
+                object.getAdminId()+",'"+object.getGroupName()+"',"+object.getPictureId()+")";
         PreparedStatement preparedStatement = connection.prepareStatement(query,
                 Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setInt(1, object.getAdminId());
-        preparedStatement.setString(2, object.getGroupName());
-        preparedStatement.setInt(3, object.getPictureId());
+//        preparedStatement.setInt(1, object.getAdminId());
+//        preparedStatement.setString(2, object.getGroupName());
+//        preparedStatement.setInt(3, object.getPictureId());
         preparedStatement.executeUpdate();
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
