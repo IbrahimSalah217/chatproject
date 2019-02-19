@@ -68,10 +68,11 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
     public void updateProfile(String session, UserDTO userProfile, byte[] picture) throws RemoteException {
         try {
             int userId = sessionManager.findUserId(session);
-            if (userId != userProfile.getId()) {
-                throw new RemoteException("Unauthorized operation");
-            }
-            User user = usersDao.findById(userProfile.getId());
+//            if (userId != userProfile.getId()) {
+//                throw new RemoteException("Unauthorized operation");
+//            }
+            picturesDao.update(new Picture(userProfile.getPictureId(), picture));
+            User user = usersDao.findById(userId);
             user.setDisplyName(userProfile.getDisplyName());
             user.setEmail(userProfile.getEmail());
             user.setGender(userProfile.getGender());
