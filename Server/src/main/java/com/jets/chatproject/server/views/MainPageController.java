@@ -53,6 +53,7 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("hello");
 
         UserRegistration.setOnAction((ActionEvent event) -> {
             
@@ -60,7 +61,7 @@ public class MainPageController implements Initializable {
             RegisterController controller = new RegisterController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(controller.getClass().getResource("register.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("register.fxml").openStream());
                 Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
@@ -75,7 +76,7 @@ public class MainPageController implements Initializable {
             ServerStatisticsController controller = new ServerStatisticsController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(controller.getClass().getResource("ServerStatistics.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("ServerStatistics.fxml").openStream());
                 Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
@@ -92,7 +93,7 @@ public class MainPageController implements Initializable {
             ServerAnnouncementController controller = new ServerAnnouncementController();
             loader.setController(controller);
             try {
-                Parent root = loader.load(controller.getClass().getResource("ServerAnnouncement.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("ServerAnnouncement.fxml").openStream());
                 Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
@@ -108,7 +109,7 @@ public class MainPageController implements Initializable {
             UserDataModificationController controller = new UserDataModificationController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(controller.getClass().getResource("UserDataModification.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("UserDataModification.fxml").openStream());
                 Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
@@ -120,11 +121,12 @@ public class MainPageController implements Initializable {
         });
         ManageService.setOnAction((ActionEvent event) -> {
 
+            System.out.println("done");
             FXMLLoader loader = new FXMLLoader();
             ServerManagerController controller = new ServerManagerController();
             loader.setController(controller);
             try {
-                Parent root = loader.load(controller.getClass().getResource("ServerManager.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("ServerManager.fxml").openStream());
                 Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);

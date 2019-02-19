@@ -91,7 +91,7 @@ public class ServerApplication extends Application {
 
     private static <T extends Remote> void unbind(Registry registry, Class<T> service)
             throws AccessException, RemoteException, NotBoundException {
-        System.out.println("Binding service: " + service.getName());
+        System.out.println("Unbinding service: " + service.getName());
         registry.unbind(service.getName());
     }
 
@@ -129,7 +129,7 @@ public class ServerApplication extends Application {
         FXMLLoader loader = new FXMLLoader();
         MainPageController controller = new MainPageController(primaryStage);
         loader.setController(controller);
-        Parent root = loader.load(controller.getClass().getResource("MainPage.fxml"));
+        Parent root = loader.load(controller.getClass().getResource("MainPage.fxml").openStream());
         Scene scene = new Scene(root, 800, 400);
         primaryStage.setTitle("Server Manager");
         primaryStage.setScene(scene);

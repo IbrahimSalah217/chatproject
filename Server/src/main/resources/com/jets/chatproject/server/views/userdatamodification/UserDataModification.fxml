@@ -4,22 +4,17 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="1108.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <TableView fx:id="tableInfo" prefHeight="633.0" prefWidth="1124.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tableInfo" prefHeight="633.0" prefWidth="926.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="userId" prefWidth="31.0" text="id" />
-          <TableColumn fx:id="userPhoneNumber" prefWidth="110.0" text="phoneNumber" />
-            <TableColumn fx:id="userName" prefWidth="135.0" text="displyName" />
-            <TableColumn fx:id="userEmail" prefWidth="198.0" text="email" />
-            <TableColumn fx:id="userPassword" prefWidth="74.0" text="password" />
-            <TableColumn fx:id="userGender" prefWidth="74.0" text="gender" />
-            <TableColumn fx:id="userCountry" prefWidth="87.0" text="country" />
-            <TableColumn fx:id="userDateOfBirth" prefWidth="93.0" text="dateOfBirth" />
-            <TableColumn fx:id="userBio" prefWidth="154.0" text="bio" />
-            <TableColumn fx:id="userState" prefWidth="74.0" text="state" />
-            <TableColumn fx:id="userPictureId" prefWidth="77.0" text="pictureId" />
+          <TableColumn fx:id="userId" prefWidth="42.0" text="id" />
+          <TableColumn fx:id="userPhoneNumber" prefWidth="114.0" text="phoneNumber" />
+            <TableColumn fx:id="userName" prefWidth="174.0" text="dispalyName" />
+            <TableColumn fx:id="userEmail" prefWidth="195.0" text="email" />
+            <TableColumn fx:id="userGender" prefWidth="115.0" text="gender" />
+            <TableColumn fx:id="userCountry" prefWidth="136.0" text="country" />
+            <TableColumn fx:id="userDateOfBirth" prefWidth="148.0" text="dateOfBirth" />
         </columns>
       </TableView>
    </left>
