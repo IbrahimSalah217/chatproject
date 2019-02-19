@@ -30,6 +30,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
@@ -118,9 +119,10 @@ public class UpdateProfileFXMLController implements Initializable {
         genderCBoxID.setValue(oldUser.getGender().name());
        //LocalDate localDate = oldUser.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         //datePickerID.setValue(localDate);
+        
         try {
             bytesImage = usersService.getPicture(userSession, oldUser.getPictureId());
-            image = image = new Image(new ByteArrayInputStream(bytesImage), 30, 30, true, true);
+            image = new Image(new ByteArrayInputStream(bytesImage));
             userImageID.setImage(image);
         } catch (RemoteException ex) {
             Logger.getLogger(UpdateProfileFXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,7 +143,8 @@ public class UpdateProfileFXMLController implements Initializable {
                 newUser = new UserDTO(1, phoneNumber, name, email, Gender.valueOf(gender), country, birthdate, bioIn, 1);
                 usersService.updateProfile(userSession, newUser, bytesImage);
                 getAlert("You've Updated Your Profile successfully", "", Alert.AlertType.INFORMATION);
-                screenController.switchToUserScreen();
+                genderCBoxID.getScene().getWindow().hide();
+                         screenController.switchToUSerProfileScreen();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -199,7 +202,8 @@ public class UpdateProfileFXMLController implements Initializable {
         Alert alert = new Alert(alertType);
         alert.setHeaderText(header);
         alert.setContentText(content);
-        alert.showAndWait();
+        alert.showAndWait().get();//.equals(ButtonType.OK)&& (header.equalsIgnoreCase("Invalid Data!")));
+     //       screenController.switchToUSerProfileScreen();
     }
 
 }
