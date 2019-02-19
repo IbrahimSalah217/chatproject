@@ -73,7 +73,11 @@ public class FriendshipsDaoImp implements FriendshipsDao {
         statement.setInt(2, object.getFriendId());
         statement.setString(3, object.getCategory());
         statement.setBoolean(4, object.isBlocked());
-        statement.setInt(5, object.getLastSeenMessageId());
+        if (object.getLastSeenMessageId() == -1) {
+            statement.setNull(5, java.sql.Types.INTEGER);
+        } else {
+            statement.setInt(5, object.getLastSeenMessageId());
+        }
         statement.executeUpdate();
         return -1;
     }
