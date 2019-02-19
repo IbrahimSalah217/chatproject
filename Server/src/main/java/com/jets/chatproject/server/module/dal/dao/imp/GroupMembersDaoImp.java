@@ -10,6 +10,7 @@ import com.jets.chatproject.server.module.dal.entities.GroupMember;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -64,7 +65,11 @@ public class GroupMembersDaoImp implements GroupMembersDao {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, object.getGroupId());
         preparedStatement.setInt(2, object.getUserId());
-        preparedStatement.setInt(3, object.getLastSeenMessageId());
+        if (object.getLastSeenMessageId() == -1) {
+            preparedStatement.setNull(3, Types.INTEGER);
+        } else {
+            preparedStatement.setInt(3, object.getLastSeenMessageId());
+        }
         preparedStatement.executeUpdate();
         return -1;
     }

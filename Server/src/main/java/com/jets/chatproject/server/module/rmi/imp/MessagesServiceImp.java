@@ -91,6 +91,7 @@ public class MessagesServiceImp extends UnicastRemoteObject implements MessagesS
                             messageDto.getFormat().toString(),
                             messageDto.getTimestamp());
             groupMessageDao.insert(message);
+            messageDto.setSenderName(userDoa.findById(userId).getDisplyName());
             List<GroupMember> findAllByGroup = groupMembersDao.findAllByGroup(groupId);
             if (findAllByGroup != null) {
                 findAllByGroup.forEach(groupMember -> {
@@ -112,7 +113,7 @@ public class MessagesServiceImp extends UnicastRemoteObject implements MessagesS
                             messageDto.getType(), messageDto.getContent(),
                             messageDto.getFormat().toString(),
                             messageDto.getTimestamp());
-            int id = directmessageDao.insert(message);
+            directmessageDao.insert(message);
             messageDto.setSenderName(userDoa.findById(userId).getDisplyName());
             Broadcaster.getInstance().broadcastDirectMessage(userId, friendId, messageDto);
             Broadcaster.getInstance().broadcastDirectMessage(friendId, userId, messageDto);

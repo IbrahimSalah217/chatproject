@@ -34,7 +34,7 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
     public GroupMessage getLastMessage(int groupId) throws Exception {
         GroupMessage groupMessage = null;
         Connection connection = dataSource.getConnection();
-        String query = "select * from group_messages where group_id = "+groupId+" ORDER BY time desc limit 1";
+        String query = "select * from group_messages where group_id = " + groupId + " ORDER BY time desc limit 1";
         PreparedStatement statement = connection.prepareStatement(query);
         //statement.setInt(1, groupId);
         ResultSet resultSet = statement.executeQuery(query);
@@ -48,15 +48,14 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
             Date time = resultSet.getTimestamp(7);
             groupMessage = new GroupMessage(id, senderId, group_Id, messageType, Content, fontStyle, time);
         }
-            return groupMessage;
+        return groupMessage;
     }
 
     @Override
     public List<GroupMessage> getAllGroupMessages(int groupId) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "select * from group_messages where groupd_id = ? Order by by time";
+        String query = "select * from group_messages where group_id = " + groupId;
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, groupId);
         ResultSet resultSet = statement.executeQuery(query);
         List<GroupMessage> messages = new ArrayList<>();
         while (resultSet.next()) {
@@ -75,7 +74,7 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
     @Override
     public int insert(GroupMessage groupMessage) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "insert into group_members (sender_id, group_id, message_type, content, font_style, time) values(?,?,?,?,?,?)";
+        String query = "insert into group_messages (sender_id, group_id, message_type, content, font_style, time) values(?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setInt(1, groupMessage.getSenderId());
         preparedStatement.setInt(2, groupMessage.getGroupId());
