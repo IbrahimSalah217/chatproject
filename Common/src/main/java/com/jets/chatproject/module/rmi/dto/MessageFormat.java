@@ -26,7 +26,7 @@ public class MessageFormat implements Serializable {
         this.italic = false;
         this.underline = false;
         this.textColor = 0x000000FF;
-        this.backgroundColor = 0xFFFFFF00;
+        this.backgroundColor = 0xFFFFFFFF;
         this.fontSize = 12;
     }
 
