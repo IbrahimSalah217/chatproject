@@ -13,6 +13,8 @@ import java.util.List;
  * @author ibrahim
  */
 public interface DirectMessagesDao extends AbstractDAO<DirectMessage> {
+    
+    DirectMessage findMessageById(int id) throws Exception;
 
     DirectMessage getLastDirectMessage(int userId, int anotherUserId) throws Exception;
 

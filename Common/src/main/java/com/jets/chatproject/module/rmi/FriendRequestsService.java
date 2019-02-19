@@ -16,11 +16,12 @@ import java.util.List;
  */
 public interface FriendRequestsService extends Remote {
 
-    void sendRequest(String session, String phone, String email) throws RemoteException;
+    void sendRequest(String session, String phone) throws RemoteException;
 
     List<RequestDTO> getAllRequests(String session) throws RemoteException;
 
     void acceptRequest(String session, int senderId) throws RemoteException;
 
     void rejectRequest(String session, int senderId) throws RemoteException;
+    
 }

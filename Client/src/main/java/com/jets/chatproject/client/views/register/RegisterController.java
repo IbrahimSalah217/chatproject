@@ -1,9 +1,7 @@
 package com.jets.chatproject.client.views.register;
 
-import com.jets.chatproject.client.ChatApp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
-import com.jets.chatproject.client.views.login.LoginCheckPhoneController;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
@@ -20,10 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -35,7 +30,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
 /**
@@ -129,6 +123,11 @@ public class RegisterController implements Initializable {
     private void getName(ActionEvent event) {
         Platform.runLater(() -> emailTxtID.requestFocus());
     }
+    @FXML
+    private void backToLogIn(ActionEvent event)
+    {
+        screenController.switchToLoginPhoneScreen();
+    }
 
     @FXML
     private void getCountry(ActionEvent event) {
@@ -179,7 +178,6 @@ public class RegisterController implements Initializable {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
         }
 
     }
@@ -204,15 +202,16 @@ public class RegisterController implements Initializable {
     }
 
     public byte[] extractBytes(Image img) {
+        byte[] imageToBytes = null;
         try {
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(img, null);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ImageIO.write(bufferedImage, "png", stream);
-            bytesImage = stream.toByteArray();
+            imageToBytes = stream.toByteArray();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return (bytesImage);
+        return imageToBytes;
     }
 
     private void getAlert(String header, String content, Alert.AlertType alertType) {

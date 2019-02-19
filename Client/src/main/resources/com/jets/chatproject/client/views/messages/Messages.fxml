@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <ListView fx:id="messagesListView" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="5.0" right="5.0" top="5.0" />
+            </BorderPane.margin>
+        </ListView>
+    </center>
+    <bottom>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                    <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                    <children>
+                        <ToggleButton fx:id="boldToggle" focusTraversable="false" mnemonicParsing="false" onAction="#toggleBold" text="B" />
+                        <ToggleButton fx:id="italicToggle" focusTraversable="false" mnemonicParsing="false" onAction="#toggleItalic" text="I" />
+                  <Label text="Text">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                        <ColorPicker fx:id="textColorPicker" focusTraversable="false" onAction="#pickTextColor" promptText="Text Color" style="-fx-color-label-visible: false;">
+                            <value>
+                                <Color blue="0.0" green="0.0" red="0.0" />
+                            </value>
+                        </ColorPicker>
+                  <Label text="Background">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                        <ColorPicker fx:id="backgroundColorPicker" focusTraversable="false" onAction="#pickBackgroundColor" promptText="Background Color" style="-fx-color-label-visible: false;" />
+                        <ComboBox fx:id="fontSizeCombo" focusTraversable="false" onAction="#setFontSize" promptText="Font size: 12" />
+                    </children>
+                </HBox>
+                <HBox spacing="5.0">
+                    <children>
+                        <TextField fx:id="messageTextField" onAction="#sendMessage" promptText="Messsage..." HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </TextField>
+                        <Button fx:id="sendButton" focusTraversable="false" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendMessage" prefWidth="60.0" text="Send" />
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </bottom>
+</BorderPane>

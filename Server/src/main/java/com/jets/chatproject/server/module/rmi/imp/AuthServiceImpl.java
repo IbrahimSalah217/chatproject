@@ -6,6 +6,7 @@
 package com.jets.chatproject.server.module.rmi.imp;
 
 import com.jets.chatproject.module.rmi.AuthService;
+import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
@@ -14,6 +15,7 @@ import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.Picture;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.dal.entities.User;
+import com.jets.chatproject.server.module.session.Broadcaster;
 import java.rmi.server.UnicastRemoteObject;
 import com.jets.chatproject.server.module.session.SessionManager;
 
@@ -76,6 +78,13 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
         }
+    }
+
+    @Override
+    public void setCallBack(String session, ClientCallback clientCallback) throws RemoteException {
+        Broadcaster.getInstance().saveClient(
+                sessionManager.findUserId(session),
+                clientCallback);
     }
 
 }

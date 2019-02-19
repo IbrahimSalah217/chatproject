@@ -32,10 +32,11 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
 
     @Override
     public GroupMessage getLastMessage(int groupId) throws Exception {
+        GroupMessage groupMessage = null;
         Connection connection = dataSource.getConnection();
-        String query = "select * from group_messages where groupd_id = ? sort by time desc limit 1";
+        String query = "select * from group_messages where group_id = "+groupId+" ORDER BY time desc limit 1";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, groupId);
+        //statement.setInt(1, groupId);
         ResultSet resultSet = statement.executeQuery(query);
         if (resultSet.next()) {
             int id = resultSet.getInt(1);
@@ -45,16 +46,15 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
             String Content = resultSet.getString(5);
             String fontStyle = resultSet.getString(6);
             Date time = resultSet.getTimestamp(7);
-            return new GroupMessage(id, senderId, group_Id, messageType, Content, fontStyle, time);
-        } else {
-            return null;
+            groupMessage = new GroupMessage(id, senderId, group_Id, messageType, Content, fontStyle, time);
         }
+            return groupMessage;
     }
 
     @Override
     public List<GroupMessage> getAllGroupMessages(int groupId) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "select * from group_messages where groupd_id = ? sort by time";
+        String query = "select * from group_messages where groupd_id = ? Order by by time";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, groupId);
         ResultSet resultSet = statement.executeQuery(query);

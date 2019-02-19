@@ -27,10 +27,7 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -88,15 +85,14 @@ public class UpdateProfileFXMLController implements Initializable {
 
     ScreenController screenController;
 
-    /**
-     * Initializes the controller class.
-     */
-    public UpdateProfileFXMLController(ScreenController screenController, String userSession, String phoneNumber) {
-        this.userSession = userSession;
+    public UpdateProfileFXMLController(ScreenController screenController) {
         this.screenController = screenController;
+        userSession = screenController.getSession();
+        phoneNumber = screenController.getPhone();
         try {
+            System.out.println(userSession + ":" + phoneNumber);
             usersService = ServiceLocator.getService(UsersService.class);
-            this.oldUser = usersService.getProfileByPhone(userSession, phoneNumber);
+            oldUser = usersService.getProfileByPhone(userSession, phoneNumber);
         } catch (RemoteException ex) {
             Logger.getLogger(UpdateProfileFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -120,8 +116,8 @@ public class UpdateProfileFXMLController implements Initializable {
         emailTxtID.setText(oldUser.getEmail());
         countryTxtID.setText(oldUser.getCountry());
         genderCBoxID.setValue(oldUser.getGender().name());
-        LocalDate localDate = oldUser.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        datePickerID.setValue(localDate);
+       //LocalDate localDate = oldUser.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //datePickerID.setValue(localDate);
         try {
             bytesImage = usersService.getPicture(userSession, oldUser.getPictureId());
             image = image = new Image(new ByteArrayInputStream(bytesImage), 30, 30, true, true);

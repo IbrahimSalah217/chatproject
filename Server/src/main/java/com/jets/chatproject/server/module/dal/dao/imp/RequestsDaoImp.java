@@ -52,9 +52,10 @@ public class RequestsDaoImp implements RequestsDoa {
         preparedStatement.setInt(2, request.getReceiverId());
         preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
         preparedStatement.executeUpdate();
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        generatedKeys.next();
-        return generatedKeys.getInt(1);
+//        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+//        generatedKeys.next();
+//        return generatedKeys.getInt(1);
+       return 0;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class RequestsDaoImp implements RequestsDoa {
     @Override
     public Request findBySenderReceiver(int senderId, int receiverId) throws Exception {
         Connection conn = dataSource.getConnection();
-        String query = "select * from Requests where sender_id = ? and receiver_id = ?";
+        String query = "select * from requests where sender_id = ? and receiver_id = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(query);
         preparedStatement.setInt(1, senderId);
         preparedStatement.setInt(2, receiverId);
