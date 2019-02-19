@@ -50,7 +50,8 @@ public class UsersDaoImp implements UsersDao {
             Date dateOfBirth = resultSet.getDate(9);
             String bio = resultSet.getString(10);
             int pictureId = resultSet.getInt(11);
-            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId);
+            boolean systemRegistration = resultSet.getBoolean(12);
+            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration);
         } else {
             return null;
         }
@@ -75,7 +76,8 @@ public class UsersDaoImp implements UsersDao {
             Date dateOfBirth = resultSet.getDate(9);
             String bio = resultSet.getString(10);
             int pictureId = resultSet.getInt(11);
-            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId);
+            boolean systemRegistration = resultSet.getBoolean(12);
+            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration);
         } else {
             return null;
         }
@@ -84,7 +86,7 @@ public class UsersDaoImp implements UsersDao {
     @Override
     public int insert(User user) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "insert into users (phone_number, display_name, email, password, state, gender, country, date_of_birth, bio, picture_id) values(?,?,?,?,?,?,?,?,?,?)";
+        String query = "insert into users (phone_number, display_name, email, password, state, gender, country, date_of_birth, bio, picture_id, system_registration) values(?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, user.getPhoneNumber());
         preparedStatement.setString(2, user.getDisplyName());
@@ -96,6 +98,7 @@ public class UsersDaoImp implements UsersDao {
         preparedStatement.setDate(8, new java.sql.Date(user.getDateOfBirth().getTime()));
         preparedStatement.setString(9, user.getBio());
         preparedStatement.setInt(10, user.getPictureId());
+        preparedStatement.setBoolean(11, user.getSystemRegistration());
         preparedStatement.executeUpdate();
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
@@ -104,7 +107,7 @@ public class UsersDaoImp implements UsersDao {
 
     @Override
     public boolean update(User user) throws Exception {
-        String query = "update users set phone_number = ?, display_name = ?, email = ?, password = ?, state = ?, gender = ?, country = ?, date_of_birth = ?, bio = ?, picture_id = ? where user_id = ?";
+        String query = "update users set phone_number = ?, display_name = ?, email = ?, password = ?, state = ?, gender = ?, country = ?, date_of_birth = ?, bio = ?, picture_id = ?, system_registration = ? where user_id = ?";
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, user.getPhoneNumber());
@@ -117,7 +120,8 @@ public class UsersDaoImp implements UsersDao {
         preparedStatement.setDate(8, new java.sql.Date(user.getDateOfBirth().getTime()));
         preparedStatement.setString(9, user.getBio());
         preparedStatement.setInt(10, user.getPictureId());
-        preparedStatement.setInt(11, user.getId());
+        preparedStatement.setBoolean(11, user.getSystemRegistration());
+        preparedStatement.setInt(12, user.getId());
         preparedStatement.executeUpdate();
         return true;
     }
@@ -147,8 +151,9 @@ public class UsersDaoImp implements UsersDao {
             Date dateOfBirth = resultSet.getDate(9);
             String bio = resultSet.getString(10);
             int pictureId = resultSet.getInt(11);
+            boolean systemRegistration = resultSet.getBoolean(12);
 
-            userList.add(new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId));
+            userList.add(new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration));
         }
         return userList;
     }

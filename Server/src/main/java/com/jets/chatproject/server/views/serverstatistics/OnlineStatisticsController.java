@@ -11,6 +11,8 @@ import com.jets.chatproject.server.module.dal.entities.User;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
@@ -35,7 +37,11 @@ public class OnlineStatisticsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        userList = userDao.findAllUser();
+        try {
+            userList = userDao.findAllUser();
+        } catch (Exception ex) {
+            Logger.getLogger(OnlineStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

@@ -55,8 +55,8 @@ public class GenderStatisticsController implements Initializable {
                     femaleUserList.add(user);
                 }
             }
-            pieChartData.addAll(new PieChart().Data(Gender.MALE, maleUserList.size()),
-                    new PieChart().Data(Gender.FEMALE, femaleUserList.size()));
+            pieChartData.addAll(new PieChart.Data(Gender.MALE.toString(), maleUserList.size()),
+                    new PieChart.Data(Gender.FEMALE.toString(), femaleUserList.size()));
             genderPieChart.setData(pieChartData);
             genderPieChart.setTitle("Gender Statistics");
             for(PieChart.Data data : genderPieChart.getData()){

@@ -60,8 +60,8 @@ public class MainPageController implements Initializable {
             RegisterController controller = new RegisterController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("register.fxml"));
-                Scene scene = new Scene(root);
+                Parent root = loader.load(controller.getClass().getResource("register.fxml"));
+                Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -75,8 +75,8 @@ public class MainPageController implements Initializable {
             ServerStatisticsController controller = new ServerStatisticsController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("ServerStatistics.fxml"));
-                Scene scene = new Scene(root);
+                Parent root = loader.load(controller.getClass().getResource("ServerStatistics.fxml"));
+                Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -92,8 +92,8 @@ public class MainPageController implements Initializable {
             ServerAnnouncementController controller = new ServerAnnouncementController();
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("ServerAnnouncement.fxml"));
-                Scene scene = new Scene(root);
+                Parent root = loader.load(controller.getClass().getResource("ServerAnnouncement.fxml"));
+                Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -108,8 +108,8 @@ public class MainPageController implements Initializable {
             UserDataModificationController controller = new UserDataModificationController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("UserDataModification.fxml"));
-                Scene scene = new Scene(root);
+                Parent root = loader.load(controller.getClass().getResource("UserDataModification.fxml"));
+                Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -124,8 +124,8 @@ public class MainPageController implements Initializable {
             ServerManagerController controller = new ServerManagerController();
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("ServerManager.fxml"));
-                Scene scene = new Scene(root);
+                Parent root = loader.load(controller.getClass().getResource("ServerManager.fxml"));
+                Scene scene = new Scene(root, 800, 400);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();

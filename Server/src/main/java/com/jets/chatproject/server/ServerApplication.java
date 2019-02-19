@@ -129,7 +129,7 @@ public class ServerApplication extends Application {
         FXMLLoader loader = new FXMLLoader();
         MainPageController controller = new MainPageController(primaryStage);
         loader.setController(controller);
-        Parent root = loader.load(getClass().getResource("MainPage.fxml"));
+        Parent root = loader.load(controller.getClass().getResource("MainPage.fxml"));
         Scene scene = new Scene(root, 800, 400);
         primaryStage.setTitle("Server Manager");
         primaryStage.setScene(scene);

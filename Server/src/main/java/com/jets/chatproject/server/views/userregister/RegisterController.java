@@ -145,7 +145,7 @@ public class RegisterController implements Initializable {
             getAlert("Invalid Data!", state, Alert.AlertType.ERROR);
         } else {
             try {
-                user = new User(1, phoneNumber, name, email, password, Gender.valueOf(gender), country, birthdate, "Chat User", UserStatus.OFFLINE, 1);
+                user = new User(1, phoneNumber, name, email, password, Gender.valueOf(gender), country, birthdate, "Chat User", UserStatus.OFFLINE, 1, true);
                 
                 if (userDao.findByPhone(phoneNumber)== null) {
                     

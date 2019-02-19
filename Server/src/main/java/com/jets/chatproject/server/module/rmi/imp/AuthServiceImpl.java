@@ -53,7 +53,7 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
                 int pictureId = picturesDao.insert(new Picture(0, picture));
                 User myUser = new User(user.getId(), user.getPhoneNumber(), user.getDisplyName(),
                         user.getEmail(), password, user.getGender(), user.getCountry(), user.getDateOfBirth(),
-                        user.getBio(), UserStatus.AVAILABLE, pictureId);
+                        user.getBio(), UserStatus.OFFLINE, pictureId, false);
                 int userId = userdao.insert(myUser);
                 return sessionManager.createSession(userId);
             } else {

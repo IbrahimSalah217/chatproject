@@ -52,8 +52,8 @@ public class CountryStatisticsController implements Initializable {
                     otherUserList.add(user);
                 }
             }
-            pieChartData.addAll(new PieChart().Data("Egyptain Users", egyptainUserList.size()),
-                    new PieChart().Data("Other users", otherUserList.size()));
+            pieChartData.addAll(new PieChart.Data("Egyptain Users", egyptainUserList.size()),
+                    new PieChart.Data("Other users", otherUserList.size()));
             countryPieChart.setData(pieChartData);
             countryPieChart.setTitle("Gender Statistics");
             for(PieChart.Data data : countryPieChart.getData()){
