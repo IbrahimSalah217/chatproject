@@ -110,5 +110,6 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+   
 
 }

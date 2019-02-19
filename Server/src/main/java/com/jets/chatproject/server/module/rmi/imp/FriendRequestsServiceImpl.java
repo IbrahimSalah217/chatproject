@@ -12,6 +12,7 @@ import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
 import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.DTOMapper;
+import com.jets.chatproject.server.module.dal.entities.Friendship;
 import com.jets.chatproject.server.module.dal.entities.Request;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.rmi.RemoteException;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.jets.chatproject.server.module.session.SessionManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -45,14 +48,17 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
             int senderId = sessionManager.findUserId(session);
             int receiverId = userdao.findByPhone(phone).getId();
             Request request = requestsDoa.findBySenderReceiver(receiverId, senderId);
-            if (request != null) {
-                acceptRequest(session, receiverId);
-            } else {
-                Date requestTime = new Date();
-                request = new Request(senderId, receiverId, requestTime);
-                requestsDoa.insert(request);
+            Friendship friendship = friendshipsDao.findByUserAndFriend(senderId, receiverId);
+            if (friendship == null) {
+                if (request != null) {
+                    acceptRequest(session, receiverId);
+                } else {
+                    Date requestTime = new Date();
+                    request = new Request(senderId, receiverId, requestTime);
+                    requestsDoa.insert(request);
+                }
             }
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
         }
     }
@@ -95,7 +101,7 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
 
     private void deleteRequest(String session, int senderId) throws Exception {
         int userId = sessionManager.findUserId(session);
-        Request request = requestsDoa.findBySenderReceiver(senderId,userId);
+        Request request = requestsDoa.findBySenderReceiver(senderId, userId);
         requestsDoa.delete(request);
     }
 

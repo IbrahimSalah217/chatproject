@@ -10,9 +10,10 @@ import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.FriendRequestsService;
+import com.jets.chatproject.module.rmi.FriendshipService;
+import com.jets.chatproject.module.rmi.UsersService;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -47,6 +47,8 @@ public class AddContactsController implements Initializable {
     ObservableList<String> contactsToAdd;
 
     FriendRequestsService friendRequestsService;
+
+
 
     public AddContactsController(ScreenController screenController) {
         try {
@@ -96,15 +98,21 @@ public class AddContactsController implements Initializable {
 
     @FXML
     private void addAll(ActionEvent ae) {
-        contactsToAdd.stream().forEach(
-                (s) -> {
-                    try {
-                        friendRequestsService.sendRequest(screenController.getSession(), s);
-                    } catch (RemoteException ex) {
-                        DialogUtils.showException(ex);
-                    }
-                });
+        String session = screenController.getSession();
+        for(String contact:contactsToAdd){
+            try {
+                
+                friendRequestsService.sendRequest(session, contact);
+                
+            } catch (RemoteException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("You can't send this number a request");
+                alert.setContentText("there's already a pending request or this contact is already a friend.");
+                alert.showAndWait();
+            }
+        }
         listView.getScene().getWindow().hide();
+    
     }
 
     public boolean checkPhoneNumber(String phoneNumber) {
