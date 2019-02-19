@@ -46,6 +46,7 @@ public class GroupsServiceImp extends UnicastRemoteObject implements GroupsServi
         groupMemberDao = daosFactory.getGroupMembersDao();
         groupMessagesDao = daosFactory.getGroupMessagesDao();
         usersDao = daosFactory.getUsersDao();
+        groupDao = daosFactory.getGroupsDao();
     }
 
     @Override

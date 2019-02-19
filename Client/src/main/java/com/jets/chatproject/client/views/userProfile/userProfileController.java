@@ -247,7 +247,7 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void updateProfileAction(MouseEvent event) {
-
+        screenController.switchToUpdateProfileScreen();
     }
 
     @FXML

@@ -116,8 +116,8 @@ public class UpdateProfileFXMLController implements Initializable {
         emailTxtID.setText(oldUser.getEmail());
         countryTxtID.setText(oldUser.getCountry());
         genderCBoxID.setValue(oldUser.getGender().name());
-        LocalDate localDate = oldUser.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        datePickerID.setValue(localDate);
+       //LocalDate localDate = oldUser.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //datePickerID.setValue(localDate);
         try {
             bytesImage = usersService.getPicture(userSession, oldUser.getPictureId());
             image = image = new Image(new ByteArrayInputStream(bytesImage), 30, 30, true, true);
