@@ -57,7 +57,7 @@
             </ImageView>
             <Label fx:id="userNameLable" layoutX="76.0" layoutY="-1.0" prefHeight="74.0" prefWidth="157.0" text="USER NAME" textFill="#1b2280">
                <font>
-                  <Font name="Algerian" size="25.0" />
+                  <Font name="Algerian" size="16.0" />
                </font>
             </Label>
             <Circle fx:id="statusCircle" fill="#10d39c" layoutX="244.0" layoutY="21.0" onKeyPressed="#statusAction" onMouseDragEntered="#statusLable" radius="18.0" rotate="10.3" stroke="#612424" strokeLineCap="ROUND" strokeWidth="0.0" />

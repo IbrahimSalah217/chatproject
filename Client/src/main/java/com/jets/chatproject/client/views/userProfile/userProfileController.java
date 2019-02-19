@@ -16,9 +16,12 @@ import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.FriendshipService;
 import com.jets.chatproject.module.rmi.GroupsService;
 import com.jets.chatproject.module.rmi.MessagesService;
+import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
 import com.jets.chatproject.module.rmi.dto.GroupDTO;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
+import com.jets.chatproject.module.rmi.dto.UserDTO;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -38,6 +41,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
@@ -92,17 +96,20 @@ public class userProfileController implements Initializable {
     GroupDTO groupDto;
     FriendshipService friendshipService;
     FriendRequestsService requestsService;
+    UsersService userService;
     String userSession;
     String userPhone;
     FriendshipDTO friendshipDTO;
     ObservableList<FriendshipDTO> myFriendsList;
     ObservableList<GroupDTO> myGroupsList;
     ObservableList<RequestDTO> myRequestsList;
-
+    UserDTO userDto;
+    
     public userProfileController(ScreenController screenController) {
         this.screenController = screenController;
         userSession = screenController.getSession();
         userPhone = screenController.getPhone();
+        
     }
 
     @Override
@@ -116,8 +123,14 @@ public class userProfileController implements Initializable {
         Tooltip.install(logoutLable, new Tooltip("log Out"));
 
         try {
+            userService = ServiceLocator.getService(UsersService.class);
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             friendshipService.getAllFriendships(userSession);
+            userDto = userService.getProfileByPhone(userSession, userPhone);
+            byte[] storedImage = userService.getPicture(userSession, userDto.getPictureId());
+            userImage.setImage(new Image(new ByteArrayInputStream(storedImage)));
+            userNameLable.setText(userDto.getDisplyName());
+            
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -209,9 +222,10 @@ public class userProfileController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
+
     @FXML
     private void requestsViewAction(MouseEvent event) {
-        
+
         listRequests.setVisible(true);
         listMessages.setVisible(false);
         listGroups.setVisible(false);
@@ -224,13 +238,12 @@ public class userProfileController implements Initializable {
             listRequests.setCellFactory((param) -> {
                 System.out.println("com.jets.chatproject.client.views.userProfile.userProfileController.requestsViewAction()");
                 return new RequestHbox(userSession);
-                
             });
-            
+
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-        
+
     }
 
     @FXML
@@ -261,7 +274,5 @@ public class userProfileController implements Initializable {
     @FXML
     private void addContactsign(MouseEvent event) {
     }
-
-    
 
 }
