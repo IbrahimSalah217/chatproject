@@ -62,13 +62,21 @@ public class Broadcaster {
     }
 
     public void broadcastGroupMessage(int userId, int groupId, MessageDTO messageDTO) {
-        map.get(userId).forEach(client -> {
-            try {
-                client.receiveGroupMessage(groupId, messageDTO);
-            } catch (RemoteException ex) {
-                Logger.getLogger(Broadcaster.class.getName()).log(Level.SEVERE, null, ex);
+        if (map.containsKey(userId)) {
+            Iterator<ClientCallback> iterator = map.get(userId).iterator();
+            while (iterator.hasNext()) {
+                ClientCallback client = iterator.next();
+                try {
+                    client.receiveGroupMessage(groupId, messageDTO);
+                } catch (RemoteException ex) {
+                    iterator.remove();
+                }
             }
-        });
+            if (map.get(userId).isEmpty()) {
+                map.remove(userId);
+                // TODO: user offline
+            }
+        }
     }
 
 }

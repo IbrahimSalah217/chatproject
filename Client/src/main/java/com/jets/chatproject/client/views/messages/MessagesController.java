@@ -85,7 +85,7 @@ public class MessagesController implements Initializable {
         @Override
         public void onGroupMessageReceived(int groupId, MessageDTO message) {
             System.out.println(groupId);
-            if (chatType == ChatType.Direct && id == groupId) {
+            if (chatType == ChatType.Group && id == groupId) {
                 Platform.runLater(() -> {
                     messagesListView.getItems().add(message);
                 });
