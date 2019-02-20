@@ -79,4 +79,24 @@ public class Broadcaster {
         }
     }
 
+    public void broadcastFromServer(List<Integer> userIdList, MessageDTO messageDTO) {
+        userIdList.forEach((userId) -> {
+            if (map.containsKey(userId)) {
+                Iterator<ClientCallback> iterator = map.get(userId).iterator();
+                while (iterator.hasNext()) {
+                    ClientCallback client = iterator.next();
+                    try {
+                        client.receiveDirectMessage(userId, messageDTO);
+                    } catch (RemoteException ex) {
+                        iterator.remove();
+                    }
+                }
+                if (map.get(userId).isEmpty()) {
+                    map.remove(userId);
+                    // TODO: user offline
+                }
+            }
+        });
+    }
+
 }
