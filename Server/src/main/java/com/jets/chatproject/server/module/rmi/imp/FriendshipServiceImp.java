@@ -79,7 +79,7 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             friendship.setBlocked(true);
             friendshipsDao.update(friendship);
         } catch (Exception ex) {
-            Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RemoteException("data base Exception",ex);
         }
     }
 
@@ -91,7 +91,7 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             friendship.setBlocked(false);
             friendshipsDao.update(friendship);
         } catch (Exception ex) {
-            Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RemoteException("data base Exception",ex);
         }
     }
 
@@ -103,7 +103,7 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             friendship.setCategory(category);
             friendshipsDao.update(friendship);
         } catch (Exception ex) {
-            Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RemoteException("data base Exception",ex);
         }
     }
 
@@ -120,10 +120,9 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             else
                 areFriends=false;
         } catch (Exception ex) {
-            Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RemoteException("data base Exception",ex);
         }
         return areFriends;
-
     }
 
 }

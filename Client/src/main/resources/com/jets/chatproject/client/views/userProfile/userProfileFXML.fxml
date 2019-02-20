@@ -60,7 +60,7 @@
                   <Font name="Algerian" size="16.0" />
                </font>
             </Label>
-            <Circle fx:id="statusCircle" fill="#10d39c" layoutX="244.0" layoutY="21.0" onKeyPressed="#statusAction" onMouseDragEntered="#statusLable" radius="18.0" rotate="10.3" stroke="#612424" strokeLineCap="ROUND" strokeWidth="0.0" />
+            <Circle fx:id="statusCircle" fill="#10d39c" layoutX="244.0" layoutY="21.0" onMouseEntered="#statusLable" onMousePressed="#statusAction" radius="18.0" rotate="10.3" stroke="#612424" strokeLineCap="ROUND" strokeWidth="0.0" />
             <ImageView fx:id="requestsView" fitHeight="37.0" fitWidth="61.0" layoutX="-1.0" layoutY="427.0" onMousePressed="#requestsViewAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/requests.png" />

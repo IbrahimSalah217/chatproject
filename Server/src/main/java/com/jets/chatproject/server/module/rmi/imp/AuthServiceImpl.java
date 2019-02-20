@@ -18,6 +18,8 @@ import com.jets.chatproject.server.module.dal.entities.User;
 import com.jets.chatproject.server.module.session.Broadcaster;
 import java.rmi.server.UnicastRemoteObject;
 import com.jets.chatproject.server.module.session.SessionManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -86,5 +88,7 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
                 sessionManager.findUserId(session),
                 clientCallback);
     }
+
+    
 
 }

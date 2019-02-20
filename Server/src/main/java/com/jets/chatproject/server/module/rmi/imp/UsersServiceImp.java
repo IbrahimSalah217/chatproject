@@ -108,4 +108,32 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
         }
     }
 
+    @Override
+    public void updateStatus(String session, UserStatus status) throws RemoteException {
+        try {
+            int userID = sessionManager.findUserId(session);
+            User user = usersDao.findById(userID);
+            user.setState(status);
+            usersDao.update(user);
+        } catch (Exception ex) {
+            throw new RemoteException("Data Base Exception", ex);
+        }
+    }
+
+    @Override
+    public UserStatus getStatus(String userSession, int friendId) throws RemoteException {
+        int userId;
+        User user;
+        try {
+              userId = sessionManager.findUserId(userSession);
+              if (friendId == -1) {
+                user = usersDao.findById(userId);
+              } else {
+                user = usersDao.findById(friendId);
+            }
+        } catch (Exception ex) {
+            throw new RemoteException("Data Base Exception", ex);
+        }
+        return user.getState();
+    }
 }

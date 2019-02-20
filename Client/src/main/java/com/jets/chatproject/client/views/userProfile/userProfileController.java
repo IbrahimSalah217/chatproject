@@ -359,7 +359,8 @@ public class userProfileController implements Initializable {
     }
 
     @FXML
-    private void statusAction(KeyEvent event) {
+    private void statusAction(MouseEvent event) {
+    try{
         if (userColor.equals(Color.GREEN)) {
             userStatus = UserStatus.BUSY;
             userService.updateStatus(userSession, userStatus);
@@ -380,6 +381,10 @@ public class userProfileController implements Initializable {
             userService.updateStatus(userSession, userStatus);
             userColor = Color.GREEN;
             Tooltip.install(statusCircle, new Tooltip("Available"));
+        }
+        statusCircle.setFill(userColor);
+    }catch(RemoteException ex){
+            DialogUtils.showException(ex);
         }
         
     }
