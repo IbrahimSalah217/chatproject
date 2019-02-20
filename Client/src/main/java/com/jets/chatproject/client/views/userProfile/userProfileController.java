@@ -44,6 +44,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
 import org.controlsfx.control.Notifications;
 
@@ -156,6 +157,8 @@ public class userProfileController implements Initializable {
                             .text(message.getContent())
                             .position(Pos.TOP_RIGHT)
                             .show();
+                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                    audioClip.play();
                 });
             }
 
@@ -167,6 +170,8 @@ public class userProfileController implements Initializable {
                             .text(message.getContent())
                             .position(Pos.TOP_RIGHT)
                             .show();
+                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                    audioClip.play();
                 });
             }
         });
