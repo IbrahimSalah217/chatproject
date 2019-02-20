@@ -12,6 +12,7 @@ import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.util.GroupHbox;
 import com.jets.chatproject.client.util.RequestHbox;
 import com.jets.chatproject.client.views.messages.MessagesController;
+import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.FriendshipService;
 import com.jets.chatproject.module.rmi.GroupsService;
@@ -33,7 +34,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -44,7 +44,6 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
 /**
@@ -53,7 +52,7 @@ import javafx.scene.shape.Circle;
  * @author Ibrahim
  */
 public class userProfileController implements Initializable {
-
+    
     @FXML
     private AnchorPane addContactImage;
     @FXML
@@ -76,7 +75,7 @@ public class userProfileController implements Initializable {
     private ListView<GroupDTO> listGroups;
     @FXML
     private ListView<RequestDTO> listRequests;
-
+    
     @FXML
     private ImageView userImage;
     @FXML
@@ -85,26 +84,26 @@ public class userProfileController implements Initializable {
     private Circle statusCircle;
     @FXML
     private BorderPane borderPane;
-
+    
     ScreenController screenController;
     MessagesService messageService;
     GroupsService groupsService;
-    GroupDTO groupDto;
     FriendshipService friendshipService;
     FriendRequestsService requestsService;
+    AuthService authService;
     String userSession;
     String userPhone;
     FriendshipDTO friendshipDTO;
     ObservableList<FriendshipDTO> myFriendsList;
     ObservableList<GroupDTO> myGroupsList;
     ObservableList<RequestDTO> myRequestsList;
-
+    
     public userProfileController(ScreenController screenController) {
         this.screenController = screenController;
         userSession = screenController.getSession();
         userPhone = screenController.getPhone();
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Tooltip.install(userImage, new Tooltip("Update profile"));
@@ -114,9 +113,10 @@ public class userProfileController implements Initializable {
         Tooltip.install(addContactImage, new Tooltip("add contact"));
         Tooltip.install(addGroupAction, new Tooltip("create group"));
         Tooltip.install(logoutLable, new Tooltip("log Out"));
-
+        
         try {
             friendshipService = ServiceLocator.getService(FriendshipService.class);
+            authService= ServiceLocator.getService(AuthService.class);
             friendshipService.getAllFriendships(userSession);
         } catch (Exception ex) {
             DialogUtils.showException(ex);
@@ -131,18 +131,26 @@ public class userProfileController implements Initializable {
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
-
+        
         listMessages.getSelectionModel().selectedItemProperty()
-                .addListener(new ChangeListener<FriendshipDTO>() {
-                    @Override
-                    public void changed(ObservableValue<? extends FriendshipDTO> observable, FriendshipDTO oldValue, FriendshipDTO newValue) {
-                        if (newValue != null) {
-                            showChatFor(newValue);
-                        }
+                .addListener((ObservableValue<? extends FriendshipDTO> observable,
+                        FriendshipDTO oldValue, FriendshipDTO newValue) -> {
+                    if (newValue != null) {
+                        showChatFor(newValue);
+                    }
+                });
+        
+        listGroups.getSelectionModel().selectedItemProperty()
+                .addListener((ObservableValue<? extends GroupDTO> observable,
+                        GroupDTO oldValue, GroupDTO newValue) -> {
+                    if (newValue != null) {
+                        showChatFor(newValue);
                     }
                 });
     }
 
+  
+    
     private void showChatFor(FriendshipDTO friendshipDTO) {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -156,21 +164,35 @@ public class userProfileController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
-
+    
+    private void showChatFor(GroupDTO groupDTO) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            MessagesController controller = new MessagesController(screenController,
+                    MessagesController.ChatType.Group, groupDTO.getId());
+            loader.setController(controller);
+            Parent root = loader.load(controller.getClass()
+                    .getResourceAsStream("Messages.fxml"));
+            borderPane.setCenter(root);
+        } catch (IOException ex) {
+            DialogUtils.showException(ex);
+        }
+    }
+    
     @FXML
     private void addcontactAction(MouseEvent event) {
         screenController.switchToAddContactsScreen();
     }
-
+    
     @FXML
     private void addGroupAction(MouseEvent event) {
         screenController.switchToAddGroupsScreen();
     }
-
+    
     @FXML
     private void settingAction(MouseEvent event) {
     }
-
+    
     @FXML
     private void groupsAction(MouseEvent event) {
         try {
@@ -188,10 +210,10 @@ public class userProfileController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
-
+    
     @FXML
     private void contactsAction(MouseEvent event) {
-
+        
         try {
             listMessages.setVisible(true);
             listGroups.setVisible(false);
@@ -209,6 +231,7 @@ public class userProfileController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
+    
     @FXML
     private void requestsViewAction(MouseEvent event) {
         
@@ -220,48 +243,58 @@ public class userProfileController implements Initializable {
             myRequestsList = FXCollections.observableArrayList(returnedRequests);
             listRequests.getItems().clear();
             listRequests.setItems(myRequestsList);
-            System.out.println(returnedRequests.get(0).getSenderName());
             listRequests.setCellFactory((param) -> {
+                
                 System.out.println("com.jets.chatproject.client.views.userProfile.userProfileController.requestsViewAction()");
-                return new RequestHbox(userSession);
+                return new RequestHbox(userSession,this);
                 
             });
+            
             
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-        
+       
     }
-
+    
+    public ObservableList<RequestDTO> getRequestDTOs(){
+        return myRequestsList;
+    }
+    
     @FXML
     private void logoutLable(MouseEvent event) {
     }
-
+    
     @FXML
     private void logoutAction(MouseEvent event) {
+        try {
+            authService.logout(userSession);
+            screenController.switchToLoginPhoneScreen();
+        } catch (RemoteException ex) {
+            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
-
+    
     @FXML
     private void updateProfileLable(MouseEvent event) {
     }
-
+    
     @FXML
     private void updateProfileAction(MouseEvent event) {
         screenController.switchToUpdateProfileScreen();
     }
-
+    
     @FXML
     private void statusLable(MouseDragEvent event) {
     }
-
+    
     @FXML
     private void statusAction(KeyEvent event) {
     }
-
+    
     @FXML
     private void addContactsign(MouseEvent event) {
     }
-
     
-
 }

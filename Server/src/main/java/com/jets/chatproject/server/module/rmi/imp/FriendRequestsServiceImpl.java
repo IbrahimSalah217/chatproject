@@ -48,17 +48,15 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
             int senderId = sessionManager.findUserId(session);
             int receiverId = userdao.findByPhone(phone).getId();
             Request request = requestsDoa.findBySenderReceiver(receiverId, senderId);
-            Friendship friendship = friendshipsDao.findByUserAndFriend(senderId, receiverId);
-            if (friendship == null) {
-                if (request != null) {
-                    acceptRequest(session, receiverId);
-                } else {
-                    Date requestTime = new Date();
-                    request = new Request(senderId, receiverId, requestTime);
-                    requestsDoa.insert(request);
-                }
+            if (request != null) {
+                acceptRequest(session, receiverId);
+            } else {
+                Date requestTime = new Date();
+                request = new Request(senderId, receiverId, requestTime);
+                requestsDoa.insert(request);
             }
-        }catch (Exception ex) {
+
+        } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
         }
     }

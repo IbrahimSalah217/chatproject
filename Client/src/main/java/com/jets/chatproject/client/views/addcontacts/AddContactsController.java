@@ -47,6 +47,8 @@ public class AddContactsController implements Initializable {
     ObservableList<String> contactsToAdd;
 
     FriendRequestsService friendRequestsService;
+    
+    FriendshipService friendshipService;
 
 
 
@@ -55,6 +57,7 @@ public class AddContactsController implements Initializable {
             this.screenController = screenController;
             contactsToAdd = FXCollections.observableArrayList();
             friendRequestsService = ServiceLocator.getService(FriendRequestsService.class);
+            friendshipService = ServiceLocator.getService(FriendshipService.class);
         } catch (Exception ex) {
             Logger.getLogger(AddContactsController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,13 +104,21 @@ public class AddContactsController implements Initializable {
         String session = screenController.getSession();
         for(String contact:contactsToAdd){
             try {
-                
-                friendRequestsService.sendRequest(session, contact);
+                if(friendshipService.areFriends(session, contact)){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("You can't send this number a request");
+                    alert.setContentText("this contact is already a friend with you.");
+                    alert.showAndWait();
+                    
+                }
+                else{
+                    friendRequestsService.sendRequest(session, contact);
+                }
                 
             } catch (RemoteException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("You can't send this number a request");
-                alert.setContentText("there's already a pending request or this contact is already a friend.");
+                alert.setContentText("there's already a pending request.");
                 alert.showAndWait();
             }
         }

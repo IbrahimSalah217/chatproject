@@ -101,6 +101,7 @@ public class AddgroupsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         membersList.setItems(groupMembers);
+        image = groupImg.getImage();
     }
 
     @FXML
@@ -152,9 +153,10 @@ public class AddgroupsController implements Initializable {
         getData();
         try {
             groupId = groupsService.createGroup(userSession, groupNameTxt.getText(), bytesImage);
+            groupsService.addGroupMember(userSession, groupId, screenController.getId());
             groupMembers.stream().forEach(s -> {
                 try {
-                    UserDTO user = usersService.getProfileByPhone(userSession, memberTxtField.getText());
+                    UserDTO user = usersService.getProfileByPhone(userSession, s);
                     groupsService.addGroupMember(userSession, groupId, user.getId());
                     getAlert("The Group Has Successfully Created", "", Alert.AlertType.INFORMATION);
                 } catch (RemoteException ex) {

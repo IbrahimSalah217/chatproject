@@ -168,8 +168,9 @@ public class ScreenController {
             Parent root = fxmlLoader.load(controller.getClass().getResource("updateProfileFXML.fxml").openStream());
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/styles/updateProfileCSS.css").toExternalForm());
-            stage.setScene(scene);
-            stage.show();
+            Stage stage1 = new Stage();
+            stage1.setScene(scene);
+            stage1.show();
         } catch (IOException ex) {
             Logger.getLogger(ScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }

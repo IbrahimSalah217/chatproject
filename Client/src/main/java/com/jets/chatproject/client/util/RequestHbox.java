@@ -6,6 +6,7 @@
 package com.jets.chatproject.client.util;
 
 import com.jets.chatproject.client.cfg.ServiceLocator;
+import com.jets.chatproject.client.views.userProfile.userProfileController;
 import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
@@ -37,23 +38,23 @@ public class RequestHbox extends ListCell<RequestDTO> {
     Button acceptBtn = new Button("Accept");
     Button rejectBtn = new Button("Reject");
     Pane pane = new Pane();
-    
+    userProfileController controller;
 
-    public RequestHbox(String session) {
+    public RequestHbox(String session, userProfileController controller) {
         this.session = session;
-        
+        this.controller = controller;
         userImage.setFitHeight(60);
         userImage.setFitWidth(60);
-        acceptBtn.setShape(new Rectangle(70,20));
-        rejectBtn.setShape(new Rectangle(70,20));
-        pane.setShape(new Rectangle(20,60));
+        acceptBtn.setShape(new Rectangle(70, 20));
+        rejectBtn.setShape(new Rectangle(70, 20));
+        pane.setShape(new Rectangle(20, 60));
         //Circle clip = new Circle(30);
         //userImage.setClip(clip);
-        hBox.getChildren().addAll(userImage, friendName,acceptBtn,pane,rejectBtn);
+        hBox.getChildren().addAll(userImage, friendName, acceptBtn, pane, rejectBtn);
         try {
             usersService = ServiceLocator.getService(UsersService.class);
             requestService = ServiceLocator.getService(FriendRequestsService.class);
-            
+
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -69,28 +70,32 @@ public class RequestHbox extends ListCell<RequestDTO> {
             try {
                 Image image = new Image(new ByteArrayInputStream(usersService.getPicture(session, request.getSenderPictureId())));
                 userImage.setImage(image);
-                friendName.setText(request.getSenderName()+"\nSEND Friend Request  ");
+                friendName.setText(request.getSenderName() + "\nSEND Friend Request  ");
                 System.out.println("com.jets.chatproject.client.util.RequestHbox.updateItem()");
-                acceptBtn.setOnAction(e->{
+                acceptBtn.setOnAction(e -> {
                     try {
-                        requestService.acceptRequest(session,request.getSenderId());
+                        requestService.acceptRequest(session, request.getSenderId());
+                        controller.getRequestDTOs().remove(request);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(RequestHbox.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                });
+                rejectBtn.setOnAction(e -> {
+                    try {
+                        requestService.rejectRequest(session, request.getSenderId());
+                        controller.getRequestDTOs().remove(request);
+
                     } catch (RemoteException ex) {
                         DialogUtils.showException(ex);
                     }
                 });
-                rejectBtn.setOnAction(e->{
-                    try {
-                        requestService.rejectRequest(session,request.getSenderId());
-                    } catch (RemoteException ex) {
-                        DialogUtils.showException(ex);
-                    }
-                });
-               
+
                 setGraphic(hBox);
             } catch (RemoteException ex) {
                 DialogUtils.showException(ex);
             }
         }
     }
-    
+
 }

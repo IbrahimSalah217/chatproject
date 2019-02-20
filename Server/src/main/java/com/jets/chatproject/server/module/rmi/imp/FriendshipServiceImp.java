@@ -53,8 +53,6 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
         try {
             int userId = sessionManager.findUserId(session);
             List<Friendship> friendships = friendshipsDao.getAllFriendshipsForUser(userId);
-            System.out.println("com.jets.chatproject.server.module.rmi.imp.FriendshipServiceImp.getAllFriendships()");
-
             List<FriendshipDTO> result = new ArrayList<>();
             for (Friendship friendship : friendships) {
                 User friend = usersDao.findById(friendship.getFriendId());
@@ -62,8 +60,6 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
                 if (lastMessage == null) {
                     lastMessage = new DirectMessage(-1, friend.getId(), -1, MessageType.PLAIN_TEXT,
                             "Start conversation", new MessageFormat().toString(), new Date());
-                } else {
-                    System.out.println(userId + ":" + friend.getId() + ":" + lastMessage.getMessageId());
                 }
                 User sender = usersDao.findById(lastMessage.getSenderId());
                 MessageDTO messageDTO = DTOMapper.createMessageDTO(sender, lastMessage);
@@ -110,6 +106,24 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+
+    @Override
+    public boolean areFriends(String session, String phone) throws RemoteException {
+        boolean areFriends = false;
+        int userId = sessionManager.findUserId(session);
+
+        try {
+            User friend = usersDao.findByPhone(phone);
+            Friendship friendship = friendshipsDao.findByUserAndFriend(userId,friend.getId());
+            if(friendship != null)
+                areFriends=true;
+            else
+                areFriends=false;
+        } catch (Exception ex) {
+            Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return areFriends;
+
+    }
 
 }
