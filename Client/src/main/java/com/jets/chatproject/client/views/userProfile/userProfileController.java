@@ -273,6 +273,7 @@ public class userProfileController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
+
     @FXML
     private void requestsViewAction(MouseEvent event) {
 
@@ -288,7 +289,6 @@ public class userProfileController implements Initializable {
                 
                 System.out.println("com.jets.chatproject.client.views.userProfile.userProfileController.requestsViewAction()");
                 return new RequestHbox(userSession,this);
-                
             });
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
