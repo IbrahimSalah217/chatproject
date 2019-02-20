@@ -146,18 +146,12 @@ public class userProfileController implements Initializable {
         }
 
         listMessages.getSelectionModel().selectedItemProperty()
-                .addListener((ObservableValue<? extends FriendshipDTO> observable,
-                        FriendshipDTO oldValue, FriendshipDTO newValue) -> {
+                .addListener(new ChangeListener<FriendshipDTO>() {
+                    @Override
+                    public void changed(ObservableValue<? extends FriendshipDTO> observable, FriendshipDTO oldValue, FriendshipDTO newValue) {
                         if (newValue != null) {
                             showChatFor(newValue);
                         }
-                });
-        
-        listGroups.getSelectionModel().selectedItemProperty()
-                .addListener((ObservableValue<? extends GroupDTO> observable,
-                        GroupDTO oldValue, GroupDTO newValue) -> {
-                    if (newValue != null) {
-                        showChatFor(newValue);
                     }
                 });
     }
@@ -176,20 +170,6 @@ public class userProfileController implements Initializable {
         }
     }
 
-    private void showChatFor(GroupDTO groupDTO) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            MessagesController controller = new MessagesController(screenController,
-                    MessagesController.ChatType.Group, groupDTO.getId());
-            loader.setController(controller);
-            Parent root = loader.load(controller.getClass()
-                    .getResourceAsStream("Messages.fxml"));
-            borderPane.setCenter(root);
-        } catch (IOException ex) {
-            DialogUtils.showException(ex);
-        }
-    }
-    
     @FXML
     private void addcontactAction(MouseEvent event) {
         screenController.switchToAddContactsScreen();
