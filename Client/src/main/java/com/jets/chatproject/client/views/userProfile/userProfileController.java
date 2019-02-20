@@ -24,6 +24,7 @@ import com.jets.chatproject.module.rmi.dto.GroupDTO;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
+import com.jets.chatproject.module.rmi.dto.UserStatus;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -55,6 +56,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import org.controlsfx.control.Notifications;
 
@@ -112,12 +115,14 @@ public class userProfileController implements Initializable {
     ObservableList<GroupDTO> myGroupsList;
     ObservableList<RequestDTO> myRequestsList;
     UserDTO userDto;
-    
+    UserStatus userStatus;
+    Color userColor;
+
     public userProfileController(ScreenController screenController) {
         this.screenController = screenController;
         userSession = screenController.getSession();
         userPhone = screenController.getPhone();
-        
+
     }
 
     @Override
@@ -133,13 +138,33 @@ public class userProfileController implements Initializable {
         try {
             userService = ServiceLocator.getService(UsersService.class);
             friendshipService = ServiceLocator.getService(FriendshipService.class);
-            authService= ServiceLocator.getService(AuthService.class);
+            authService = ServiceLocator.getService(AuthService.class);
             friendshipService.getAllFriendships(userSession);
             userDto = userService.getProfileByPhone(userSession, userPhone);
             byte[] storedImage = userService.getPicture(userSession, userDto.getPictureId());
             userImage.setImage(new Image(new ByteArrayInputStream(storedImage)));
             userNameLable.setText(userDto.getDisplyName());
-            
+            userStatus = userService.getStatus(userSession, -1);
+            switch (userStatus) {
+                case AVAILABLE:
+                    statusCircle.setFill(Color.GREEN);
+                    Tooltip.install(statusCircle, new Tooltip("Available"));
+                    break;
+                case AWAY:
+                    statusCircle.setFill(Color.RED);
+                    Tooltip.install(statusCircle, new Tooltip("Away"));
+                    break;
+                case BUSY:
+                    statusCircle.setFill(Color.YELLOW);
+                    Tooltip.install(statusCircle, new Tooltip("Busy"));
+                    break;
+                case OFFLINE:
+                    statusCircle.setFill(Color.BLACK);
+                    Tooltip.install(statusCircle, new Tooltip("Offline"));
+                    break;
+            }
+            userColor = Color.valueOf(statusCircle.getFill().toString());
+
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -228,8 +253,7 @@ public class userProfileController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
-    
-   
+
     @FXML
     private void addcontactAction(MouseEvent event) {
         screenController.switchToAddContactsScreen();
@@ -295,14 +319,14 @@ public class userProfileController implements Initializable {
             listRequests.getItems().clear();
             listRequests.setItems(myRequestsList);
             listRequests.setCellFactory((param) -> {
-                return new RequestHbox(userSession,this);
+                return new RequestHbox(userSession, this);
             });
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
     }
-    
-    public ObservableList<RequestDTO> getRequestDTOs(){
+
+    public ObservableList<RequestDTO> getRequestDTOs() {
         return myRequestsList;
     }
 
@@ -316,9 +340,9 @@ public class userProfileController implements Initializable {
             authService.logout(userSession);
             screenController.switchToLoginPhoneScreen();
         } catch (RemoteException ex) {
-            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            DialogUtils.showException(ex);
         }
-        
+
     }
 
     @FXML
@@ -336,10 +360,32 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void statusAction(KeyEvent event) {
+        if (userColor.equals(Color.GREEN)) {
+            userStatus = UserStatus.BUSY;
+            userService.updateStatus(userSession, userStatus);
+            userColor = Color.YELLOW;
+            Tooltip.install(statusCircle, new Tooltip("Busy"));
+        } else if (userColor.equals(Color.YELLOW)) {
+            userStatus = UserStatus.AWAY;
+            userService.updateStatus(userSession, userStatus);
+            userColor = Color.RED;
+            Tooltip.install(statusCircle, new Tooltip("Away"));
+        } else if (userColor.equals(Color.RED)) {
+            userStatus = UserStatus.OFFLINE;
+            userService.updateStatus(userSession, userStatus);
+            userColor = Color.BLACK;
+            Tooltip.install(statusCircle, new Tooltip("Offline"));
+        } else if (userColor.equals(Color.BLACK)) {
+            userStatus = UserStatus.AVAILABLE;
+            userService.updateStatus(userSession, userStatus);
+            userColor = Color.GREEN;
+            Tooltip.install(statusCircle, new Tooltip("Available"));
+        }
         
     }
 
     @FXML
     private void addContactsign(MouseEvent event) {
+
     }
 }
