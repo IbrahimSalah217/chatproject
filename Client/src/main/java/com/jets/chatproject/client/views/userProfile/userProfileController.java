@@ -26,12 +26,14 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -148,18 +150,24 @@ public class userProfileController implements Initializable {
         ClientCallbackImp.getInstance().addMessageListener(new ClientCallbackImp.MessageListener() {
             @Override
             public void onDirectMessageReceived(int friendId, MessageDTO message) {
-                Notifications.create()
-                        .title(message.getSenderName())
-                        .text(message.getContent())
-                        .showWarning();
+                Platform.runLater(() -> {
+                    Notifications.create()
+                            .title(message.getSenderName())
+                            .text(message.getContent())
+                            .position(Pos.TOP_RIGHT)
+                            .show();
+                });
             }
 
             @Override
             public void onGroupMessageReceived(int groupId, MessageDTO message) {
-                Notifications.create()
-                        .title(message.getSenderName())
-                        .text(message.getContent())
-                        .showWarning();
+                Platform.runLater(() -> {
+                    Notifications.create()
+                            .title(message.getSenderName())
+                            .text(message.getContent())
+                            .position(Pos.TOP_RIGHT)
+                            .show();
+                });
             }
         });
     }
