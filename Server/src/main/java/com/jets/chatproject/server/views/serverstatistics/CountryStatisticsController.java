@@ -10,6 +10,7 @@ import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -38,6 +39,8 @@ public class CountryStatisticsController implements Initializable {
     
     public CountryStatisticsController(DaosFactory daosFactory){
         
+        egyptainUserList = new ArrayList<>();
+        otherUserList = new ArrayList<>();
         userDao = daosFactory.getUsersDao();
     }
     @Override

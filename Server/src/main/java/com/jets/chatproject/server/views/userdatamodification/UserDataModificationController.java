@@ -23,8 +23,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 /**
  * FXML Controller class
@@ -35,8 +38,6 @@ public class UserDataModificationController implements Initializable {
 
     @FXML
     private TableView<User> tableInfo;
-    @FXML
-    private TableColumn<User, Integer> userId;
     @FXML
     private TableColumn<User, String> userPhoneNumber;
     @FXML
@@ -88,19 +89,17 @@ public class UserDataModificationController implements Initializable {
         userEmail.setOnEditCommit((e) -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setEmail(e.getNewValue());
         });
-        userGender.setCellFactory((column) -> {
-            TableCell<User, Gender> cell = new TableCell<User, Gender>() {
-                @Override
-                protected void updateItem(Gender item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item != null) {
-                        setText(item.toString());
-                    }
-                }
+        userGender.setCellFactory((column) -> new ComboBoxTableCell<>(new StringConverter<Gender>() {
+            @Override
+            public String toString(Gender object) {
+                return object.toString();
+            }
 
-            };
-            return cell;
-        });
+            @Override
+            public Gender fromString(String string) {
+                return Gender.valueOf(string);
+            }
+        }, Gender.values()));
         userGender.setOnEditCommit((e) -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setGender(e.getNewValue());
         });
@@ -108,23 +107,13 @@ public class UserDataModificationController implements Initializable {
         userCountry.setOnEditCommit((e) -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setCountry(e.getNewValue());
         });
-        userDateOfBirth.setCellFactory((column) -> {
-            TableCell<User, Date> cell = new TableCell<User, Date>() {
-                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-                @Override
-                protected void updateItem(Date item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setText(null);
-                    } else {
-                        setText(format.format(item));
-                    }
-                }
-            };
-
-            return cell;
-        });
+//        userDateOfBirth.setCellFactory(new Callback<TableColumn, TableCell>() {
+//            @Override
+//            public TableCell call(TableColumn p) {
+//                DatePickerCell datePick = new DatePickerCell(dataList);
+//                return datePick;
+//            }
+//        });
         userDateOfBirth.setOnEditCommit((e) -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setDateOfBirth(e.getNewValue());
         });

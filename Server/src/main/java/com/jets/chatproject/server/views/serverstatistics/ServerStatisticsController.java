@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -54,7 +55,7 @@ public class ServerStatisticsController implements Initializable {
             OnlineStatisticsController controller = new OnlineStatisticsController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("OnlineStatistics.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("OnlineStatistics.fxml").openStream());
                 Scene scene = new Scene(root);
                 stage.setTitle("Online Statistics");
                 stage.setScene(scene);
@@ -64,12 +65,12 @@ public class ServerStatisticsController implements Initializable {
             }
         });
         gender.setOnAction((ActionEvent event)->{
-            
+            System.out.println("gender");
             FXMLLoader loader = new FXMLLoader();
             GenderStatisticsController controller = new GenderStatisticsController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("GenderStatistics.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("GenderStatistics.fxml").openStream());
                 Scene scene = new Scene(root);
                 stage.setTitle("Gender Statistics");
                 stage.setScene(scene);
@@ -84,7 +85,7 @@ public class ServerStatisticsController implements Initializable {
             CountryStatisticsController controller = new CountryStatisticsController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("CountryStatistics.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("CountryStatistics.fxml").openStream());
                 Scene scene = new Scene(root);
                 stage.setTitle("Country Statistics");
                 stage.setScene(scene);
@@ -99,7 +100,7 @@ public class ServerStatisticsController implements Initializable {
             AllUsersStatisticsController controller = new AllUsersStatisticsController(daosFactory);
             loader.setController(controller);
             try {
-                Parent root = loader.load(getClass().getResource("AllUsersStatistics.fxml"));
+                Parent root = loader.load(controller.getClass().getResource("AllUsersStatistics.fxml").openStream());
                 Scene scene = new Scene(root);
                 stage.setTitle("All Users Statistics");
                 stage.setScene(scene);

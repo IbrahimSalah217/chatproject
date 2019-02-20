@@ -11,6 +11,7 @@ import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.User;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -39,35 +40,37 @@ public class GenderStatisticsController implements Initializable {
     
     public GenderStatisticsController(DaosFactory daosFactory){
         
+        maleUserList = new ArrayList<>();
+        femaleUserList = new ArrayList<>();
         userDao = daosFactory.getUsersDao();
+        System.out.println("gender Constractor done");
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        System.out.println("gender done");
         try {
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
             userList = userDao.findAllUser();
-            for(User user : userList){
+            userList.forEach((user) -> {
                 if(user.getGender() == Gender.MALE){
                     maleUserList.add(user);
                 }else{
                     femaleUserList.add(user);
                 }
-            }
+            });
+            
             pieChartData.addAll(new PieChart.Data(Gender.MALE.toString(), maleUserList.size()),
                     new PieChart.Data(Gender.FEMALE.toString(), femaleUserList.size()));
             genderPieChart.setData(pieChartData);
             genderPieChart.setTitle("Gender Statistics");
-            for(PieChart.Data data : genderPieChart.getData()){
-                
+            genderPieChart.getData().forEach((data) -> {
                 Node slice = data.getNode();
                 double percentage = (data.getPieValue()/(maleUserList.size() + femaleUserList.size()))*100;
                 String tip = data.getName()+" = "+String.format("%.2f", percentage)+"%";
                 Tooltip tooltip = new Tooltip(tip);
                 tooltip.install(slice, tooltip);
-                
-            }
+            });
             
         } catch (Exception ex) {
             Logger.getLogger(GenderStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
