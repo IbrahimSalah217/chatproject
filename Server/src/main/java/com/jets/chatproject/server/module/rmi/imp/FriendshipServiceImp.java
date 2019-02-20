@@ -107,4 +107,23 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
         }
     }
 
+    @Override
+    public boolean areFriends(String session, String phone) throws RemoteException {
+        boolean areFriends = false;
+        int userId = sessionManager.findUserId(session);
+
+        try {
+            User friend = usersDao.findByPhone(phone);
+            Friendship friendship = friendshipsDao.findByUserAndFriend(userId,friend.getId());
+            if(friendship != null)
+                areFriends=true;
+            else
+                areFriends=false;
+        } catch (Exception ex) {
+            Logger.getLogger(FriendshipServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return areFriends;
+
+    }
+
 }

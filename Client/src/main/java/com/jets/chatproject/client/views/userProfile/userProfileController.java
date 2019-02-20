@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.client.views.userProfile;
 
+import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.ContactHbox;
@@ -12,6 +13,7 @@ import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.util.GroupHbox;
 import com.jets.chatproject.client.util.RequestHbox;
 import com.jets.chatproject.client.views.messages.MessagesController;
+import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.FriendshipService;
 import com.jets.chatproject.module.rmi.GroupsService;
@@ -19,6 +21,7 @@ import com.jets.chatproject.module.rmi.MessagesService;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
 import com.jets.chatproject.module.rmi.dto.GroupDTO;
+import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import java.io.ByteArrayInputStream;
@@ -30,6 +33,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +41,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -49,7 +54,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Circle;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -97,6 +104,7 @@ public class userProfileController implements Initializable {
     FriendshipService friendshipService;
     FriendRequestsService requestsService;
     UsersService userService;
+    AuthService authService;
     String userSession;
     String userPhone;
     FriendshipDTO friendshipDTO;
@@ -125,6 +133,7 @@ public class userProfileController implements Initializable {
         try {
             userService = ServiceLocator.getService(UsersService.class);
             friendshipService = ServiceLocator.getService(FriendshipService.class);
+            authService= ServiceLocator.getService(AuthService.class);
             friendshipService.getAllFriendships(userSession);
             userDto = userService.getProfileByPhone(userSession, userPhone);
             byte[] storedImage = userService.getPicture(userSession, userDto.getPictureId());
@@ -154,6 +163,42 @@ public class userProfileController implements Initializable {
                         }
                     }
                 });
+
+        listGroups.getSelectionModel().selectedItemProperty()
+                .addListener((ObservableValue<? extends GroupDTO> observable,
+                        GroupDTO oldValue, GroupDTO newValue) -> {
+                    if (newValue != null) {
+                        showChatFor(newValue);
+                    }
+                });
+
+        ClientCallbackImp.getInstance().addMessageListener(new ClientCallbackImp.MessageListener() {
+            @Override
+            public void onDirectMessageReceived(int friendId, MessageDTO message) {
+                Platform.runLater(() -> {
+                    Notifications.create()
+                            .title(message.getSenderName())
+                            .text(message.getContent())
+                            .position(Pos.TOP_RIGHT)
+                            .show();
+                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                    audioClip.play();
+                });
+            }
+
+            @Override
+            public void onGroupMessageReceived(int groupId, MessageDTO message) {
+                Platform.runLater(() -> {
+                    Notifications.create()
+                            .title(message.getSenderName())
+                            .text(message.getContent())
+                            .position(Pos.TOP_RIGHT)
+                            .show();
+                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                    audioClip.play();
+                });
+            }
+        });
     }
 
     private void showChatFor(FriendshipDTO friendshipDTO) {
@@ -170,6 +215,21 @@ public class userProfileController implements Initializable {
         }
     }
 
+    private void showChatFor(GroupDTO groupDTO) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            MessagesController controller = new MessagesController(screenController,
+                    MessagesController.ChatType.Group, groupDTO.getId());
+            loader.setController(controller);
+            Parent root = loader.load(controller.getClass()
+                    .getResourceAsStream("Messages.fxml"));
+            borderPane.setCenter(root);
+        } catch (IOException ex) {
+            DialogUtils.showException(ex);
+        }
+    }
+    
+   
     @FXML
     private void addcontactAction(MouseEvent event) {
         screenController.switchToAddContactsScreen();
@@ -234,16 +294,16 @@ public class userProfileController implements Initializable {
             myRequestsList = FXCollections.observableArrayList(returnedRequests);
             listRequests.getItems().clear();
             listRequests.setItems(myRequestsList);
-            System.out.println(returnedRequests.get(0).getSenderName());
             listRequests.setCellFactory((param) -> {
-                System.out.println("com.jets.chatproject.client.views.userProfile.userProfileController.requestsViewAction()");
-                return new RequestHbox(userSession);
+                return new RequestHbox(userSession,this);
             });
-
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-
+    }
+    
+    public ObservableList<RequestDTO> getRequestDTOs(){
+        return myRequestsList;
     }
 
     @FXML
@@ -252,6 +312,13 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void logoutAction(MouseEvent event) {
+        try {
+            authService.logout(userSession);
+            screenController.switchToLoginPhoneScreen();
+        } catch (RemoteException ex) {
+            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @FXML
@@ -275,5 +342,4 @@ public class userProfileController implements Initializable {
     @FXML
     private void addContactsign(MouseEvent event) {
     }
-
 }

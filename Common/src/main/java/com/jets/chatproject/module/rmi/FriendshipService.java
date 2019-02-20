@@ -23,5 +23,6 @@ public interface FriendshipService extends Remote {
     void unblockFriend(String session, int friendId) throws RemoteException;
 
     void setCategory(String session, int friendId, String category) throws RemoteException;
-
+    
+    boolean areFriends(String session,String phone) throws RemoteException;
 }

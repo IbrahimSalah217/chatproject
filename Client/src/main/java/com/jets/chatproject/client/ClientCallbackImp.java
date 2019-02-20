@@ -9,6 +9,7 @@ import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -57,9 +58,14 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
     @Override
     public void receiveDirectMessage(int friendId, MessageDTO messageDTO) throws RemoteException {
         System.out.println("broadcasting message from: " + friendId);
-        for (MessageListener listener : messageListeners) {
+        for (Iterator<MessageListener> iter = messageListeners.iterator(); iter.hasNext();) {
+            MessageListener listener = iter.next();
             System.out.println("sending");
-            listener.onDirectMessageReceived(friendId, messageDTO);
+            try {
+                listener.onDirectMessageReceived(friendId, messageDTO);
+            } catch (Throwable th) {
+                iter.remove();
+            }
         }
     }
 

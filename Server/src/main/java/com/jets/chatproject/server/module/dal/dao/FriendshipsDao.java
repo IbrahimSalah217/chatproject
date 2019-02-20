@@ -19,5 +19,6 @@ public interface FriendshipsDao extends AbstractDAO<Friendship> {
     Friendship findByUserAndFriend(int userId, int friendId) throws Exception;
 
     List<Friendship> getAllFriendshipsForUser(int userId) throws Exception;
+   
 
 }

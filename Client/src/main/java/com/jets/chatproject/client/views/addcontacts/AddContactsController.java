@@ -10,9 +10,10 @@ import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.FriendRequestsService;
+import com.jets.chatproject.module.rmi.FriendshipService;
+import com.jets.chatproject.module.rmi.UsersService;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -47,12 +47,17 @@ public class AddContactsController implements Initializable {
     ObservableList<String> contactsToAdd;
 
     FriendRequestsService friendRequestsService;
+    
+    FriendshipService friendshipService;
+
+
 
     public AddContactsController(ScreenController screenController) {
         try {
             this.screenController = screenController;
             contactsToAdd = FXCollections.observableArrayList();
             friendRequestsService = ServiceLocator.getService(FriendRequestsService.class);
+            friendshipService = ServiceLocator.getService(FriendshipService.class);
         } catch (Exception ex) {
             Logger.getLogger(AddContactsController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,15 +101,29 @@ public class AddContactsController implements Initializable {
 
     @FXML
     private void addAll(ActionEvent ae) {
-        contactsToAdd.stream().forEach(
-                (s) -> {
-                    try {
-                        friendRequestsService.sendRequest(screenController.getSession(), s);
-                    } catch (RemoteException ex) {
-                        DialogUtils.showException(ex);
-                    }
-                });
+        String session = screenController.getSession();
+        for(String contact:contactsToAdd){
+            try {
+                if(friendshipService.areFriends(session, contact)){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("You can't send this number a request");
+                    alert.setContentText("this contact is already a friend with you.");
+                    alert.showAndWait();
+                    
+                }
+                else{
+                    friendRequestsService.sendRequest(session, contact);
+                }
+                
+            } catch (RemoteException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("You can't send this number a request");
+                alert.setContentText("there's already a pending request.");
+                alert.showAndWait();
+            }
+        }
         listView.getScene().getWindow().hide();
+    
     }
 
     public boolean checkPhoneNumber(String phoneNumber) {
