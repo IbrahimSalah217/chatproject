@@ -32,10 +32,10 @@
         </dependency>
         <dependency>
             <groupId>de.jensd</groupId>
-            <artifactId>fontawesomefx-commons</artifactId>
-            <version>9.1.2</version>
-            <scope>runtime</scope>
+            <artifactId>fontawesomefx</artifactId>
+            <version>8.9</version>
         </dependency>
+
 
 
     </dependencies>
