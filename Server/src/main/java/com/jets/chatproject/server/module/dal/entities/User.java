@@ -26,8 +26,9 @@ public class User {
     private String bio;
     private UserStatus state;
     private int pictureId;
+    boolean systemRegistration;
 
-    public User(int id, String phoneNumber, String displyName, String email, String password, Gender gender, String country, Date dateOfBirth, String bio, UserStatus state, int pictureId) {
+    public User(int id, String phoneNumber, String displyName, String email, String password, Gender gender, String country, Date dateOfBirth, String bio, UserStatus state, int pictureId, boolean systemRegistration) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.displyName = displyName;
@@ -39,10 +40,19 @@ public class User {
         this.bio = bio;
         this.state = state;
         this.pictureId = pictureId;
+        this.systemRegistration = systemRegistration;
     }
 
     public int getId() {
         return id;
+    }
+
+    public boolean getSystemRegistration() {
+        return systemRegistration;
+    }
+
+    public void setSystemRegistration(boolean systemRegistration) {
+        this.systemRegistration = systemRegistration;
     }
 
     public String getPhoneNumber() {

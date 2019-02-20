@@ -80,6 +80,7 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
             user.setDateOfBirth(userProfile.getDateOfBirth());
             user.setBio(userProfile.getBio());
             user.setPictureId(userProfile.getPictureId());
+            user.setSystemRegistration(false);
             usersDao.update(user);
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);

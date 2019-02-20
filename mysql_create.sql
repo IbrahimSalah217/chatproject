@@ -237,6 +237,7 @@ CREATE TABLE `users` (
   `date_of_birth` date NOT NULL,
   `bio` varchar(1000) NOT NULL,
   `picture_id` int(11) DEFAULT NULL,
+  `system_registration` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `phone_number` (`phone_number`),
   UNIQUE KEY `email` (`email`),
@@ -263,4 +264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-11 18:59:01
+-- Dump completed on 2019-02-19 18:25:33
