@@ -14,6 +14,11 @@ import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.MessageFormat;
 import com.jets.chatproject.module.rmi.dto.MessageType;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXColorPicker;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -46,19 +51,19 @@ import javafx.scene.text.TextFlow;
 public class MessagesController implements Initializable {
 
     @FXML
-    private ToggleButton boldToggle;
+    private JFXToggleButton boldToggle;
     @FXML
-    private ToggleButton italicToggle;
+    private JFXToggleButton italicToggle;
     @FXML
-    private ColorPicker textColorPicker;
+    private JFXColorPicker textColorPicker;
     @FXML
-    private ColorPicker backgroundColorPicker;
+    private JFXColorPicker backgroundColorPicker;
     @FXML
-    private ComboBox<Integer> fontSizeCombo;
+    private JFXComboBox<Integer> fontSizeCombo;
     @FXML
-    private TextField messageTextField;
+    private JFXTextField messageTextField;
     @FXML
-    private Button sendButton;
+    private JFXButton sendButton;
     @FXML
     private ListView<MessageDTO> messagesListView;
 
