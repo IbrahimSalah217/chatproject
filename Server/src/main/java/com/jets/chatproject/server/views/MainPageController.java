@@ -90,7 +90,7 @@ public class MainPageController implements Initializable {
         ServerAnnouncement.setOnAction((ActionEvent event) -> {
 
             FXMLLoader loader = new FXMLLoader();
-            ServerAnnouncementController controller = new ServerAnnouncementController();
+            ServerAnnouncementController controller = new ServerAnnouncementController(daosFactory);
             loader.setController(controller);
             try {
                 Parent root = loader.load(controller.getClass().getResource("ServerAnnouncement.fxml").openStream());
