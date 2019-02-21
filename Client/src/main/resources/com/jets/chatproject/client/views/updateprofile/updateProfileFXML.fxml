@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
@@ -22,7 +23,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="registerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="669.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="669.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="222.0" layoutY="65.0" prefHeight="53.0" prefWidth="217.0" text="Zajel Chat">
          <font>
@@ -47,7 +48,7 @@
             <Image url="@images/ChatAppLogo.png" />
          </image>
       </ImageView>
-      <GridPane layoutX="47.0" layoutY="268.0" prefHeight="241.0" prefWidth="597.0">
+      <GridPane layoutX="47.0" layoutY="234.0" prefHeight="317.0" prefWidth="597.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="267.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="71.0" />
@@ -55,14 +56,16 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.0" minWidth="10.0" prefWidth="41.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="65.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="54.0" minHeight="9.0" prefHeight="31.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="17.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="65.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="77.0" minHeight="9.0" prefHeight="32.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="85.0" minHeight="2.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Label text="Name" textFill="#2d6ab9">
@@ -113,31 +116,37 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></JFXPasswordField>
-            <JFXTextField fx:id="emailTxtID" onAction="#getEmail" promptText="You@Example.com" GridPane.rowIndex="3">
+            <JFXTextField fx:id="emailTxtID" promptText="You@Example.com" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></JFXTextField>
-            <JFXTextField fx:id="nameTxtID" maxWidth="261.0" minWidth="227.0" onAction="#getName" prefHeight="31.0" prefWidth="261.0" promptText="Name" GridPane.rowIndex="1">
+            <JFXTextField fx:id="nameTxtID" maxWidth="261.0" minWidth="227.0" prefHeight="31.0" prefWidth="261.0" promptText="Name" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="countryTxtID" focusColor="#2d6ab9" onAction="#getCountry" promptText="Country" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="countryTxtID" focusColor="#2d6ab9" promptText="Country" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></JFXTextField>
-            <JFXTextField fx:id="phoneNumberTxtID" focusColor="#2d6ab9" onAction="#getPhoneNumber" promptText="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <JFXTextField fx:id="phoneNumberTxtID" focusColor="#2d6ab9" promptText="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></JFXTextField>
-            <JFXComboBox fx:id="genderCBoxID" onAction="#getGender" prefHeight="25.0" prefWidth="161.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <JFXDatePicker fx:id="datePickerID" defaultColor="#2d6ab9" editable="false" onAction="#getBirthdate" prefHeight="31.0" prefWidth="206.0" promptText="mm/dd/yyyy" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <JFXComboBox fx:id="genderCBoxID" prefHeight="25.0" prefWidth="153.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="8.0" />
+               </GridPane.margin></JFXComboBox>
+            <JFXDatePicker fx:id="datePickerID" defaultColor="#2d6ab9" editable="false" prefHeight="31.0" prefWidth="206.0" promptText="mm/dd/yyyy" GridPane.columnIndex="2" GridPane.rowIndex="7" />
             <FontAwesomeIconView fill="#2d6ab9" glyphName="MOBILE_PHONE" size="30.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></FontAwesomeIconView>
             <MaterialDesignIconView fill="#2d6ab9" glyphName="EMAIL" size="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <MaterialDesignIconView fill="#2d6ab9" glyphName="LOCK" size="20.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <MaterialDesignIconView fill="#2d6ab9" glyphName="LOCK" size="20.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></MaterialDesignIconView>
             <MaterialDesignIconView fill="#2d6ab9" glyphName="LOCK" size="20.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <MaterialDesignIconView fill="#2d6ab9" glyphName="EARTH" size="20.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <MaterialDesignIconView fill="#2d6ab9" glyphName="ACCOUNT" size="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -146,9 +155,35 @@
                   <Insets right="30.0" />
                </GridPane.margin>
             </MaterialDesignIconView>
+            <Label text="Bio" textFill="#2d6ab9" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Cooper Black" size="16.0" />
+               </font>
+            </Label>
+            <JFXTextArea fx:id="bio" focusColor="#2d6ab9" maxWidth="266.0" minWidth="260.0" prefHeight="88.0" prefWidth="266.0" promptText="Enter your bio." GridPane.rowIndex="9">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXTextArea>
+            <JFXButton fx:id="updateBtnID" defaultButton="true" focusTraversable="false" onAction="#update" prefHeight="38.0" prefWidth="113.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px;" text="update" textFill="#2d6ab9" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="9">
+               <font>
+                  <Font name="Showcard Gothic" size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#99b0bc" spread="0.28" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <MaterialDesignIconView fill="#2d6ab9" glyphName="SYNC" rotate="-45.0" size="21.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+               <GridPane.margin>
+                  <Insets right="62.0" />
+               </GridPane.margin>
+            </MaterialDesignIconView>
          </children>
       </GridPane>
-      <ImageView fx:id="userImageID" fitHeight="105.0" fitWidth="105.0" layoutX="14.0" layoutY="147.0" onMouseClicked="#changePicture" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="userImageID" fitHeight="105.0" fitWidth="105.0" layoutX="14.0" layoutY="130.0" onMouseClicked="#changePicture" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/userimg.png" />
          </image>
@@ -156,7 +191,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <JFXButton fx:id="choosePictuerBtnID" defaultButton="true" focusTraversable="false" layoutX="124.0" layoutY="186.0" onAction="#choosePicture" prefHeight="26.0" prefWidth="136.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Choose Picture" textFill="#2d6ab9">
+      <JFXButton fx:id="choosePictuerBtnID" defaultButton="true" focusTraversable="false" layoutX="124.0" layoutY="172.0" onAction="#choosePicture" prefHeight="26.0" prefWidth="136.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px;" text="Choose Picture" textFill="#2d6ab9">
          <font>
             <Font name="Showcard Gothic" size="13.0" />
          </font>
@@ -167,27 +202,5 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="registerBtnID" defaultButton="true" focusTraversable="false" layoutX="348.0" layoutY="529.0" onAction="#register" prefHeight="32.0" prefWidth="122.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Register" textFill="#2d6ab9">
-         <font>
-            <Font name="Showcard Gothic" size="16.0" />
-         </font>
-         <effect>
-            <DropShadow color="#99b0bc" spread="0.28" />
-         </effect>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></JFXButton>
-      <JFXButton fx:id="backBtnID" defaultButton="true" focusTraversable="false" layoutX="210.0" layoutY="529.0" onAction="#backToLogIn" prefHeight="32.0" prefWidth="122.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Back" textFill="#2d6ab9">
-         <font>
-            <Font name="Showcard Gothic" size="16.0" />
-         </font>
-         <effect>
-            <DropShadow color="#99b0bc" spread="0.28" />
-         </effect>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></JFXButton>
-      <MaterialDesignIconView fill="#2d6ab9" glyphName="UNDO" layoutX="230.0" layoutY="552.0" size="17" />
-      <MaterialDesignIconView fill="#2d6ab9" glyphName="CLIPBOARD_ACCOUNT" layoutX="448.0" layoutY="552.0" size="17.0" />
    </children>
 </AnchorPane>

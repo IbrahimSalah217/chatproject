@@ -5,6 +5,11 @@ import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
@@ -39,28 +45,33 @@ import javax.imageio.ImageIO;
  */
 public class RegisterController implements Initializable {
 
+   @FXML
+    private AnchorPane registerPane;
     @FXML
-    private PasswordField passwordTxtID;
+    private JFXPasswordField passwordTxtID;
     @FXML
-    private PasswordField verifyPasswordTxtID;
+    private JFXPasswordField verifyPasswordTxtID;
     @FXML
-    private TextField emailTxtID;
+    private JFXTextField emailTxtID;
     @FXML
-    private TextField nameTxtID;
+    private JFXTextField nameTxtID;
     @FXML
-    private TextField countryTxtID;
+    private JFXTextField countryTxtID;
     @FXML
-    private TextField phoneNumberTxtID;
+    private JFXTextField phoneNumberTxtID;
     @FXML
-    private ComboBox genderCBoxID;
+    private JFXComboBox genderCBoxID;
     @FXML
-    private DatePicker datePickerID;
-    @FXML
-    private Button registerBtnID;
+    private JFXDatePicker datePickerID;
     @FXML
     private ImageView userImageID;
     @FXML
-    private Button choosePictuerBtnID;
+    private JFXButton choosePictuerBtnID;
+    @FXML
+    private JFXButton registerBtnID;
+    @FXML
+    private JFXButton backBtnID;
+
 
     FileChooser fileChooser;
     Image image;
