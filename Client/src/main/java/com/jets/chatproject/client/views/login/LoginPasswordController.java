@@ -9,6 +9,8 @@ import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.module.rmi.AuthService;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -19,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -28,13 +31,15 @@ import javafx.scene.input.KeyEvent;
 public class LoginPasswordController implements Initializable {
 
     @FXML
+    private AnchorPane PaneLoginPassword;
+    @FXML
+    private JFXButton loginBtnID;
+    @FXML
+    private JFXButton backButton;
+    @FXML
     private Label passwordLabel;
     @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Button loginBtnID;
-    @FXML
-    private Button backButton;
+    private JFXTextField passwordField;
 
     String userPhone;
     ScreenController screenController;

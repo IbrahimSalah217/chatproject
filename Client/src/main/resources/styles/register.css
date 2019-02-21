@@ -7,14 +7,3 @@ and open the template in the editor.
     Created on : Feb 18, 2019, 5:18:10 AM
     Author     : pc
 */
-
-#userImageID{
-    -fx-background-color:wheat;
-    -fx-stroke-borders: 2;
-    -fx-stroke-width: 2.0;
-    -fx-stroke: #70c0e7;
-    -fx-stroke: #26A0DA;
-}
-#registerPane{
-    -fx-background-color: linear-gradient(#d0e1fb 0%,lightcyan 25%, mintcream 65%, lightblue 100%);
-}

@@ -10,6 +10,12 @@ import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -50,28 +56,30 @@ import javax.imageio.ImageIO;
  */
 public class UpdateProfileFXMLController implements Initializable {
 
+     @FXML
+    private JFXPasswordField passwordTxtID;
     @FXML
-    private PasswordField passwordTxtID;
+    private JFXPasswordField verifyPasswordTxtID;
     @FXML
-    private PasswordField verifyPasswordTxtID;
+    private JFXTextField emailTxtID;
     @FXML
-    private TextField emailTxtID;
+    private JFXTextField nameTxtID;
     @FXML
-    private TextField nameTxtID;
+    private JFXTextField countryTxtID;
     @FXML
-    private TextField countryTxtID;
+    private JFXTextField phoneNumberTxtID;
     @FXML
-    private TextField phoneNumberTxtID;
+    private JFXComboBox genderCBoxID;
     @FXML
-    private ComboBox genderCBoxID;
+    private JFXDatePicker datePickerID;
     @FXML
-    private DatePicker datePickerID;
+    private JFXTextArea bio;
     @FXML
-    private TextArea bio;
+    private JFXButton updateBtnID;
     @FXML
     private ImageView userImageID;
     @FXML
-    private Button updateBtnID;
+    private JFXButton choosePictuerBtnID;
 
     FileChooser fileChooser;
     Image image;
