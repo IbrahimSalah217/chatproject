@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <left>
-      <TableView fx:id="tableInfo" prefHeight="633.0" prefWidth="926.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn fx:id="userPhoneNumber" prefWidth="114.0" text="phoneNumber" />
-            <TableColumn fx:id="userName" prefWidth="174.0" text="dispalyName" />
-            <TableColumn fx:id="userEmail" prefWidth="210.0" text="email" />
-            <TableColumn fx:id="userGender" prefWidth="122.0" text="gender" />
-            <TableColumn fx:id="userCountry" prefWidth="143.0" text="country" />
-            <TableColumn fx:id="userDateOfBirth" prefWidth="161.0" text="dateOfBirth" />
-        </columns>
-      </TableView>
-   </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="927.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="622.0" prefWidth="927.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableInfo" prefHeight="571.0" prefWidth="926.0">
+              <columns>
+                <TableColumn fx:id="userPhoneNumber" prefWidth="114.0" text="phoneNumber" />
+                  <TableColumn fx:id="userName" prefWidth="174.0" text="dispalyName" />
+                  <TableColumn fx:id="userEmail" prefWidth="210.0" text="email" />
+                  <TableColumn fx:id="userGender" prefWidth="122.0" text="gender" />
+                  <TableColumn fx:id="userCountry" prefWidth="143.0" text="country" />
+                  <TableColumn fx:id="userDateOfBirth" prefWidth="161.0" text="dateOfBirth" />
+              </columns>
+            </TableView>
+            <Button fx:id="updateButton" layoutX="228.0" layoutY="571.0" mnemonicParsing="false" onMouseClicked="#updateButtonClick" prefHeight="44.0" prefWidth="450.0" text="Update" textAlignment="CENTER">
+               <font>
+                  <Font name="High Tower Text" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>
