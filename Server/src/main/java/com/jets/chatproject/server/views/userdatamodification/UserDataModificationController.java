@@ -20,12 +20,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -50,6 +52,9 @@ public class UserDataModificationController implements Initializable {
     private TableColumn<User, String> userCountry;
     @FXML
     private TableColumn<User, Date> userDateOfBirth;
+    @FXML
+    private Button updateButton;
+
     ObservableList<User> userList;
     List<User> userEntityList;
     UsersDao userdao;
@@ -107,13 +112,9 @@ public class UserDataModificationController implements Initializable {
         userCountry.setOnEditCommit((e) -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setCountry(e.getNewValue());
         });
-//        userDateOfBirth.setCellFactory(new Callback<TableColumn, TableCell>() {
-//            @Override
-//            public TableCell call(TableColumn p) {
-//                DatePickerCell datePick = new DatePickerCell(dataList);
-//                return datePick;
-//            }
-//        });
+        userDateOfBirth.setCellFactory((param) -> {
+            return new DatePickerCell(userList);
+        });
         userDateOfBirth.setOnEditCommit((e) -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setDateOfBirth(e.getNewValue());
         });
@@ -131,6 +132,18 @@ public class UserDataModificationController implements Initializable {
             userList.add(user);
         });
         tableInfo.setItems(userList);
+    }
+
+    @FXML
+    void updateButtonClick(MouseEvent event) {
+
+        userList.forEach((user) -> {
+            try {
+                userdao.update(user);
+            } catch (Exception ex) {
+                Logger.getLogger(UserDataModificationController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
 }
