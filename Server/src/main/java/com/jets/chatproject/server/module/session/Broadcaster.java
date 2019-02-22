@@ -87,7 +87,7 @@ public class Broadcaster {
                 while (iterator.hasNext()) {
                     ClientCallback client = iterator.next();
                     try {
-                        client.receiveServerMessage(userId, message);
+                        client.receiveServerMessage(message);
                     } catch (RemoteException ex) {
                         iterator.remove();
                     }

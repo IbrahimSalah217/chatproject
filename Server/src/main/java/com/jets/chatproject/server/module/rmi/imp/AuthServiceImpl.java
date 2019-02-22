@@ -18,6 +18,8 @@ import com.jets.chatproject.server.module.dal.entities.User;
 import com.jets.chatproject.server.module.session.Broadcaster;
 import java.rmi.server.UnicastRemoteObject;
 import com.jets.chatproject.server.module.session.SessionManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -85,6 +87,23 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
         Broadcaster.getInstance().saveClient(
                 sessionManager.findUserId(session),
                 clientCallback);
+    }
+
+    @Override
+    public boolean registerbyServer(String phone) throws RemoteException {
+        
+        boolean systemRegistartion = false;
+        try {
+            User user = userdao.findByPhone(phone);
+            if(user.getSystemRegistration()){
+                systemRegistartion = true;
+            }else{
+                systemRegistartion = false;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AuthServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return systemRegistartion;
     }
 
 }

@@ -13,9 +13,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -75,6 +78,7 @@ public class LoginPasswordController implements Initializable {
             String userSession = isRealUser(userPhone, passwordField.getText());
             System.out.println(userSession);
             screenController.saveSession(userSession, userPhone);
+            registeredbyServer();
             screenController.switchToUSerProfileScreen();
         } catch (Exception ex) {
             DialogUtils.showException(ex);
@@ -91,5 +95,24 @@ public class LoginPasswordController implements Initializable {
         }
         return userSession;
 
+    }
+    private void registeredbyServer(){
+        try {
+            System.out.println("enter");
+            AuthService authService = ServiceLocator.getService(AuthService.class);
+            if(authService.registerbyServer(userPhone)){
+                System.out.println("reach");
+                getAlert("Registered by server", "You can change your password", Alert.AlertType.INFORMATION);
+                screenController.switchToUpdateProfileScreen();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(LoginPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void getAlert(String header, String content, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

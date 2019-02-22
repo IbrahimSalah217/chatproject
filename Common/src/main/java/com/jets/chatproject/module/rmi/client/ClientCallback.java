@@ -19,5 +19,5 @@ public interface ClientCallback extends Remote {
 
     public void receiveGroupMessage(int groupId, MessageDTO messageDTO) throws RemoteException;
     
-    public void receiveServerMessage(int userId, String message) throws RemoteException;
+    public void receiveServerMessage(String message) throws RemoteException;
 }
