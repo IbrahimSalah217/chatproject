@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="backButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="712.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
        <children>
-        <GridPane layoutX="8.0" layoutY="89.0" prefHeight="375.0" prefWidth="657.0">
+        <GridPane layoutX="26.0" layoutY="94.0" prefHeight="375.0" prefWidth="657.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="267.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="124.0" />
@@ -82,12 +82,13 @@
                 <ComboBox fx:id="genderCBoxID" onAction="#getGender" prefHeight="30.0" prefWidth="175.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                 <DatePicker fx:id="datePickerID" onAction="#getBirthdate" prefHeight="31.0" prefWidth="174.0" promptText="mm/dd/yyyy" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                 <Button fx:id="registerBtnID" mnemonicParsing="false" onAction="#register" prefHeight="34.0" prefWidth="118.0" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Button fx:id="backToMainPage" mnemonicParsing="false" text="back" GridPane.rowIndex="9" />
             </children>
         </GridPane>
-      <Label layoutX="246.0" layoutY="28.0" text="Server Registration">
+      <Label layoutX="214.0" layoutY="33.0" text="Server Registration" textFill="#00259c9e">
          <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
+                <Font name="Snap ITC" size="24.0" />
+            </font>
       </Label>
     </children>
 </Pane>

@@ -7,6 +7,7 @@ package com.jets.chatproject.server.views.manageservice;
  */
 
 import com.jets.chatproject.server.ServerApplication;
+import com.jets.chatproject.server.controller.ScreenController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,10 +27,15 @@ public class ServerManagerController implements Initializable {
     private Button startButton;
     @FXML
     private Button stopButton;
-    ServerApplication application  = new ServerApplication();
+    @FXML
+    private Button backButton;
+    ScreenController screenController;
+    ServerApplication application;
     
-    public ServerManagerController(){
+    public ServerManagerController(ScreenController screenController){
         
+        application  = new ServerApplication();
+        this.screenController = screenController;
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -46,7 +52,10 @@ public class ServerManagerController implements Initializable {
             application.stopServer();
             stopButton.setDisable(true);
         });
+        backButton.setOnAction((ActionEvent event)->{
         
+            screenController.switchToMainPage();
+        });
         
     }    
     

@@ -49,7 +49,7 @@ public class CountryStatisticsController implements Initializable {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
             userList = userDao.findAllUser();
             for(User user : userList){
-                if(user.getCountry().toLowerCase() == "egypt"){
+                if(user.getCountry().equalsIgnoreCase("egypt")){
                     egyptainUserList.add(user);
                 }else{
                     otherUserList.add(user);

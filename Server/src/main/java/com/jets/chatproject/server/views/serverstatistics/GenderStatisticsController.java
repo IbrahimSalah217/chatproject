@@ -43,12 +43,11 @@ public class GenderStatisticsController implements Initializable {
         maleUserList = new ArrayList<>();
         femaleUserList = new ArrayList<>();
         userDao = daosFactory.getUsersDao();
-        System.out.println("gender Constractor done");
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("gender done");
+        
         try {
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
             userList = userDao.findAllUser();

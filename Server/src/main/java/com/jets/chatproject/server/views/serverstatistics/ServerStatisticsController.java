@@ -5,6 +5,7 @@ package com.jets.chatproject.server.views.serverstatistics;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import java.io.IOException;
 import java.net.URL;
@@ -36,14 +37,18 @@ public class ServerStatisticsController implements Initializable {
     private Button allUsers;
     @FXML
     private Button country;
+    @FXML
+    private Button backButton;
     Stage stage;
     DaosFactory daosFactory;
+    ScreenController screenController;
 
 
-    public ServerStatisticsController(DaosFactory daosFactory) {
+    public ServerStatisticsController(DaosFactory daosFactory, ScreenController screenController) {
         
         this.daosFactory = daosFactory;
         stage = new Stage();
+        this.screenController = screenController;
     }
 
     @Override
@@ -108,6 +113,10 @@ public class ServerStatisticsController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(ServerStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        });
+        backButton.setOnAction((ActionEvent event)->{
+        
+            screenController.switchToMainPage();
         });
     }
 

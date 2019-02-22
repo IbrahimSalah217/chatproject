@@ -9,6 +9,7 @@ package com.jets.chatproject.server.views.serverannouncement;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.MessageType;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
+import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.User;
@@ -37,17 +38,21 @@ public class ServerAnnouncementController implements Initializable {
 
     @FXML
     private Button broadcastButton;
+    @FXML
+    private Button backButton;
     UsersDao userDao;
     List<User> userList;
     List<Integer> onlineUserList;
     Broadcaster broadcaster;
     MessageDTO serverMessage;
+    ScreenController screenController;
 
-    public ServerAnnouncementController(DaosFactory daosFactory){
+    public ServerAnnouncementController(DaosFactory daosFactory, ScreenController screenController){
         
         onlineUserList = new ArrayList<>();
         userDao = daosFactory.getUsersDao();
         broadcaster = Broadcaster.getInstance();
+        this.screenController = screenController;
     }
 
     @Override
@@ -64,9 +69,12 @@ public class ServerAnnouncementController implements Initializable {
                     onlineUserList.add(user.getId());
                 }
             });
-//            serverMessage = new MessageDTO(0, 0, senderName, htmlEditor., htmlEditor.getHtmlText(), format, timestamp)
-            broadcaster.broadcastFromServer(onlineUserList, serverMessage);
+            broadcaster.broadcastFromServer(onlineUserList, htmlEditor.getHtmlText());
             
+        });
+        backButton.setOnAction((ActionEvent event)->{
+        
+            screenController.switchToMainPage();
         });
     }    
     

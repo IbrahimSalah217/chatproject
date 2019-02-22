@@ -5,6 +5,7 @@ package com.jets.chatproject.server.views;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.imp.DbDaosFactory;
 import com.jets.chatproject.server.views.manageservice.ServerManagerController;
@@ -45,24 +46,25 @@ public class MainPageController implements Initializable {
     private Button ManageService;
     Stage stage;
     DaosFactory daosFactory ;
+    ScreenController screenController;
 
-    public MainPageController(Stage stage) {
+    public MainPageController(Stage stage, ScreenController screenController) {
         this.stage = stage;
         daosFactory = new DbDaosFactory();
+        this.screenController = screenController;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("hello");
 
         UserRegistration.setOnAction((ActionEvent event) -> {
             
             FXMLLoader loader = new FXMLLoader();
-            RegisterController controller = new RegisterController(daosFactory);
+            RegisterController controller = new RegisterController(daosFactory, screenController);
             loader.setController(controller);
             try {
                 Parent root = loader.load(controller.getClass().getResource("register.fxml").openStream());
-                Scene scene = new Scene(root, 800, 400);
+                Scene scene = new Scene(root);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -73,11 +75,11 @@ public class MainPageController implements Initializable {
         ServerStatistics.setOnAction((ActionEvent event) -> {
 
             FXMLLoader loader = new FXMLLoader();
-            ServerStatisticsController controller = new ServerStatisticsController(daosFactory);
+            ServerStatisticsController controller = new ServerStatisticsController(daosFactory, screenController);
             loader.setController(controller);
             try {
                 Parent root = loader.load(controller.getClass().getResource("ServerStatistics.fxml").openStream());
-                Scene scene = new Scene(root, 800, 400);
+                Scene scene = new Scene(root);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -90,11 +92,11 @@ public class MainPageController implements Initializable {
         ServerAnnouncement.setOnAction((ActionEvent event) -> {
 
             FXMLLoader loader = new FXMLLoader();
-            ServerAnnouncementController controller = new ServerAnnouncementController(daosFactory);
+            ServerAnnouncementController controller = new ServerAnnouncementController(daosFactory, screenController);
             loader.setController(controller);
             try {
                 Parent root = loader.load(controller.getClass().getResource("ServerAnnouncement.fxml").openStream());
-                Scene scene = new Scene(root, 800, 400);
+                Scene scene = new Scene(root);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -106,11 +108,11 @@ public class MainPageController implements Initializable {
         UserDataModification.setOnAction((ActionEvent event) -> {
             
             FXMLLoader loader = new FXMLLoader();
-            UserDataModificationController controller = new UserDataModificationController(daosFactory);
+            UserDataModificationController controller = new UserDataModificationController(daosFactory, screenController);
             loader.setController(controller);
             try {
                 Parent root = loader.load(controller.getClass().getResource("UserDataModification.fxml").openStream());
-                Scene scene = new Scene(root, 800, 400);
+                Scene scene = new Scene(root);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();
@@ -120,14 +122,13 @@ public class MainPageController implements Initializable {
 
         });
         ManageService.setOnAction((ActionEvent event) -> {
-
-            System.out.println("done");
+            
             FXMLLoader loader = new FXMLLoader();
-            ServerManagerController controller = new ServerManagerController();
+            ServerManagerController controller = new ServerManagerController(screenController);
             loader.setController(controller);
             try {
                 Parent root = loader.load(controller.getClass().getResource("ServerManager.fxml").openStream());
-                Scene scene = new Scene(root, 800, 400);
+                Scene scene = new Scene(root);
                 stage.setTitle("Server Manager");
                 stage.setScene(scene);
                 stage.show();

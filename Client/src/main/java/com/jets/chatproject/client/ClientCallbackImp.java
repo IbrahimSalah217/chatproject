@@ -76,6 +76,11 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         });
     }
 
+    @Override
+    public void receiveServerMessage(int userId, String message) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public interface MessageListener {
 
         void onDirectMessageReceived(int friendId, MessageDTO message);

@@ -6,6 +6,7 @@
 package com.jets.chatproject.server;
 
 import com.jets.chatproject.module.rmi.*;
+import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.imp.DbDaosFactory;
 import com.jets.chatproject.server.module.rmi.imp.AuthServiceImpl;
@@ -22,13 +23,9 @@ import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.jets.chatproject.server.module.session.SessionManager;
-import com.jets.chatproject.server.views.MainPageController;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -126,14 +123,9 @@ public class ServerApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader();
-        MainPageController controller = new MainPageController(primaryStage);
-        loader.setController(controller);
-        Parent root = loader.load(controller.getClass().getResource("MainPage.fxml").openStream());
-        Scene scene = new Scene(root, 800, 400);
-        primaryStage.setTitle("Server Manager");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        ScreenController controller = new ScreenController(primaryStage);
+        controller.switchToMainPage();
+        
     }
 
 }

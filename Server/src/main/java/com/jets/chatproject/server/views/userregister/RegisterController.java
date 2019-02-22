@@ -8,6 +8,7 @@ package com.jets.chatproject.server.views.userregister;
 
 import com.jets.chatproject.module.rmi.dto.Gender;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
+import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
@@ -63,8 +64,10 @@ public class RegisterController implements Initializable {
     private DatePicker datePickerID;
     @FXML
     private Button registerBtnID;
+    @FXML
+    private Button backToMainPage;
     
-
+    ScreenController screenController;
     String name, password, verifyPassword, email, country, gender, phoneNumber;
     Date birthdate;
     InputsValidation inputsValidation;
@@ -76,8 +79,9 @@ public class RegisterController implements Initializable {
 
 
 
-    public RegisterController(DaosFactory daosFactory) {
+    public RegisterController(DaosFactory daosFactory, ScreenController screenController) {
         
+        this.screenController = screenController;
         picturesDao = daosFactory.getPicturesDao();
         image = new Image("\\Images\\userimg.png");
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
@@ -98,6 +102,10 @@ public class RegisterController implements Initializable {
         genderCBoxID.setItems(FXCollections.observableArrayList("MALE", "FEMALE"));
         inputsValidation = new InputsValidation(this);
         Platform.runLater(() -> nameTxtID.requestFocus());
+        backToMainPage.setOnAction((ActionEvent event)->{
+        
+            screenController.switchToMainPage();
+        });
     }
 
     @FXML

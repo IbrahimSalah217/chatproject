@@ -6,6 +6,7 @@ package com.jets.chatproject.server.views.userdatamodification;
  * and open the template in the editor.
  */
 import com.jets.chatproject.module.rmi.dto.Gender;
+import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.User;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -53,14 +55,16 @@ public class UserDataModificationController implements Initializable {
     @FXML
     private TableColumn<User, Date> userDateOfBirth;
     @FXML
-    private Button updateButton;
+    private Button backButton;
+    ScreenController screenController;
 
     ObservableList<User> userList;
     List<User> userEntityList;
     UsersDao userdao;
 
-    public UserDataModificationController(DaosFactory daosFactory) {
-
+    public UserDataModificationController(DaosFactory daosFactory, ScreenController screenController) {
+        
+        this.screenController = screenController;
         userdao = daosFactory.getUsersDao();
         userList = FXCollections.observableArrayList();
 
@@ -70,6 +74,10 @@ public class UserDataModificationController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loadData();
         initcols();
+        backButton.setOnAction((ActionEvent event)->{
+        
+            screenController.switchToMainPage();
+        });
     }
 
     private void initcols() {
