@@ -7,9 +7,9 @@ package com.jets.chatproject.client.views.login;
 
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
-import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,9 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -42,7 +40,7 @@ public class LoginPasswordController implements Initializable {
     @FXML
     private Label passwordLabel;
     @FXML
-    private JFXTextField passwordField;
+    private JFXPasswordField passwordField;
 
     String userPhone;
     ScreenController screenController;
@@ -81,7 +79,7 @@ public class LoginPasswordController implements Initializable {
             registeredbyServer();
             screenController.switchToUSerProfileScreen();
         } catch (Exception ex) {
-            DialogUtils.showException(ex);
+            getAlert("Wrong Password", "Please, re-enter your password again.", Alert.AlertType.ERROR);
         }
     }
 
