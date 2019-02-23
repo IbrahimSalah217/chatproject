@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="backButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="712.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+       <children>
+        <GridPane layoutX="26.0" layoutY="94.0" prefHeight="375.0" prefWidth="657.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="267.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="124.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="270.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="32.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="29.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="23.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Verify Password" GridPane.rowIndex="6">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Password" GridPane.rowIndex="4">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Email" GridPane.rowIndex="2">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Name">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Country" GridPane.columnIndex="2">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Gender" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label text="Birthdate" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="passwordTxtID" onAction="#getPassword" prefHeight="36.0" prefWidth="263.0" promptText="Password" GridPane.rowIndex="5" />
+                <PasswordField fx:id="verifyPasswordTxtID" onAction="#getVerifyPassword" prefHeight="31.0" prefWidth="263.0" promptText="Verify Password" GridPane.rowIndex="7" />
+                <TextField fx:id="emailTxtID" onAction="#getEmail" prefHeight="32.0" prefWidth="263.0" promptText="You@Example.com" GridPane.rowIndex="3" />
+                <TextField fx:id="nameTxtID" onAction="#getName" prefHeight="31.0" prefWidth="263.0" promptText="Name" GridPane.rowIndex="1" />
+                <TextField fx:id="countryTxtID" onAction="#getCountry" prefHeight="30.0" prefWidth="269.0" promptText="Country" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="phoneNumberTxtID" onAction="#getPhoneNumber" prefHeight="32.0" prefWidth="275.0" promptText="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <ComboBox fx:id="genderCBoxID" onAction="#getGender" prefHeight="30.0" prefWidth="175.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                <DatePicker fx:id="datePickerID" onAction="#getBirthdate" prefHeight="31.0" prefWidth="174.0" promptText="mm/dd/yyyy" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                <Button fx:id="registerBtnID" mnemonicParsing="false" onAction="#register" prefHeight="34.0" prefWidth="118.0" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Button fx:id="backToMainPage" mnemonicParsing="false" text="back" GridPane.rowIndex="9" />
+            </children>
+        </GridPane>
+      <Label layoutX="214.0" layoutY="33.0" text="Server Registration" textFill="#00259c9e">
+         <font>
+                <Font name="Snap ITC" size="24.0" />
+            </font>
+      </Label>
+    </children>
+</Pane>

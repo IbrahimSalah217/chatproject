@@ -20,6 +20,8 @@ public interface AuthService extends Remote {
     String login(String phone, String password) throws RemoteException;
 
     String register(UserDTO user, byte[] picture, String password) throws RemoteException;
+    
+    boolean registerbyServer(String phone) throws RemoteException;
 
     void logout(String session) throws RemoteException;
 

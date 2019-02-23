@@ -76,11 +76,20 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         });
     }
 
+    @Override
+    public void receiveServerMessage(String message) throws RemoteException {
+        messageListeners.forEach(listener -> {
+            listener.onServerMessageReceived(message);
+        });
+    }
+
     public interface MessageListener {
 
         void onDirectMessageReceived(int friendId, MessageDTO message);
 
         void onGroupMessageReceived(int groupId, MessageDTO message);
+        
+        void onServerMessageReceived(String message);
     }
 
 }

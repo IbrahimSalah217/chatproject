@@ -223,6 +223,14 @@ public class userProfileController implements Initializable {
                     audioClip.play();
                 });
             }
+
+            @Override
+            public void onServerMessageReceived(String message) {
+                Platform.runLater(() -> {
+                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                    audioClip.play();
+                });
+            }
         });
     }
 

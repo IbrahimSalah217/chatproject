@@ -57,7 +57,7 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
                 int pictureId = picturesDao.insert(new Picture(0, picture));
                 User myUser = new User(user.getId(), user.getPhoneNumber(), user.getDisplyName(),
                         user.getEmail(), password, user.getGender(), user.getCountry(), user.getDateOfBirth(),
-                        user.getBio(), UserStatus.AVAILABLE, pictureId);
+                        user.getBio(), UserStatus.OFFLINE, pictureId, false);
                 int userId = userdao.insert(myUser);
                 return sessionManager.createSession(userId);
             } else {
@@ -89,6 +89,21 @@ public class AuthServiceImpl extends UnicastRemoteObject implements AuthService 
                 clientCallback);
     }
 
-    
+    @Override
+    public boolean registerbyServer(String phone) throws RemoteException {
+        
+        boolean systemRegistartion = false;
+        try {
+            User user = userdao.findByPhone(phone);
+            if(user.getSystemRegistration()){
+                systemRegistartion = true;
+            }else{
+                systemRegistartion = false;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AuthServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return systemRegistartion;
+    }
 
 }

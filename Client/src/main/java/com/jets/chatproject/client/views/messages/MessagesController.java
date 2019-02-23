@@ -14,6 +14,11 @@ import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.MessageFormat;
 import com.jets.chatproject.module.rmi.dto.MessageType;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXColorPicker;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -23,6 +28,7 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -46,19 +52,19 @@ import javafx.scene.text.TextFlow;
 public class MessagesController implements Initializable {
 
     @FXML
-    private ToggleButton boldToggle;
+    private JFXToggleButton boldToggle;
     @FXML
-    private ToggleButton italicToggle;
+    private JFXToggleButton italicToggle;
     @FXML
-    private ColorPicker textColorPicker;
+    private JFXColorPicker textColorPicker;
     @FXML
-    private ColorPicker backgroundColorPicker;
+    private JFXColorPicker backgroundColorPicker;
     @FXML
-    private ComboBox<Integer> fontSizeCombo;
+    private JFXComboBox<Integer> fontSizeCombo;
     @FXML
-    private TextField messageTextField;
+    private JFXTextField messageTextField;
     @FXML
-    private Button sendButton;
+    private JFXButton sendButton;
     @FXML
     private ListView<MessageDTO> messagesListView;
 
@@ -90,6 +96,11 @@ public class MessagesController implements Initializable {
                     messagesListView.getItems().add(message);
                 });
             }
+        }
+
+        @Override
+        public void onServerMessageReceived(String message) {
+            getAlert("Server Message", message, Alert.AlertType.INFORMATION);
         }
     };
 
@@ -247,6 +258,12 @@ public class MessagesController implements Initializable {
 
         messageTextField.setStyle("-fx-text-fill:" + messageFormat.getTextColorCode() + ";"
                 + "-fx-control-inner-background:" + messageFormat.getBackgroundColorCode());
+    }
+    private void getAlert(String header, String content, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 }

@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath com.jets.chatproject.server.Application</exec.args>
+                <exec.args>-classpath %classpath com.jets.chatproject.server.ServerApplication</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
