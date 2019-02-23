@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -22,9 +23,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 /**
  *
@@ -37,21 +41,28 @@ public class ContactHbox extends ListCell<FriendshipDTO> {
     String session;
     HBox hBox = new HBox();
     Label friendName = new Label();
-    ImageView userImage = new ImageView();
-    Circle statusCircle = new Circle(10);
+    Circle userImage = new Circle(30);
+    Color statusCircle;
     ToggleButton blockBtn =new ToggleButton();
-    Rectangle toggleRect = new Rectangle(15, 15);
-    Pane pane = new Pane();
+    Rectangle toggleRect = new Rectangle(20, 20);
+    Rectangle toggleRect2 = new Rectangle(20, 20);
+    VBox vbox = new VBox(toggleRect,toggleRect2);
+    RadioButton r = new RadioButton();
+    
+    Pane pane1 = new Pane(); 
+    Pane pane2 = new Pane();
 
     public ContactHbox(String session) {
         this.session = session;
-        blockBtn.setShape(toggleRect);
-        statusCircle.setRadius(10);
-        statusCircle.setFill(Color.GREEN);
-        userImage.setFitHeight(60);
-        userImage.setFitWidth(60);
-        hBox.getChildren().addAll(userImage, friendName,pane,blockBtn,statusCircle);
-        hBox.setHgrow(pane, Priority.ALWAYS);
+        friendName.setStyle("-fx-font-style: oblique;-fx-font-size:18;");
+        //blockBtn.setShape(toggleRect);
+        //toggleRect.setFill(new ImagePattern(new Image("D:\\intake39\\java project\\image\\block.png")));
+        pane1.setShape(new Rectangle(10, USE_PREF_SIZE));
+        pane2.setShape(new Rectangle(20, USE_PREF_SIZE));
+        hBox.getChildren().addAll(userImage, pane1,friendName,pane2,vbox);
+        hBox.setHgrow(pane1, Priority.ALWAYS);
+        hBox.setHgrow(pane2, Priority.ALWAYS);
+        
         try {
             usersService = ServiceLocator.getService(UsersService.class);
             friendService = ServiceLocator.getService(FriendshipService.class);
@@ -68,35 +79,51 @@ public class ContactHbox extends ListCell<FriendshipDTO> {
             setGraphic(null);
         } else {
             try {
-                blockBtn.setOnAction((event) -> {
+                toggleRect.setOnMousePressed((event) -> {
                     try {
-                        if(!friend.isBlocked())                       
+                       // if(!friend.isBlocked())                       
                             friendService.blockFriend(session,friend.getFriendId());
-                        else
-                            friendService.unblockFriend(session,friend.getFriendId());
+                            toggleRect.setVisible(false);
+                            toggleRect2.setVisible(true);
+                            hBox.setDisable(true);
+                       
                     } catch (RemoteException ex) {
                         Logger.getLogger(ContactHbox.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                 });
+                toggleRect2.setOnMousePressed((event) -> {
+                    try {
+                            friendService.unblockFriend(session,friend.getFriendId());
+                            toggleRect2.setVisible(false);
+                            toggleRect.setVisible(true);
+                            hBox.setDisable(false);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(ContactHbox.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                });
+
                 Image image = new Image(new ByteArrayInputStream(usersService.getPicture(session, friend.getMemberPictureId())));
-                userImage.setClip(new Circle(60));
-                userImage.setImage(image);
+                userImage.setFill(new ImagePattern(image));
                 friendName.setText(friend.getFriendName()+"\n"+friend.getLastMessage().getContent());
                 switch (friend.getFriendStatus()) {
                 case AVAILABLE:
-                    statusCircle.setFill(Color.GREEN);
+                    statusCircle = Color.GREENYELLOW;
                     break;
                 case AWAY:
-                    statusCircle.setFill(Color.RED);
+                    statusCircle = Color.RED;
                     break;
                 case BUSY:
-                    statusCircle.setFill(Color.YELLOW);
+                    statusCircle = Color.YELLOW;
                     break;
                 case OFFLINE:
-                    statusCircle.setFill(Color.BLACK);
+                    statusCircle = Color.BLACK;
                     break;
             }
+                userImage.setStroke(statusCircle);
+                userImage.setStrokeWidth(2);
+                userImage.setStrokeType(StrokeType.OUTSIDE);
                 setGraphic(hBox);
             } catch (RemoteException ex) {
                 DialogUtils.showException(ex);

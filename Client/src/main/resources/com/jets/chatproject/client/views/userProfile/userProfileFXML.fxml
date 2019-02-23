@@ -50,11 +50,6 @@
                   <ListView fx:id="listRequests" prefHeight="499.0" prefWidth="228.0" style="-fx-background-color: #486F56;" />
                </children>
             </Pane>
-            <ImageView fx:id="userImage" fitHeight="75.0" fitWidth="84.0" layoutY="2.0" onMouseEntered="#updateProfileLable" onMousePressed="#updateProfileAction" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/user-512.png" />
-               </image>
-            </ImageView>
             <Label fx:id="userNameLable" layoutX="76.0" layoutY="-1.0" prefHeight="74.0" prefWidth="157.0" text="USER NAME" textFill="#1b2280">
                <font>
                   <Font name="Algerian" size="16.0" />
@@ -66,6 +61,7 @@
                   <Image url="@images/requests.png" />
                </image>
             </ImageView>
+            <Circle fx:id="userImage" fill="DODGERBLUE" layoutX="37.0" layoutY="38.0" onMousePressed="#updateProfileAction" radius="31.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </Pane>
    </left>

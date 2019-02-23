@@ -68,7 +68,7 @@ public class LoginPasswordController implements Initializable {
 
     @FXML
     private void backAction(ActionEvent event) {
-        screenController.switchToLoginPhoneScreen();
+        //screenController.switchToLoginPhoneScreen();
     }
 
     public void logIn() {
