@@ -332,6 +332,7 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void logoutLable(MouseEvent event) {
+        
     }
 
     @FXML
