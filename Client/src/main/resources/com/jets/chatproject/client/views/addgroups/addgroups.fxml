@@ -1,56 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane fx:id="paneAddGroup" layoutX="-1.0" prefHeight="400.0" prefWidth="304.0" style="-fx-background-color: black;">
+      <Pane fx:id="paneAddGroup" layoutX="-1.0" minHeight="400.0" minWidth="304.0" prefHeight="400.0" prefWidth="304.0" style="-fx-background-color: linear-gradient(#2d6ab9 0%,#c7dfdf 25%, lightcyan 65%,  mintcream 100%);">
          <children>
-            <TextField fx:id="groupNameTxt" layoutX="22.0" layoutY="296.0" prefHeight="33.0" prefWidth="261.0" promptText="Enter group name">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></TextField>
-            <Button fx:id="chossePicBtn" layoutX="25.0" layoutY="165.0" mnemonicParsing="false" onAction="#choosePicAction" prefHeight="33.0" prefWidth="115.0" text="choose Pic">
-               <font>
-                  <Font name="Algerian" size="15.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="groupImg" fitHeight="115.0" fitWidth="122.0" layoutX="25.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="groupImg" fitHeight="115.0" fitWidth="115.0" layoutX="25.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/addgroup2.png" />
                </image>
             </ImageView>
-            <TextField fx:id="memberTxtField" layoutX="24.0" layoutY="230.0" prefHeight="25.0" prefWidth="183.0" promptText="new member phone">
+            <JFXButton fx:id="submitView" defaultButton="true" focusTraversable="false" layoutX="86.0" layoutY="348.0" onMousePressed="#SubmitAction" prefHeight="34.0" prefWidth="108.0" style="-fx-border-radius: 30px; -fx-background-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Submit" textFill="#2d6ab9">
+               <effect>
+                  <DropShadow color="#99b0bc" spread="0.28" />
+               </effect>
+               <font>
+                  <Font name="Showcard Gothic" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <MaterialDesignIconView fill="#2d6ab9" glyphName="CHECKBOX_MARKED_CIRCLE" size="20" />
+               </graphic>
+            </JFXButton>
+            <JFXTextField fx:id="memberTxtField" focusColor="#2d6ab9" layoutX="26.0" layoutY="227.0" maxWidth="297.0" minWidth="162.0" prefHeight="31.0" prefWidth="183.0" promptText="new member phone" style="-fx-background-color: #ffffff;">
                <font>
                   <Font name="System Bold" size="12.0" />
-               </font></TextField>
-            <ImageView fx:id="addMemberBtn" fitHeight="25.0" fitWidth="31.0" layoutX="258.0" layoutY="230.0" onMousePressed="#addMemberAction" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/add.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="removeMemberBtn" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="230.0" onMousePressed="#removeMemberAction" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/add2.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="submitView" fitHeight="51.0" fitWidth="54.0" layoutX="245.0" layoutY="4.0" onMousePressed="#SubmitAction" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/Contract-512.png" />
-               </image>
-            </ImageView>
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="groupNameTxt" focusColor="#2d6ab9" layoutX="22.0" layoutY="288.0" maxWidth="297.0" minWidth="162.0" prefHeight="31.0" prefWidth="261.0" promptText="Enter group name" style="-fx-background-color: #ffffff;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="chossePicBtn" defaultButton="true" focusTraversable="false" layoutX="18.0" layoutY="163.0" onAction="#choosePicAction" prefHeight="28.0" prefWidth="130.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Choose Picture" textFill="#2d6ab9">
+               <font>
+                  <Font name="Showcard Gothic" size="13.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#99b0bc" spread="0.28" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <MaterialDesignIconView fx:id="addMemberBtn" fill="#2d6ab9" glyphName="ACCOUNT_PLUS" layoutX="260.0" layoutY="253.0" onMousePressed="#addMemberAction" size="30">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MaterialDesignIconView>
+            <MaterialDesignIconView fx:id="removeMemberBtn" fill="#2d6ab9" glyphName="ACCOUNT_MINUS" layoutX="219.0" layoutY="253.0" onMousePressed="#removeMemberAction" size="30">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MaterialDesignIconView>
          </children>
       </Pane>
-      <Pane layoutX="303.0" prefHeight="400.0" prefWidth="297.0" style="-fx-background-color: green;">
+      <Pane layoutX="303.0" minHeight="400.0" minWidth="297.0" prefHeight="400.0" prefWidth="297.0" style="-fx-background-color: green;">
          <children>
-            <ListView fx:id="membersList" prefHeight="400.0" prefWidth="297.0" />
+            <ListView fx:id="membersList" minHeight="400.0" minWidth="297.0" prefHeight="400.0" prefWidth="297.0" />
          </children>
       </Pane>
    </children>

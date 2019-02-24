@@ -5,8 +5,10 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.effect.DropShadow?>
@@ -14,9 +16,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="500.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="500.0" prefHeight="312.0" prefWidth="523.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <ListView fx:id="messagesListView" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
@@ -42,40 +46,85 @@
                         <Font name="Times New Roman Bold Italic" size="14.0" />
                      </font>
                   </JFXToggleButton>
-                  <Label prefHeight="16.0" prefWidth="47.0" text="Text" textFill="#2d6ab9">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
+                  <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="59.0" text="Text" textFill="#2d6ab9">
                      <font>
-                        <Font name="Cooper Black" size="14.0" />
+                        <Font name="Cooper Black" size="13.0" />
                      </font>
+                     <graphic>
+                        <MaterialDesignIconView boundsType="VISUAL" glyphName="PALETTE" size="22">
+                           <fill>
+                              <LinearGradient cycleMethod="REPEAT" endX="0.7999999999999999" endY="1.0" startX="0.12380952380952386" startY="0.37142857142857144">
+                                 <stops>
+                                    <Stop color="#b82e2e" />
+                                    <Stop color="#b82e2e" offset="0.007662835249042145" />
+                                    <Stop color="#e8a710" offset="0.3210095982936367" />
+                                    <Stop color="#57d9ff" offset="0.6097483904096062" />
+                                    <Stop color="#8228b2" offset="0.7849666232176005" />
+                                    <Stop color="#d15cad" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </fill>
+                        </MaterialDesignIconView>
+                     </graphic>
                   </Label>
                   <JFXColorPicker fx:id="textColorPicker" focusTraversable="false" onAction="#pickTextColor" prefHeight="16.0" prefWidth="16.0" promptText="Text Color" style="-fx-color-label-visible: false;">
 							<value>
                                 <Color blue="0.0" green="0.0" red="0.0" />
                             </value>
 				  </JFXColorPicker>
-                  <Label prefHeight="16.0" prefWidth="103.0" style="-fx-color: blue;" text="Background" textFill="#2d6ab9">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
+                  <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="108.0" style="-fx-color: blue;" text="Background" textFill="#2d6ab9">
                      <font>
-                        <Font name="Cooper Black" size="14.0" />
+                        <Font name="Cooper Black" size="13.0" />
                      </font>
-                  </Label>
-                  <JFXColorPicker fx:id="backgroundColorPicker" focusTraversable="false" onAction="#pickBackgroundColor" prefHeight="16.0" prefWidth="16.0" promptText="Background Color" style="-fx-color-label-visible: false;" />
-                  <JFXComboBox fx:id="fontSizeCombo" onAction="#setFontSize" prefHeight="26.0" prefWidth="147.0" promptText="Font size: 12" style="-fx-font-family: 'Cooper Black'; -fx-color: #2d6ab9; -fx-font-size: 14;">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
-                     <padding>
-                        <Insets left="2.0" />
-                     </padding></JFXComboBox>
+                     <graphic>
+                        <MaterialDesignIconView boundsType="VISUAL" glyphName="PALETTE" size="22">
+                           <fill>
+                              <LinearGradient cycleMethod="REPEAT" endX="0.7999999999999999" endY="1.0" startX="0.12380952380952386" startY="0.37142857142857144">
+                                 <stops>
+                                    <Stop color="#b82e2e" />
+                                    <Stop color="#b82e2e" offset="0.007662835249042145" />
+                                    <Stop color="#e8a710" offset="0.3210095982936367" />
+                                    <Stop color="#57d9ff" offset="0.6097483904096062" />
+                                    <Stop color="#8228b2" offset="0.7849666232176005" />
+                                    <Stop color="#d15cad" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </fill>
+                        </MaterialDesignIconView>
+                     </graphic>
+                  </Label>
+                  <JFXColorPicker fx:id="backgroundColorPicker" focusTraversable="false" onAction="#pickBackgroundColor" prefHeight="16.0" prefWidth="16.0" promptText="Background Color" style="-fx-color-label-visible: false;" />
+                  <JFXComboBox fx:id="fontSizeCombo" onAction="#setFontSize" prefHeight="26.0" prefWidth="131.0" promptText="Font size: 12" style="-fx-font-family: 'Cooper Black'; -fx-color: #2d6ab9; -jfx-focus-color: #2d6ab9; -jfx-unfocus-color: black;">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></JFXComboBox>
                     </children>
                 </HBox>
                 <HBox spacing="5.0">
                     <children>
-                  <JFXTextField fx:id="messageTextField" focusColor="#2d6ab9" maxWidth="406.0" minWidth="382.0" onAction="#sendMessage" prefHeight="34.0" prefWidth="406.0" promptText="Messsage..." style="-fx-background-color: #ffffff;" />
+                  <JFXTextField fx:id="messageTextField" focusColor="#2d6ab9" maxWidth="406.0" minWidth="382.0" onAction="#sendMessage" prefHeight="34.0" prefWidth="389.0" promptText="Messsage..." style="-fx-background-color: #ffffff;" />
+                  <FontAwesomeIconView fx:id="sendFileBtn" fill="#2d6ab9" glyphName="PAPERCLIP" onMousePressed="#sendFileAction" rotate="72.9" size="25">
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </FontAwesomeIconView>
+                  <FontAwesomeIconView fx:id="recordBtn" fill="#2d6ab9" glyphName="MICROPHONE" layoutX="424.0" layoutY="40.0" onMousePressed="#recordAction" size="25">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </FontAwesomeIconView>
                   <JFXButton fx:id="sendButton" defaultButton="true" focusTraversable="false" onAction="#sendMessage" prefHeight="34.0" prefWidth="92.0" style="-fx-border-radius: 30px; -fx-background-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Send" textFill="#2d6ab9">
                      <effect>
                         <DropShadow color="#99b0bc" spread="0.28" />
@@ -86,6 +135,9 @@
                      <graphic>
                         <MaterialDesignIconView fill="#2d6ab9" glyphName="TELEGRAM" size="18" />
                      </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                     </children>
                     <opaqueInsets>
