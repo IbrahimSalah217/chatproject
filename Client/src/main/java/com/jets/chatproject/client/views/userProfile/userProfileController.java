@@ -132,7 +132,7 @@ public class userProfileController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         try {
             requestsService = ServiceLocator.getService(FriendRequestsService.class);
             userService = ServiceLocator.getService(UsersService.class);
@@ -144,15 +144,14 @@ public class userProfileController implements Initializable {
             byte[] storedImage = userService.getPicture(userSession, userDto.getPictureId());
             //userImage.setImage(new Image(new ByteArrayInputStream(storedImage)));
             userImage.setFill(new ImagePattern(new Image(new ByteArrayInputStream(storedImage))));
-            
+
             userNameLable.setText(userDto.getDisplyName());
             userStatus = userService.getStatus(userSession, -1);
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
-              
+
 //
-       
         //});
         Tooltip.install(userImage, new Tooltip("Update profile"));
         Tooltip.install(contactsBtn, new Tooltip("conatcts"));
@@ -162,7 +161,7 @@ public class userProfileController implements Initializable {
         Tooltip.install(addGroupAction, new Tooltip("create group"));
         Tooltip.install(logoutLable, new Tooltip("log Out"));
         Platform.runLater(() -> {
-        Tooltip.install(statusCircle, circleTip);
+            Tooltip.install(statusCircle, circleTip);
         });
         switch (userStatus) {
             case AVAILABLE:
@@ -190,7 +189,22 @@ public class userProfileController implements Initializable {
         //circleTip.setText(statusTip);
 
         //th.start();
-
+         try {
+            listMessages.setVisible(true);
+            listGroups.setVisible(false);
+            listRequests.setVisible(false);
+            friendshipService = ServiceLocator.getService(FriendshipService.class);
+            userSession = screenController.getSession();
+            List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
+            myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
+            listMessages.getItems().clear();
+            listMessages.setItems(myFriendsList);
+            listMessages.setCellFactory((param) -> {
+                return new ContactHbox(userSession);
+            });
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
         listMessages.getSelectionModel().selectedItemProperty()
                 .addListener(new ChangeListener<FriendshipDTO>() {
                     @Override
@@ -364,7 +378,6 @@ public class userProfileController implements Initializable {
         }
 
     }
-
 
     @FXML
     private void updateProfileAction(MouseEvent event) {
