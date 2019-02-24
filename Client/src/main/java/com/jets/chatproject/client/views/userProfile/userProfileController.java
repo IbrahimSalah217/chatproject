@@ -157,8 +157,6 @@ public class userProfileController implements Initializable {
             DialogUtils.showException(ex);
         }
 
-//
-        //});
         Tooltip.install(userImage, new Tooltip("Update profile"));
         Tooltip.install(contactsBtn, new Tooltip("conatcts"));
         Tooltip.install(groupsBtn, new Tooltip("groups"));
@@ -201,13 +199,7 @@ public class userProfileController implements Initializable {
             listRequests.setVisible(false);
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             userSession = screenController.getSession();
-            List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
-            myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
-            listMessages.getItems().clear();
-            listMessages.setItems(myFriendsList);
-            listMessages.setCellFactory((param) -> {
-                return new ContactHbox(userSession);
-            });
+            updateListMessages();
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -242,16 +234,9 @@ public class userProfileController implements Initializable {
                                 .show();
                         AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
                         audioClip.play();
-                        friendStatusUpdated.set(!friendStatusUpdated.get());
-                        List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
-                        myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
-                        listMessages.getItems().clear();
-                        listMessages.setItems(myFriendsList);
-                        listMessages.setCellFactory((param) -> {
-                            return new ContactHbox(userSession);
-                        });
+                        updateListMessages();
                     } catch (RemoteException ex) {
-                        Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                        DialogUtils.showException(ex);
                     }
                 });
                 System.out.println(".onFiendStatusUpdated()");
@@ -269,16 +254,9 @@ public class userProfileController implements Initializable {
                                 .show();
                         AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
                         audioClip.play();
-                        friendStatusUpdated.set(!friendStatusUpdated.get());
-                        List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
-                        myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
-                        listMessages.getItems().clear();
-                        listMessages.setItems(myFriendsList);
-                        listMessages.setCellFactory((param) -> {
-                            return new ContactHbox(userSession);
-                        });
+                        updateListMessages();
                     } catch (RemoteException ex) {
-                        Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                        DialogUtils.showException(ex);
                     }
                 });
                 System.out.println(".onFriendBlockedME()");
@@ -323,19 +301,9 @@ public class userProfileController implements Initializable {
                                 .show();
                         AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
                         audioClip.play();
-//                        listRequests.setVisible(true);
-//                        listMessages.setVisible(false);
-//                        listGroups.setVisible(false);
-//                        List<RequestDTO> returnedRequests = requestsService.getAllRequests(userSession);
-//                        myRequestsList = FXCollections.observableArrayList(returnedRequests);
-//                        listRequests.getItems().clear();
-//                        listRequests.setItems(myRequestsList);
-//                        listRequests.setCellFactory((param) -> {
-//                            return new RequestHbox(userSession,this);
-//                        });
-                       Event.fireEvent(requestsView, new MouseEvent(MouseEvent.MOUSE_PRESSED, friendId, friendId, friendId, friendId, MouseButton.NONE, friendId, true, true, true, true, true, true, true, true, true, true, null));
+                        updateListMessages();
                     } catch (RemoteException ex) {
-                        Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                        DialogUtils.showException(ex);
                     }
                 });
                 System.out.println(".onFriendSendRequest()");
@@ -442,23 +410,11 @@ public class userProfileController implements Initializable {
 
     @FXML
     private void contactsAction(MouseEvent event) {
+        listMessages.setVisible(true);
+        listGroups.setVisible(false);
+        listRequests.setVisible(false);
+        updateListMessages();
 
-        try {
-            listMessages.setVisible(true);
-            listGroups.setVisible(false);
-            listRequests.setVisible(false);
-            friendshipService = ServiceLocator.getService(FriendshipService.class);
-            userSession = screenController.getSession();
-            List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
-            myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
-            listMessages.getItems().clear();
-            listMessages.setItems(myFriendsList);
-            listMessages.setCellFactory((param) -> {
-                return new ContactHbox(userSession);
-            });
-        } catch (Exception ex) {
-            DialogUtils.showException(ex);
-        }
     }
 
     @FXML
@@ -548,5 +504,21 @@ public class userProfileController implements Initializable {
     @FXML
     private void addContactsign(MouseEvent event) {
 
+    }
+
+    private void updateListMessages() {
+        try {
+            friendshipService = ServiceLocator.getService(FriendshipService.class);
+            userSession = screenController.getSession();
+            List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
+            myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
+            listMessages.getItems().clear();
+            listMessages.setItems(myFriendsList);
+            listMessages.setCellFactory((param) -> {
+                return new ContactHbox(userSession);
+            });
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
     }
 }
