@@ -13,8 +13,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -43,6 +41,13 @@ public class Broadcaster {
         map.get(userId).add(clientCallback);
     }
 
+    private void updateUserState(int userId) {
+        if (map.containsKey(userId) && map.get(userId).isEmpty()) {
+            map.remove(userId);
+            // TODO: user offline
+        }
+    }
+
     public void broadcastDirectMessage(int userId, int friendId, MessageDTO messageDTO) {
         if (map.containsKey(userId)) {
             Iterator<ClientCallback> iterator = map.get(userId).iterator();
@@ -54,10 +59,7 @@ public class Broadcaster {
                     iterator.remove();
                 }
             }
-            if (map.get(userId).isEmpty()) {
-                map.remove(userId);
-                // TODO: user offline
-            }
+            updateUserState(userId);
         }
     }
 
@@ -72,32 +74,26 @@ public class Broadcaster {
                     iterator.remove();
                 }
             }
-            if (map.get(userId).isEmpty()) {
-                map.remove(userId);
-                // TODO: user offline
-            }
+            updateUserState(userId);
         }
     }
 
-    public void broadcastFromServer(List<Integer> userIdList, String message) {
-        
-        userIdList.forEach((userId) -> {
-            if (map.containsKey(userId)) {
-                Iterator<ClientCallback> iterator = map.get(userId).iterator();
-                while (iterator.hasNext()) {
-                    ClientCallback client = iterator.next();
-                    try {
-                        client.receiveServerMessage(message);
-                    } catch (RemoteException ex) {
-                        iterator.remove();
-                    }
-                }
-                if (map.get(userId).isEmpty()) {
-                    map.remove(userId);
-                    // TODO: user offline
+    public void broadcastFromServer(String message) {
+        int c = 0;
+        for (Map.Entry<Integer, List<ClientCallback>> entity : map.entrySet()) {
+            Iterator<ClientCallback> iterator = entity.getValue().iterator();
+            while (iterator.hasNext()) {
+                ClientCallback client = iterator.next();
+                try {
+                    client.receiveServerMessage(message);
+                    c++;
+                } catch (RemoteException ex) {
+                    iterator.remove();
                 }
             }
-        });
+            updateUserState(entity.getKey());
+        }
+        // System.out.println("Announcement sent to " + c + " clients");
     }
 
 }

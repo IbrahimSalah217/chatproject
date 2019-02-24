@@ -5,7 +5,6 @@ package com.jets.chatproject.server.views.serverannouncement;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.MessageType;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
@@ -47,8 +46,8 @@ public class ServerAnnouncementController implements Initializable {
     MessageDTO serverMessage;
     ScreenController screenController;
 
-    public ServerAnnouncementController(DaosFactory daosFactory, ScreenController screenController){
-        
+    public ServerAnnouncementController(DaosFactory daosFactory, ScreenController screenController) {
+
         onlineUserList = new ArrayList<>();
         userDao = daosFactory.getUsersDao();
         broadcaster = Broadcaster.getInstance();
@@ -57,25 +56,15 @@ public class ServerAnnouncementController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        broadcastButton.setOnAction((ActionEvent event)->{
-            try {
-                userList = userDao.findAllUser();
-            } catch (Exception ex) {
-                Logger.getLogger(ServerAnnouncementController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            userList.forEach((user) -> {
-                if(user.getState()== UserStatus.AVAILABLE){
-                    onlineUserList.add(user.getId());
-                }
-            });
-            broadcaster.broadcastFromServer(onlineUserList, htmlEditor.getHtmlText());
-            
+
+        broadcastButton.setOnAction((ActionEvent event) -> {
+            broadcaster.broadcastFromServer(htmlEditor.getHtmlText());
+
         });
-        backButton.setOnAction((ActionEvent event)->{
-        
+        backButton.setOnAction((ActionEvent event) -> {
+
             screenController.switchToMainPage();
         });
-    }    
-    
+    }
+
 }
