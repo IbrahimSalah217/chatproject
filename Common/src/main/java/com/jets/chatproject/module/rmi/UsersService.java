@@ -30,4 +30,7 @@ public interface UsersService extends Remote {
 
     byte[] getPicture(String session, int pictureId) throws RemoteException;
 
+    void updateStatus(String session,UserStatus status)throws RemoteException;
+    
+    UserStatus getStatus(String userSession,int userId)throws RemoteException;
 }

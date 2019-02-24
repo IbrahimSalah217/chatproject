@@ -47,7 +47,7 @@ public class DTOMapper {
     public static FriendshipDTO createFriendshipDTO(User friend, Friendship friendship, MessageDTO messageDto) {
         return new FriendshipDTO(friend.getId(), friend.getDisplyName(),
                 friend.getPictureId(), friendship.getCategory(), messageDto,
-                friendship.getLastSeenMessageId(), 0);
+                friendship.getLastSeenMessageId(), 0,friend.getState(),friendship.isBlocked());
     }
     
     public static GroupMemberDTO createGroupMemberDTO(User member, GroupMember groupMember) {

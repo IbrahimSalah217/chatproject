@@ -20,25 +20,34 @@ public class FriendshipDTO implements Serializable {
     private MessageDTO lastMessage;
     private int lastMessageReadByFriend;
     private int unreadMessagesCount;
+    private UserStatus friendStatus;
+    private boolean blocked;
 
     public FriendshipDTO(int friendId) {
         this.friendId = friendId;
     }
 
-    public FriendshipDTO(int friendId, String friendName, int memberPictureId, String category, MessageDTO lastMessage, int lastMessageReadByFriend, int unreadMessagesCount) {
+    public FriendshipDTO(int friendId, String friendName, int friendPictureId, String category, MessageDTO lastMessage, int lastMessageReadByFriend, int unreadMessagesCount, UserStatus friendStatus, boolean blocked) {
         this.friendId = friendId;
         this.friendName = friendName;
-        this.friendPictureId = memberPictureId;
+        this.friendPictureId = friendPictureId;
         this.category = category;
         this.lastMessage = lastMessage;
         this.lastMessageReadByFriend = lastMessageReadByFriend;
         this.unreadMessagesCount = unreadMessagesCount;
+        this.friendStatus = friendStatus;
+        this.blocked = blocked;
     }
 
+  
+    
+
+    public UserStatus getFriendStatus() {
+        return friendStatus;
+    }
     public int getFriendId() {
         return friendId;
     }
-
     public String getFriendName() {
         return friendName;
     }
@@ -74,7 +83,15 @@ public class FriendshipDTO implements Serializable {
     public int getLastMessageReadByFriend() {
         return lastMessageReadByFriend;
     }
+    
+    public boolean isBlocked() {
+        return blocked;
+    }
 
+    public void setFriendStatus(UserStatus friendStatus) {
+        this.friendStatus = friendStatus;
+    }
+    
     public void setLastMessageReadByFriend(int lastMessageReadByFriend) {
         this.lastMessageReadByFriend = lastMessageReadByFriend;
     }
@@ -85,6 +102,10 @@ public class FriendshipDTO implements Serializable {
 
     public void setUnreadMessagesCount(int unreadMessagesCount) {
         this.unreadMessagesCount = unreadMessagesCount;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     @Override

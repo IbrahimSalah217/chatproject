@@ -214,4 +214,9 @@ public class UpdateProfileFXMLController implements Initializable {
      //       screenController.switchToUSerProfileScreen();
     }
 
+    @FXML
+    private void choosePicture(ActionEvent event){
+        File selectedFile = fileChooser.showOpenDialog(null);
+        setPicture(selectedFile);
+    }
 }
