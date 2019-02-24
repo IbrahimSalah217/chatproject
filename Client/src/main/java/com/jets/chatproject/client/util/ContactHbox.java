@@ -56,13 +56,14 @@ public class ContactHbox extends ListCell<FriendshipDTO> {
         this.session = session;
         friendName.setStyle("-fx-font-style: oblique;-fx-font-size:18;");
         //blockBtn.setShape(toggleRect);
-        //toggleRect.setFill(new ImagePattern(new Image("D:\\intake39\\java project\\image\\block.png")));
+        toggleRect.setFill(new ImagePattern(new Image(getClass().getResource("/images/block.png").toString())));
+        // toggleRect2.setFill(new ImagePattern(new Image(getClass().getResource("/images/unblock.ico").toString())));
         pane1.setShape(new Rectangle(10, USE_PREF_SIZE));
         pane2.setShape(new Rectangle(20, USE_PREF_SIZE));
         hBox.getChildren().addAll(userImage, pane1,friendName,pane2,vbox);
         hBox.setHgrow(pane1, Priority.ALWAYS);
         hBox.setHgrow(pane2, Priority.ALWAYS);
-        
+
         try {
             usersService = ServiceLocator.getService(UsersService.class);
             friendService = ServiceLocator.getService(FriendshipService.class);

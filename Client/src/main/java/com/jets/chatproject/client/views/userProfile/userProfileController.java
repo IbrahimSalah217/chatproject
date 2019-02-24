@@ -35,6 +35,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.BooleanPropertyBase;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -120,9 +123,9 @@ public class userProfileController implements Initializable {
     UserStatus userStatus;
     Color userColor;
     String statusTip;
+    BooleanProperty friendStatusUpdated = new SimpleBooleanProperty(true);
 
     //Tooltip circleTip = new Tooltip("update Status");
-
     public userProfileController(ScreenController screenController) {
         this.screenController = screenController;
         userSession = screenController.getSession();
@@ -189,7 +192,7 @@ public class userProfileController implements Initializable {
         //circleTip.setText(statusTip);
 
         //th.start();
-         try {
+        try {
             listMessages.setVisible(true);
             listGroups.setVisible(false);
             listRequests.setVisible(false);
@@ -205,6 +208,7 @@ public class userProfileController implements Initializable {
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
+
         listMessages.getSelectionModel().selectedItemProperty()
                 .addListener(new ChangeListener<FriendshipDTO>() {
                     @Override
@@ -221,7 +225,7 @@ public class userProfileController implements Initializable {
                         showChatFor(newValue);
                     }
                 });
-        
+
         ClientCallbackImp.getInstance().addFriendListener(new ClientCallbackImp.FriendListener() {
             @Override
             public void onFiendStatusUpdated(int friendId, UserStatus friendStatus) {
@@ -230,11 +234,19 @@ public class userProfileController implements Initializable {
                     try {
                         Notifications.create()
                                 .title("status updated")
-                                .text(userService.getProfileById(userSession, friendId).getDisplyName()+" Become "+friendStatus)
-                                .position(Pos.BOTTOM_LEFT).darkStyle()
+                                .text(userService.getProfileById(userSession, friendId).getDisplyName() + " Become " + friendStatus)
+                                .position(Pos.BASELINE_RIGHT).darkStyle()
                                 .show();
                         AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
                         audioClip.play();
+                        friendStatusUpdated.set(!friendStatusUpdated.get());
+                        List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
+                        myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
+                        listMessages.getItems().clear();
+                        listMessages.setItems(myFriendsList);
+                        listMessages.setCellFactory((param) -> {
+                            return new ContactHbox(userSession);
+                        });
                     } catch (RemoteException ex) {
                         Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -243,6 +255,7 @@ public class userProfileController implements Initializable {
             }
         });
         ClientCallbackImp.getInstance().addMessageListener(new ClientCallbackImp.MessageListener() {
+            
             @Override
             public void onDirectMessageReceived(int friendId, MessageDTO message) {
                 Platform.runLater(() -> {
