@@ -25,6 +25,8 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +60,8 @@ public class MessagesController implements Initializable {
     private JFXButton sendButton;
     @FXML
     private ListView<MessageDTO> messagesListView;
+    @FXML
+    private JFXToggleButton botToggle;
 
     ScreenController screenController;
     MessagesService messagesService;
@@ -176,6 +180,18 @@ public class MessagesController implements Initializable {
                 }
             }
 
+        });
+
+        botToggle.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+
+                } else {
+
+                }
+            }
         });
     }
 
