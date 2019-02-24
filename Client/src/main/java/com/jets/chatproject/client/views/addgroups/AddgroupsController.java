@@ -11,6 +11,9 @@ import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.GroupsService;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -35,6 +38,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
 import org.omg.PortableServer.ServantLocator;
@@ -46,22 +50,25 @@ import org.omg.PortableServer.ServantLocator;
  */
 public class AddgroupsController implements Initializable {
 
-    @FXML
-    private TextField groupNameTxt;
-    @FXML
-    private Button chossePicBtn;
-    @FXML
-    private TextField memberTxtField;
-    @FXML
-    private ImageView addMemberBtn;
-    @FXML
-    private ImageView removeMemberBtn;
-    @FXML
-    private ImageView submitView;
-    @FXML
-    private ListView<String> membersList;
+     @FXML
+    private Pane paneAddGroup;
     @FXML
     private ImageView groupImg;
+    @FXML
+    private JFXButton submitView;
+    @FXML
+    private JFXTextField memberTxtField;
+    @FXML
+    private JFXTextField groupNameTxt;
+    @FXML
+    private JFXButton chossePicBtn;
+    @FXML
+    private MaterialDesignIconView addMemberBtn;
+    @FXML
+    private MaterialDesignIconView removeMemberBtn;
+    @FXML
+    private ListView<String> membersList;
+
 
     ScreenController screenController;
     String userSession;

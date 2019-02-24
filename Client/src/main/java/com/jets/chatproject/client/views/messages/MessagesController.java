@@ -19,6 +19,7 @@ import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -36,6 +37,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -51,7 +53,7 @@ import javafx.scene.text.TextFlow;
  */
 public class MessagesController implements Initializable {
 
-    @FXML
+     @FXML
     private JFXToggleButton boldToggle;
     @FXML
     private JFXToggleButton italicToggle;
@@ -63,6 +65,10 @@ public class MessagesController implements Initializable {
     private JFXComboBox<Integer> fontSizeCombo;
     @FXML
     private JFXTextField messageTextField;
+    @FXML
+    private FontAwesomeIconView sendFileBtn;
+    @FXML
+    private FontAwesomeIconView recordBtn;
     @FXML
     private JFXButton sendButton;
     @FXML
@@ -247,6 +253,13 @@ public class MessagesController implements Initializable {
         messageFormat.setFontSize(fontSizeCombo.getValue());
         updateTextField();
     }
+    @FXML
+    private void sendFileAction(MouseEvent event) {
+    }
+
+    @FXML
+    private void recordAction(MouseEvent event) {
+    }
 
     private void updateTextField() {
         FontWeight weight
@@ -265,5 +278,5 @@ public class MessagesController implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
+    
 }
