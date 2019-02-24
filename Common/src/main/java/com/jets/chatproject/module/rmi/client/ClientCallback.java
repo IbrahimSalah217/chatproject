@@ -28,5 +28,7 @@ public interface ClientCallback extends Remote {
     public void friendBlockedMe(int friendID) throws RemoteException;
 
     public void friendUnBlockedMe(int friendID) throws RemoteException;
+    
+    public void friendSendRequest(int friendID) throws RemoteException;
 
 }

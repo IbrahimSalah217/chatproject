@@ -158,4 +158,22 @@ public class Broadcaster {
         }
 
     }
+    public void broadcastFriendRequest(int userId,int friendId) {
+        if (map.containsKey(friendId)) {
+            Iterator<ClientCallback> iterator = map.get(friendId).iterator();
+            while (iterator.hasNext()) {
+                ClientCallback client = iterator.next();
+                try {
+                    client.friendSendRequest(userId);
+                } catch (RemoteException ex) {
+                    iterator.remove();
+                }
+            }
+            if (map.get(friendId).isEmpty()) {
+                map.remove(friendId);
+                // TODO: user offline
+            }
+        }
+
+    }
 }

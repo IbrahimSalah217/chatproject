@@ -21,6 +21,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -34,23 +38,30 @@ public class RequestHbox extends ListCell<RequestDTO> {
     String session;
     HBox hBox = new HBox();
     Label friendName = new Label();
-    ImageView userImage = new ImageView();
+    Circle userImage = new Circle(30);
     Button acceptBtn = new Button("Accept");
     Button rejectBtn = new Button("Reject");
-    Pane pane = new Pane();
+    Pane pane1 = new Pane();
+    Pane pane2 = new Pane();
+    Pane pane3 = new Pane();
+
+    VBox vBox = new VBox(pane1, pane2);
     userProfileController controller;
 
     public RequestHbox(String session, userProfileController controller) {
         this.session = session;
         this.controller = controller;
-        userImage.setFitHeight(60);
-        userImage.setFitWidth(60);
-        acceptBtn.setShape(new Rectangle(70, 20));
-        rejectBtn.setShape(new Rectangle(70, 20));
-        pane.setShape(new Rectangle(20, 60));
+        acceptBtn.setShape(new Rectangle(60, 20));
+        rejectBtn.setShape(new Rectangle(60, 20));
+
+        pane1.setShape(new Rectangle(10, USE_PREF_SIZE));
+        pane2.setShape(new Rectangle(10, USE_PREF_SIZE));
+        pane3.setShape(new Rectangle(USE_PREF_SIZE, 5));
         //Circle clip = new Circle(30);
         //userImage.setClip(clip);
-        hBox.getChildren().addAll(userImage, friendName, acceptBtn, pane, rejectBtn);
+        hBox.getChildren().addAll(userImage, pane1, friendName, acceptBtn, pane2, rejectBtn);
+        hBox.setHgrow(pane1, Priority.ALWAYS);
+        hBox.setHgrow(pane2, Priority.ALWAYS);
         try {
             usersService = ServiceLocator.getService(UsersService.class);
             requestService = ServiceLocator.getService(FriendRequestsService.class);
@@ -69,8 +80,8 @@ public class RequestHbox extends ListCell<RequestDTO> {
         } else {
             try {
                 Image image = new Image(new ByteArrayInputStream(usersService.getPicture(session, request.getSenderPictureId())));
-                userImage.setImage(image);
-                friendName.setText(request.getSenderName() + "\nSEND Friend Request  ");
+                userImage.setFill(new ImagePattern(image));
+                friendName.setText(request.getSenderName() + "\nSEND Request  ");
                 System.out.println("com.jets.chatproject.client.util.RequestHbox.updateItem()");
                 acceptBtn.setOnAction(e -> {
                     try {

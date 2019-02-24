@@ -121,6 +121,13 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         });
     }
 
+    @Override
+    public void friendSendRequest(int friendID) throws RemoteException {
+        friendListeners.forEach((listener) -> {
+            listener.onFriendSendRequest(friendID);
+        });
+    }
+
     public interface FriendListener {
 
         void onFiendStatusUpdated(int friendId, UserStatus friendStatus);
@@ -128,7 +135,9 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         void onFriendBlockedME(int friendId);
 
         void onFriendUnBlockedME(int friendId);
-
+        
+        void onFriendSendRequest(int friendId);
+        
     }
 
     public interface MessageListener {

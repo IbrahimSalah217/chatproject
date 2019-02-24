@@ -41,11 +41,13 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.geometry.Pos;
+import javafx.scene.AccessibleAction;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -53,6 +55,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -307,9 +310,38 @@ public class userProfileController implements Initializable {
                 });
                 System.out.println(".onFriendUnBlockedME()");
             }
+
+            @Override
+            public void onFriendSendRequest(int friendId) {
+                Platform.runLater(() -> {
+                    System.out.println(".onFriendSendRequest()");
+                    try {
+                        Notifications.create()
+                                .title("frindship Request")
+                                .text(userService.getProfileById(userSession, friendId).getDisplyName() + "Send You Friend Request")
+                                .position(Pos.BASELINE_RIGHT).darkStyle()
+                                .show();
+                        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                        audioClip.play();
+//                        listRequests.setVisible(true);
+//                        listMessages.setVisible(false);
+//                        listGroups.setVisible(false);
+//                        List<RequestDTO> returnedRequests = requestsService.getAllRequests(userSession);
+//                        myRequestsList = FXCollections.observableArrayList(returnedRequests);
+//                        listRequests.getItems().clear();
+//                        listRequests.setItems(myRequestsList);
+//                        listRequests.setCellFactory((param) -> {
+//                            return new RequestHbox(userSession,this);
+//                        });
+                       Event.fireEvent(requestsView, new MouseEvent(MouseEvent.MOUSE_PRESSED, friendId, friendId, friendId, friendId, MouseButton.NONE, friendId, true, true, true, true, true, true, true, true, true, true, null));
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                System.out.println(".onFriendSendRequest()");
+            }
         });
-        
-        
+
         ClientCallbackImp.getInstance().addMessageListener(new ClientCallbackImp.MessageListener() {
 
             @Override

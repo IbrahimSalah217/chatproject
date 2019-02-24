@@ -15,6 +15,7 @@ import com.jets.chatproject.server.module.dal.entities.DTOMapper;
 import com.jets.chatproject.server.module.dal.entities.Friendship;
 import com.jets.chatproject.server.module.dal.entities.Request;
 import com.jets.chatproject.server.module.dal.entities.User;
+import com.jets.chatproject.server.module.session.Broadcaster;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class FriendRequestsServiceImpl extends UnicastRemoteObject implements Fr
                 request = new Request(senderId, receiverId, requestTime);
                 requestsDoa.insert(request);
             }
+            Broadcaster.getInstance().broadcastFriendRequest(senderId, receiverId);
 
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
