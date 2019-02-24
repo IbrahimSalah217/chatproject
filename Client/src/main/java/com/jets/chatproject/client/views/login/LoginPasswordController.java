@@ -10,7 +10,6 @@ import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
