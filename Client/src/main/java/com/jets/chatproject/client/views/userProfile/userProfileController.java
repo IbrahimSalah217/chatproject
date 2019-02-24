@@ -189,7 +189,7 @@ public class userProfileController implements Initializable {
         //circleTip.setText(statusTip);
 
         //th.start();
-         try {
+        try {
             listMessages.setVisible(true);
             listGroups.setVisible(false);
             listRequests.setVisible(false);
@@ -224,28 +224,12 @@ public class userProfileController implements Initializable {
         ClientCallbackImp.getInstance().addMessageListener(new ClientCallbackImp.MessageListener() {
             @Override
             public void onDirectMessageReceived(int friendId, MessageDTO message) {
-                Platform.runLater(() -> {
-                    Notifications.create()
-                            .title(message.getSenderName())
-                            .text(message.getContent())
-                            .position(Pos.TOP_RIGHT)
-                            .show();
-                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
-                    audioClip.play();
-                });
+                showNotification(message);
             }
 
             @Override
             public void onGroupMessageReceived(int groupId, MessageDTO message) {
-                Platform.runLater(() -> {
-                    Notifications.create()
-                            .title(message.getSenderName())
-                            .text(message.getContent())
-                            .position(Pos.TOP_RIGHT)
-                            .show();
-                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
-                    audioClip.play();
-                });
+                showNotification(message);
             }
 
             @Override
@@ -256,6 +240,21 @@ public class userProfileController implements Initializable {
                 });
             }
         });
+    }
+
+    private void showNotification(MessageDTO message) {
+        Platform.runLater(() -> {
+            if (message.getSenderId() != screenController.getId()
+                    && !listGroups.getScene().getWindow().isFocused()) {
+                Notifications.create()
+                        .title(message.getSenderName())
+                        .text(message.getContent())
+                        .position(Pos.TOP_RIGHT)
+                        .show();
+            }
+        });
+        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+        audioClip.play();
     }
 
     private void showChatFor(FriendshipDTO friendshipDTO) {
