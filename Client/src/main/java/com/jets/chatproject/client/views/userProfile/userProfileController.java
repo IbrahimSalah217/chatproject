@@ -31,8 +31,6 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -41,24 +39,21 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 import org.controlsfx.control.Notifications;
@@ -231,14 +226,16 @@ public class userProfileController implements Initializable {
             public void onGroupMessageReceived(int groupId, MessageDTO message) {
                 showNotification(message);
             }
+        });
 
-            @Override
-            public void onServerMessageReceived(String message) {
-                Platform.runLater(() -> {
-                    AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
-                    audioClip.play();
-                });
-            }
+        ClientCallbackImp.getInstance().addAnnouncementListener((message) -> {
+            System.out.println(message);
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Announcement");
+                alert.setContentText(message);
+                alert.showAndWait();
+            });
         });
     }
 

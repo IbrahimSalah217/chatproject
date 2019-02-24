@@ -29,13 +29,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -96,11 +91,6 @@ public class MessagesController implements Initializable {
                     messagesListView.getItems().add(message);
                 });
             }
-        }
-
-        @Override
-        public void onServerMessageReceived(String message) {
-            getAlert("Server Message", message, Alert.AlertType.INFORMATION);
         }
     };
 

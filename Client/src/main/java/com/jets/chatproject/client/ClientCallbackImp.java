@@ -22,12 +22,9 @@ import java.util.logging.Logger;
 public class ClientCallbackImp extends UnicastRemoteObject implements ClientCallback {
 
     List<MessageListener> messageListeners;
+    List<AnnouncementListener> announcementListeners;
 
     static ClientCallbackImp sInstance = getInstance();
-
-    private static ClientCallbackImp createSingleton() throws RemoteException {
-        return new ClientCallbackImp();
-    }
 
     public static ClientCallbackImp getInstance() {
         if (sInstance == null) {
@@ -42,28 +39,34 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
 
     private ClientCallbackImp() throws RemoteException {
         messageListeners = new LinkedList<>();
+        announcementListeners = new LinkedList<>();
     }
 
     public void addMessageListener(MessageListener listener) {
-        System.out.println("listener added");
         messageListeners.add(listener);
-        System.out.println("currently listening: " + messageListeners.size());
     }
 
     public void removeMessageListener(MessageListener listener) {
-        System.out.println("listener removed");
         messageListeners.remove(listener);
+    }
+
+    public void addAnnouncementListener(AnnouncementListener listener) {
+        announcementListeners.add(listener);
+    }
+
+    public void removeAnnouncementListener(AnnouncementListener listener) {
+        announcementListeners.remove(listener);
     }
 
     @Override
     public void receiveDirectMessage(int friendId, MessageDTO messageDTO) throws RemoteException {
-        System.out.println("broadcasting message from: " + friendId);
-        for (Iterator<MessageListener> iter = messageListeners.iterator(); iter.hasNext();) {
+        Iterator<MessageListener> iter = messageListeners.iterator();
+        while (iter.hasNext()) {
             MessageListener listener = iter.next();
-            System.out.println("sending");
             try {
                 listener.onDirectMessageReceived(friendId, messageDTO);
-            } catch (Throwable th) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 iter.remove();
             }
         }
@@ -71,16 +74,30 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
 
     @Override
     public void receiveGroupMessage(int groupId, MessageDTO messageDTO) throws RemoteException {
-        messageListeners.forEach(listener -> {
-            listener.onGroupMessageReceived(groupId, messageDTO);
-        });
+        Iterator<MessageListener> iter = messageListeners.iterator();
+        while (iter.hasNext()) {
+            MessageListener listener = iter.next();
+            try {
+                listener.onGroupMessageReceived(groupId, messageDTO);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                iter.remove();
+            }
+        }
     }
 
     @Override
     public void receiveServerMessage(String message) throws RemoteException {
-        messageListeners.forEach(listener -> {
-            listener.onServerMessageReceived(message);
-        });
+        Iterator<AnnouncementListener> iter = announcementListeners.iterator();
+        while (iter.hasNext()) {
+            AnnouncementListener listener = iter.next();
+            try {
+                listener.onServerMessageReceived(message);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                iter.remove();
+            }
+        }
     }
 
     public interface MessageListener {
@@ -88,7 +105,10 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         void onDirectMessageReceived(int friendId, MessageDTO message);
 
         void onGroupMessageReceived(int groupId, MessageDTO message);
-        
+    }
+
+    public interface AnnouncementListener {
+
         void onServerMessageReceived(String message);
     }
 
