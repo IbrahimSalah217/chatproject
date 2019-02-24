@@ -9,6 +9,7 @@ import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
+import com.jets.chatproject.client.views.messages.MessageBubble.SpeechDirection;
 import com.jets.chatproject.module.rmi.MessagesService;
 import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
@@ -28,16 +29,11 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 
 /**
  * FXML Controller class
@@ -119,27 +115,33 @@ public class MessagesController implements Initializable {
                 @Override
                 protected void updateItem(MessageDTO message, boolean empty) {
                     if (message != null && !empty) {
-                        Text text = new Text();
-                        TextFlow flow = new TextFlow(text);
-                        if (message.getSenderId() == screenController.getId()) {
-                            flow.setTextAlignment(TextAlignment.RIGHT);
-                            text.setText(message.getContent() + " :" + message.getSenderName());
-                        } else {
-                            text.setText(message.getSenderName() + ": " + message.getContent());
-                        }
-                        FontWeight weight
-                                = message.getFormat().isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
-                        FontPosture posture
-                                = message.getFormat().isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
-                        text.setFont(Font.font(Font.getDefault().getFamily(),
-                                weight, posture, message.getFormat().getFontSize()));
-                        text.setFill(Color.web(message.getFormat().getTextColorCode()));
-                        flow.setStyle("-fx-background-color:" + message.getFormat().getBackgroundColorCode());
-                        setGraphic(flow);
-                        setStyle("-fx-padding: 0px;");
-                    } else {
-                        setGraphic(null);
+                        MessageBubble.SpeechDirection direction
+                                = message.getSenderId() == screenController.getId()
+                                ? SpeechDirection.RIGHT : SpeechDirection.LEFT;
+                        setGraphic(new MessageBubble(message, direction));
                     }
+//                    if (message != null && !empty) {
+//                        Text text = new Text();
+//                        TextFlow flow = new TextFlow(text);
+//                        if (message.getSenderId() == screenController.getId()) {
+//                            flow.setTextAlignment(TextAlignment.RIGHT);
+//                            text.setText(message.getContent() + " :" + message.getSenderName());
+//                        } else {
+//                            text.setText(message.getSenderName() + ": " + message.getContent());
+//                        }
+//                        FontWeight weight
+//                                = message.getFormat().isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
+//                        FontPosture posture
+//                                = message.getFormat().isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
+//                        text.setFont(Font.font(Font.getDefault().getFamily(),
+//                                weight, posture, message.getFormat().getFontSize()));
+//                        text.setFill(Color.web(message.getFormat().getTextColorCode()));
+//                        flow.setStyle("-fx-background-color:" + message.getFormat().getBackgroundColorCode());
+//                        setGraphic(flow);
+//                        setStyle("-fx-padding: 0px;");
+//                    } else {
+//                        setGraphic(null);
+//                    }
                 }
             };
         });
@@ -175,9 +177,6 @@ public class MessagesController implements Initializable {
             }
 
         });
-
-        textColorPicker.setStyle("-fx-color-label-visible: false;");
-        backgroundColorPicker.setStyle("-fx-color-label-visible: false;");
     }
 
     @FXML
@@ -248,12 +247,6 @@ public class MessagesController implements Initializable {
 
         messageTextField.setStyle("-fx-text-fill:" + messageFormat.getTextColorCode() + ";"
                 + "-fx-control-inner-background:" + messageFormat.getBackgroundColorCode());
-    }
-    private void getAlert(String header, String content, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
 }
