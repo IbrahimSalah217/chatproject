@@ -7,6 +7,7 @@ package com.jets.chatproject.client.views.messages;
 
 import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
+import com.jets.chatproject.client.chatbot.ChatbotContext;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.views.messages.MessageBubble.SpeechDirection;
@@ -187,23 +188,41 @@ public class MessagesController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
-
+                    ClientCallbackImp.getInstance().addMessageListener(botMessageListener);
                 } else {
-
+                    ClientCallbackImp.getInstance().removeMessageListener(botMessageListener);
                 }
             }
         });
     }
 
+    ClientCallbackImp.MessageListener botMessageListener = new ClientCallbackImp.MessageListener() {
+        ChatbotContext chatbotContext = new ChatbotContext();
+
+        @Override
+        public void onDirectMessageReceived(int friendId, MessageDTO message) {
+            sendMessage(chatbotContext.respond(message.getContent()));
+        }
+
+        @Override
+        public void onGroupMessageReceived(int groupId, MessageDTO message) {
+            sendMessage(chatbotContext.respond(message.getContent()));
+        }
+
+    };
+
     @FXML
     private void sendMessage(ActionEvent event) {
+        sendMessage(messageTextField.getText().trim());
+    }
+
+    private void sendMessage(String message) {
         try {
-            String messageTxt = messageTextField.getText().trim();
-            if (messageTxt.isEmpty()) {
+            if (message.isEmpty()) {
                 return;
             }
             MessageDTO messageDTO = new MessageDTO(-1, screenController.getId());
-            messageDTO.setContent(messageTxt);
+            messageDTO.setContent(message);
             messageDTO.setFormat(messageFormat);
             messageDTO.setType(MessageType.PLAIN_TEXT);
             switch (chatType) {
@@ -220,7 +239,6 @@ public class MessagesController implements Initializable {
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-
     }
 
     @FXML
