@@ -220,11 +220,13 @@ public class userProfileController implements Initializable {
             @Override
             public void onDirectMessageReceived(int friendId, MessageDTO message) {
                 showNotification(message);
+                updateFriendshipLastMessage(friendId, message);
             }
 
             @Override
             public void onGroupMessageReceived(int groupId, MessageDTO message) {
                 showNotification(message);
+                updateGroupLastMessage(groupId, message);
             }
         });
 
@@ -237,6 +239,27 @@ public class userProfileController implements Initializable {
                 alert.showAndWait();
             });
         });
+    }
+
+    private void updateFriendshipLastMessage(int friendId, MessageDTO message) {
+        listMessages
+                .getItems()
+                .filtered((f) -> f.getFriendId() == friendId)
+                .forEach(f -> {
+                    f.setLastMessage(message);
+                });
+        listMessages.refresh();
+
+    }
+
+    private void updateGroupLastMessage(int groupId, MessageDTO message) {
+        listGroups
+                .getItems()
+                .filtered((g) -> g.getId() == groupId)
+                .forEach(g -> {
+                    g.setLastMessage(message);
+                });
+        listGroups.refresh();
     }
 
     private void showNotification(MessageDTO message) {
