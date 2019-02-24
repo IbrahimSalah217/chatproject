@@ -25,7 +25,7 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
     List<MessageListener> messageListeners;
 
     List<FriendListener> friendListeners;
-    
+
     static ClientCallbackImp sInstance = getInstance();
 
     private static ClientCallbackImp createSingleton() throws RemoteException {
@@ -49,25 +49,23 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
     }
 
     public void addFriendListener(FriendListener listener) {
-    
+
         System.out.println("friend listener added");
         friendListeners.add(listener);
         System.out.println("currently listening: " + friendListeners.size());
     }
-    
+
     public void removeFriendListener(FriendListener listener) {
         System.out.println("listener removed");
         friendListeners.remove(listener);
     }
-
 
     public void addMessageListener(MessageListener listener) {
         System.out.println("listener added");
         messageListeners.add(listener);
         System.out.println("currently listening: " + messageListeners.size());
     }
-    
-    
+
     public void removeMessageListener(MessageListener listener) {
         System.out.println("listener removed");
         messageListeners.remove(listener);
@@ -109,9 +107,28 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
 
     }
 
+    @Override
+    public void friendBlockedMe(int friendID) throws RemoteException {
+        friendListeners.forEach((listener) -> {
+            listener.onFriendBlockedME(friendID);
+        });
+    }
+
+    @Override
+    public void friendUnBlockedMe(int friendID) throws RemoteException {
+        friendListeners.forEach((listener) -> {
+            listener.onFriendUnBlockedME(friendID);
+        });
+    }
+
     public interface FriendListener {
 
         void onFiendStatusUpdated(int friendId, UserStatus friendStatus);
+
+        void onFriendBlockedME(int friendId);
+
+        void onFriendUnBlockedME(int friendId);
+
     }
 
     public interface MessageListener {

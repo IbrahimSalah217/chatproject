@@ -253,9 +253,65 @@ public class userProfileController implements Initializable {
                 });
                 System.out.println(".onFiendStatusUpdated()");
             }
+
+            @Override
+            public void onFriendBlockedME(int friendId) {
+                Platform.runLater(() -> {
+                    System.out.println(".onFriendBlockedME()");
+                    try {
+                        Notifications.create()
+                                .title("frindship updated")
+                                .text(userService.getProfileById(userSession, friendId).getDisplyName() + " BlockedYou ")
+                                .position(Pos.BASELINE_RIGHT).darkStyle()
+                                .show();
+                        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                        audioClip.play();
+                        friendStatusUpdated.set(!friendStatusUpdated.get());
+                        List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
+                        myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
+                        listMessages.getItems().clear();
+                        listMessages.setItems(myFriendsList);
+                        listMessages.setCellFactory((param) -> {
+                            return new ContactHbox(userSession);
+                        });
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                System.out.println(".onFriendBlockedME()");
+            }
+
+            @Override
+            public void onFriendUnBlockedME(int friendId) {
+                Platform.runLater(() -> {
+                    System.out.println(".onFriendUnBlockedME()");
+                    try {
+                        Notifications.create()
+                                .title("frindship updated")
+                                .text(userService.getProfileById(userSession, friendId).getDisplyName() + "UnBlocked You ")
+                                .position(Pos.BASELINE_RIGHT).darkStyle()
+                                .show();
+                        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                        audioClip.play();
+                        friendStatusUpdated.set(!friendStatusUpdated.get());
+                        List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
+                        myFriendsList = FXCollections.observableArrayList(returnedFriendsList);
+                        listMessages.getItems().clear();
+                        listMessages.setItems(myFriendsList);
+                        listMessages.setCellFactory((param) -> {
+                            return new ContactHbox(userSession);
+                        });
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                System.out.println(".onFriendUnBlockedME()");
+            }
         });
+        
+        
         ClientCallbackImp.getInstance().addMessageListener(new ClientCallbackImp.MessageListener() {
-            
+
             @Override
             public void onDirectMessageReceived(int friendId, MessageDTO message) {
                 Platform.runLater(() -> {

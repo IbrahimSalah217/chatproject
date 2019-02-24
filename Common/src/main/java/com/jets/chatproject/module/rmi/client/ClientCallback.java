@@ -20,8 +20,13 @@ public interface ClientCallback extends Remote {
     public void receiveDirectMessage(int friendId, MessageDTO messageDTO) throws RemoteException;
 
     public void receiveGroupMessage(int groupId, MessageDTO messageDTO) throws RemoteException;
-    
+
     public void receiveServerMessage(String message) throws RemoteException;
-    
-    public void friendupdateStatus(int friendID,UserStatus status) throws RemoteException;
+
+    public void friendupdateStatus(int friendID, UserStatus status) throws RemoteException;
+
+    public void friendBlockedMe(int friendID) throws RemoteException;
+
+    public void friendUnBlockedMe(int friendID) throws RemoteException;
+
 }

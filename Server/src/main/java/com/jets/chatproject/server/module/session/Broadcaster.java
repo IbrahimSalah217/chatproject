@@ -81,7 +81,7 @@ public class Broadcaster {
     }
 
     public void broadcastFromServer(List<Integer> userIdList, String message) {
-        
+
         userIdList.forEach((userId) -> {
             if (map.containsKey(userId)) {
                 Iterator<ClientCallback> iterator = map.get(userId).iterator();
@@ -100,15 +100,15 @@ public class Broadcaster {
             }
         });
     }
-    
-    public void broadcastStatus(int userId,List<Integer> friendIdList,UserStatus status){
+
+    public void broadcastStatus(int userId, List<Integer> friendIdList, UserStatus status) {
         friendIdList.forEach((friendId) -> {
             if (map.containsKey(friendId)) {
                 Iterator<ClientCallback> iterator = map.get(friendId).iterator();
                 while (iterator.hasNext()) {
                     ClientCallback client = iterator.next();
                     try {
-                        client.friendupdateStatus(userId,status);
+                        client.friendupdateStatus(userId, status);
                     } catch (RemoteException ex) {
                         iterator.remove();
                     }
@@ -119,5 +119,43 @@ public class Broadcaster {
                 }
             }
         });
+    }
+
+    public void broadcastBlocked(int userId,int friendId) {
+        if (map.containsKey(friendId)) {
+            Iterator<ClientCallback> iterator = map.get(friendId).iterator();
+            while (iterator.hasNext()) {
+                ClientCallback client = iterator.next();
+                try {
+                    client.friendBlockedMe(userId);
+                } catch (RemoteException ex) {
+                    iterator.remove();
+                }
+            }
+            if (map.get(friendId).isEmpty()) {
+                map.remove(friendId);
+                // TODO: user offline
+            }
+        }
+
+    }
+    
+    public void broadcastUnBlocked(int userId,int friendId) {
+        if (map.containsKey(friendId)) {
+            Iterator<ClientCallback> iterator = map.get(friendId).iterator();
+            while (iterator.hasNext()) {
+                ClientCallback client = iterator.next();
+                try {
+                    client.friendUnBlockedMe(userId);
+                } catch (RemoteException ex) {
+                    iterator.remove();
+                }
+            }
+            if (map.get(friendId).isEmpty()) {
+                map.remove(friendId);
+                // TODO: user offline
+            }
+        }
+
     }
 }
