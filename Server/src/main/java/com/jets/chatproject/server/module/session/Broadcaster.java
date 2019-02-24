@@ -7,6 +7,7 @@ package com.jets.chatproject.server.module.session;
 
 import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
+import com.jets.chatproject.module.rmi.dto.UserStatus;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -99,5 +100,24 @@ public class Broadcaster {
             }
         });
     }
-
+    
+    public void broadcastStatus(int userId,List<Integer> friendIdList,UserStatus status){
+        friendIdList.forEach((friendId) -> {
+            if (map.containsKey(friendId)) {
+                Iterator<ClientCallback> iterator = map.get(friendId).iterator();
+                while (iterator.hasNext()) {
+                    ClientCallback client = iterator.next();
+                    try {
+                        client.friendupdateStatus(userId,status);
+                    } catch (RemoteException ex) {
+                        iterator.remove();
+                    }
+                }
+                if (map.get(friendId).isEmpty()) {
+                    map.remove(userId);
+                    // TODO: user offline
+                }
+            }
+        });
+    }
 }

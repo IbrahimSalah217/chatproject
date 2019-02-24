@@ -121,7 +121,7 @@ public class userProfileController implements Initializable {
     Color userColor;
     String statusTip;
 
-    Tooltip circleTip = new Tooltip("update Status");
+    //Tooltip circleTip = new Tooltip("update Status");
 
     public userProfileController(ScreenController screenController) {
         this.screenController = screenController;
@@ -160,9 +160,9 @@ public class userProfileController implements Initializable {
         Tooltip.install(addContactImage, new Tooltip("add contact"));
         Tooltip.install(addGroupAction, new Tooltip("create group"));
         Tooltip.install(logoutLable, new Tooltip("log Out"));
-        Platform.runLater(() -> {
-            Tooltip.install(statusCircle, circleTip);
-        });
+//        Platform.runLater(() -> {
+//            Tooltip.install(statusCircle, circleTip);
+//        });
         switch (userStatus) {
             case AVAILABLE:
                 userColor = Color.GREENYELLOW;
@@ -221,6 +221,27 @@ public class userProfileController implements Initializable {
                         showChatFor(newValue);
                     }
                 });
+        
+        ClientCallbackImp.getInstance().addFriendListener(new ClientCallbackImp.FriendListener() {
+            @Override
+            public void onFiendStatusUpdated(int friendId, UserStatus friendStatus) {
+                Platform.runLater(() -> {
+                    System.out.println(".onFiendStatusUpdated()");
+                    try {
+                        Notifications.create()
+                                .title("status updated")
+                                .text(userService.getProfileById(userSession, friendId).getDisplyName()+" Become "+friendStatus)
+                                .position(Pos.BOTTOM_LEFT).darkStyle()
+                                .show();
+                        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                        audioClip.play();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                System.out.println(".onFiendStatusUpdated()");
+            }
+        });
         ClientCallbackImp.getInstance().addMessageListener(new ClientCallbackImp.MessageListener() {
             @Override
             public void onDirectMessageReceived(int friendId, MessageDTO message) {
