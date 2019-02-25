@@ -230,6 +230,7 @@ public class MessagesController implements Initializable {
                     List<MessageDTO> allDirectMessages
                             = messagesService.getAllDirectMessages(screenController.getSession(), id);
                     messagesListView.getItems().addAll(allDirectMessages);
+                    XMLHandler xmlHandler = new XMLHandler(allDirectMessages);
                     break;
 
                 case Group:
