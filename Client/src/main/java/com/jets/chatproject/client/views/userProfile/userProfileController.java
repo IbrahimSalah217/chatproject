@@ -25,9 +25,6 @@ import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import de.jensd.fx.glyphs.octicons.OctIconView;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -82,33 +79,40 @@ public class userProfileController implements Initializable {
     @FXML
     private AnchorPane addContactImage;
     @FXML
-    private BorderPane borderPane;
+    private ImageView addContatact;
     @FXML
-    private MaterialDesignIconView addContatact;
+    private ImageView addGroupAction;
     @FXML
-    private MaterialDesignIconView addGroupAction;
+    private ImageView setting;
     @FXML
-    private FontAwesomeIconView groupsBtn;
+    private ImageView groupsBtn;
     @FXML
-    private FontAwesomeIconView contactsBtn;
+    private ImageView contactsBtn;
     @FXML
-    private MaterialDesignIconView setting;
+    private ImageView logoutLable;
     @FXML
-    private MaterialDesignIconView requestsView;
-    @FXML
-    private OctIconView logoutLable;
+    private ImageView requestsView;
     @FXML
     private ListView<FriendshipDTO> listMessages;
     @FXML
     private ListView<GroupDTO> listGroups;
     @FXML
     private ListView<RequestDTO> listRequests;
+
+    @FXML
+    private Circle userImage;
     @FXML
     private Label userNameLable;
     @FXML
     private Circle statusCircle;
     @FXML
-    private Circle userImage;
+    private BorderPane borderPane;
+    @FXML
+    private ListView<FriendshipDTO> friendsCList;
+    @FXML
+    private ListView<FriendshipDTO> familyCList;
+    @FXML
+    private ListView<FriendshipDTO> workCList;
 
     ScreenController screenController;
     MessagesService messageService;
@@ -122,6 +126,7 @@ public class userProfileController implements Initializable {
     String userPhone;
     FriendshipDTO friendshipDTO;
     ObservableList<FriendshipDTO> myFriendsList;
+    ObservableList<FriendshipDTO> categoryFriendsList;
     ObservableList<GroupDTO> myGroupsList;
     ObservableList<RequestDTO> myRequestsList;
     UserDTO userDto;
@@ -202,6 +207,9 @@ public class userProfileController implements Initializable {
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             userSession = screenController.getSession();
             updateListMessages();
+            updateCategories("family");
+            updateCategories("friends");
+            updateCategories("work");
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
@@ -237,6 +245,9 @@ public class userProfileController implements Initializable {
                         AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
                         audioClip.play();
                         updateListMessages();
+                        updateCategories("family");
+                        updateCategories("friends");
+                        updateCategories("work");
                     } catch (RemoteException ex) {
                         DialogUtils.showException(ex);
                     }
@@ -257,6 +268,9 @@ public class userProfileController implements Initializable {
                         AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
                         audioClip.play();
                         updateListMessages();
+                        updateCategories("family");
+                        updateCategories("friends");
+                        updateCategories("work");
                     } catch (RemoteException ex) {
                         DialogUtils.showException(ex);
                     }
@@ -304,6 +318,9 @@ public class userProfileController implements Initializable {
                         AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
                         audioClip.play();
                         updateListMessages();
+                        updateCategories("family");
+                        updateCategories("friends");
+                        updateCategories("work");
                     } catch (RemoteException ex) {
                         DialogUtils.showException(ex);
                     }
@@ -416,6 +433,9 @@ public class userProfileController implements Initializable {
         listGroups.setVisible(false);
         listRequests.setVisible(false);
         updateListMessages();
+        updateCategories("family");
+        updateCategories("friends");
+        updateCategories("work");
 
     }
 
@@ -522,5 +542,41 @@ public class userProfileController implements Initializable {
         } catch (Exception ex) {
             DialogUtils.showException(ex);
         }
+    }
+
+    private void updateCategories(String category) {
+        try {
+            friendshipService = ServiceLocator.getService(FriendshipService.class);
+            userSession = screenController.getSession();
+            List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
+            returnedFriendsList.forEach((friend) -> {
+                if (!friend.getCategory().equalsIgnoreCase(category)) {
+                    returnedFriendsList.remove(friend);
+                }
+            });
+            categoryFriendsList = FXCollections.observableArrayList(returnedFriendsList);
+            if (category.equalsIgnoreCase("friends")) {
+                friendsCList.getItems().clear();
+                friendsCList.setItems(categoryFriendsList);
+                friendsCList.setCellFactory((param) -> {
+                    return new ContactHbox(userSession);
+                });
+            } else if (category.equalsIgnoreCase("family")) {
+                familyCList.getItems().clear();
+                familyCList.setItems(categoryFriendsList);
+                familyCList.setCellFactory((param) -> {
+                    return new ContactHbox(userSession);
+                });
+            } else if (category.equalsIgnoreCase("work")) {
+                workCList.getItems().clear();
+                workCList.setItems(categoryFriendsList);
+                workCList.setCellFactory((param) -> {
+                    return new ContactHbox(userSession);
+                });
+            }
+        } catch (Exception ex) {
+            DialogUtils.showException(ex);
+        }
+
     }
 }
