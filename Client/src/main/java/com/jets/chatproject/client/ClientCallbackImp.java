@@ -128,6 +128,13 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         });
     }
 
+    @Override
+    public void receiveVoice(int friendId, byte[] voiceArray) throws RemoteException {
+        messageListeners.forEach((listener) -> {
+            listener.onVoiceRecordRecieve(friendId, voiceArray);
+        });
+    }
+
     public interface FriendListener {
 
         void onFiendStatusUpdated(int friendId, UserStatus friendStatus);
@@ -147,6 +154,8 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         void onGroupMessageReceived(int groupId, MessageDTO message);
 
         void onServerMessageReceived(String message);
+        
+        void onVoiceRecordRecieve(int friendId,byte[] arrayVoice);
 
     }
 

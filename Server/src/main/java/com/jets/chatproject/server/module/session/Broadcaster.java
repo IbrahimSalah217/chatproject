@@ -176,4 +176,22 @@ public class Broadcaster {
         }
 
     }
+    
+    public void broadcastVoice(int userId, int friendId, byte[] voiceArray) {
+        if (map.containsKey(friendId)) {
+            Iterator<ClientCallback> iterator = map.get(friendId).iterator();
+            while (iterator.hasNext()) {
+                ClientCallback client = iterator.next();
+                try {
+                    client.receiveVoice(userId, voiceArray);
+                } catch (RemoteException ex) {
+                    iterator.remove();
+                }
+            }
+            if (map.get(friendId).isEmpty()) {
+                map.remove(friendId);
+                // TODO: user offline
+            }
+        }
+    }
 }

@@ -30,5 +30,7 @@ public interface ClientCallback extends Remote {
     public void friendUnBlockedMe(int friendID) throws RemoteException;
     
     public void friendSendRequest(int friendID) throws RemoteException;
+    
+    public void receiveVoice(int friendId, byte[] voiceArray) throws RemoteException;
 
 }
