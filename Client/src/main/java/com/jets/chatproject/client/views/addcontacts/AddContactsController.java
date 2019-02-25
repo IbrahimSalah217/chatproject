@@ -12,6 +12,8 @@ import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.FriendRequestsService;
 import com.jets.chatproject.module.rmi.FriendshipService;
 import com.jets.chatproject.module.rmi.UsersService;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
@@ -28,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
@@ -37,10 +40,15 @@ import javafx.scene.control.TextField;
 public class AddContactsController implements Initializable {
 
     @FXML
-    private ListView<String> listView;
-
+    private HBox paneAddContacts;
     @FXML
-    private TextField phoneTextField;
+    private JFXTextField phoneTextField;
+    @FXML
+    private JFXButton checkPhoneButton;
+    @FXML
+    private JFXButton addButton;
+    @FXML
+    private ListView<String> listView;
 
     private ScreenController screenController;
 

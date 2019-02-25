@@ -28,6 +28,9 @@ import com.jets.chatproject.module.rmi.dto.MessageType;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import de.jensd.fx.glyphs.octicons.OctIconView;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -76,34 +79,33 @@ public class userProfileController implements Initializable {
     @FXML
     private AnchorPane addContactImage;
     @FXML
-    private ImageView addContatact;
+    private BorderPane borderPane;
     @FXML
-    private ImageView addGroupAction;
+    private MaterialDesignIconView addContatact;
     @FXML
-    private ImageView setting;
+    private MaterialDesignIconView addGroupAction;
     @FXML
-    private ImageView groupsBtn;
+    private FontAwesomeIconView groupsBtn;
     @FXML
-    private ImageView contactsBtn;
+    private FontAwesomeIconView contactsBtn;
     @FXML
-    private ImageView logoutLable;
+    private MaterialDesignIconView setting;
     @FXML
-    private ImageView requestsView;
+    private MaterialDesignIconView requestsView;
+    @FXML
+    private OctIconView logoutLable;
     @FXML
     private ListView<FriendshipDTO> listMessages;
     @FXML
     private ListView<GroupDTO> listGroups;
     @FXML
     private ListView<RequestDTO> listRequests;
-
-    @FXML
-    private Circle userImage;
     @FXML
     private Label userNameLable;
     @FXML
     private Circle statusCircle;
     @FXML
-    private BorderPane borderPane;
+    private Circle userImage;
 
     ScreenController screenController;
     MessagesService messageService;
