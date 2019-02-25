@@ -7,6 +7,7 @@ package com.jets.chatproject.client.views.userProfile;
 
 import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
+import com.jets.chatproject.client.chatbot.ChatbotManager;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.ContactHbox;
 import com.jets.chatproject.client.util.DialogUtils;
@@ -22,6 +23,8 @@ import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.FriendshipDTO;
 import com.jets.chatproject.module.rmi.dto.GroupDTO;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
+import com.jets.chatproject.module.rmi.dto.MessageFormat;
+import com.jets.chatproject.module.rmi.dto.MessageType;
 import com.jets.chatproject.module.rmi.dto.RequestDTO;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
@@ -31,6 +34,11 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -135,6 +143,7 @@ public class userProfileController implements Initializable {
             authService = ServiceLocator.getService(AuthService.class);
             friendshipService.getAllFriendships(userSession);
             groupsService = ServiceLocator.getService(GroupsService.class);
+            messageService = ServiceLocator.getService(MessagesService.class);
             userDto = userService.getProfileByPhone(userSession, userPhone);
             byte[] storedImage = userService.getPicture(userSession, userDto.getPictureId());
             //userImage.setImage(new Image(new ByteArrayInputStream(storedImage)));
@@ -239,6 +248,7 @@ public class userProfileController implements Initializable {
                 alert.showAndWait();
             });
         });
+        ClientCallbackImp.getInstance().addMessageListener(botMessageListener);
     }
 
     private void updateFriendshipLastMessage(int friendId, MessageDTO message) {
@@ -446,4 +456,51 @@ public class userProfileController implements Initializable {
     private void addContactsign(MouseEvent event) {
 
     }
+
+    ClientCallbackImp.MessageListener botMessageListener = new ClientCallbackImp.MessageListener() {
+        ChatbotManager chatbotManager = ChatbotManager.getInstance();
+
+        @Override
+        public void onDirectMessageReceived(int friendId, MessageDTO message) {
+            if (message.getSenderId() != screenController.getId()) {
+                if (ChatbotManager.getInstance().isEnabledForFriend(friendId)) {
+                    executorService.schedule(() -> {
+                        try {
+                            messageService.sendDirectMessage(userSession, friendId,
+                                    getMessage(chatbotManager.getResponse(message.getContent())));
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }, 100, TimeUnit.MILLISECONDS);
+                }
+            }
+        }
+
+        @Override
+        public void onGroupMessageReceived(int groupId, MessageDTO message) {
+            if (message.getSenderId() != screenController.getId()) {
+                if (ChatbotManager.getInstance().isEnabledForGroup(groupId)) {
+                    executorService.schedule(() -> {
+                        try {
+                            messageService.sendGroupMessage(userSession, groupId,
+                                    getMessage(chatbotManager.getResponse(message.getContent())));
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(userProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }, 100, TimeUnit.MILLISECONDS);
+                }
+            }
+        }
+
+        private MessageDTO getMessage(String message) {
+            MessageDTO messageDTO = new MessageDTO(-1, screenController.getId());
+            messageDTO.setContent(message);
+            messageDTO.setType(MessageType.PLAIN_TEXT);
+            messageDTO.setFormat(new MessageFormat());
+            return messageDTO;
+        }
+
+    };
+
+    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 }

@@ -7,7 +7,7 @@ package com.jets.chatproject.client.views.messages;
 
 import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
-import com.jets.chatproject.client.chatbot.ChatbotContext;
+import com.jets.chatproject.client.chatbot.ChatbotManager;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.views.messages.MessageBubble.SpeechDirection;
@@ -182,34 +182,32 @@ public class MessagesController implements Initializable {
             }
 
         });
-
+        boolean isBotEnabled = false;
+        switch (chatType) {
+            case Direct:
+                isBotEnabled = ChatbotManager.getInstance().isEnabledForFriend(id);
+                break;
+            case Group:
+                isBotEnabled = ChatbotManager.getInstance().isEnabledForGroup(id);
+                break;
+        }
+        botToggle.setSelected(isBotEnabled);
         botToggle.selectedProperty().addListener(new ChangeListener<Boolean>() {
 
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    ClientCallbackImp.getInstance().addMessageListener(botMessageListener);
-                } else {
-                    ClientCallbackImp.getInstance().removeMessageListener(botMessageListener);
+                if (newValue && chatType == ChatType.Direct) {
+                    ChatbotManager.getInstance().enableForFriend(id);
+                } else if (newValue && chatType == ChatType.Group) {
+                    ChatbotManager.getInstance().enableForGroup(id);
+                } else if (!newValue && chatType == ChatType.Direct) {
+                    ChatbotManager.getInstance().disableForFriend(id);
+                } else if (!newValue && chatType == ChatType.Group) {
+                    ChatbotManager.getInstance().disableForGroup(id);
                 }
             }
         });
     }
-
-    ClientCallbackImp.MessageListener botMessageListener = new ClientCallbackImp.MessageListener() {
-        ChatbotContext chatbotContext = new ChatbotContext();
-
-        @Override
-        public void onDirectMessageReceived(int friendId, MessageDTO message) {
-            sendMessage(chatbotContext.respond(message.getContent()));
-        }
-
-        @Override
-        public void onGroupMessageReceived(int groupId, MessageDTO message) {
-            sendMessage(chatbotContext.respond(message.getContent()));
-        }
-
-    };
 
     @FXML
     private void sendMessage(ActionEvent event) {
