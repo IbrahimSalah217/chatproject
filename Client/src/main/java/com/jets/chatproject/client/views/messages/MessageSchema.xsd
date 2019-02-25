@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="chatSession" type="chatSessionType"/>
+    <xs:complexType name="chatSessionType">
+        <xs:sequence>
+            <xs:element name="Members" type="memberType"/>
+            <xs:element name="Messages" type="MessageType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="memberType">
+        <xs:sequence>
+            <xs:element name="MemberName" type="xs:string" maxOccurs="unbounded" minOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="groupName" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="MessageType">
+        <xs:sequence>
+            <xs:element name="Msg" maxOccurs="unbounded" minOccurs="0" type="msgType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="msgType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="from"/>
+            <xs:element type="xs:string" name="font"/>
+            <xs:element type="xs:string" name="content"/>
+            <xs:element type="xs:date" name="time"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
