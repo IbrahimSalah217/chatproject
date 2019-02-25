@@ -549,11 +549,14 @@ public class userProfileController implements Initializable {
             friendshipService = ServiceLocator.getService(FriendshipService.class);
             userSession = screenController.getSession();
             List<FriendshipDTO> returnedFriendsList = friendshipService.getAllFriendships(userSession);
-            returnedFriendsList.forEach((friend) -> {
-                if (!friend.getCategory().equalsIgnoreCase(category)) {
-                    returnedFriendsList.remove(friend);
-                }
+            returnedFriendsList.removeIf((friend) -> {
+                return !friend.getCategory().equalsIgnoreCase(category); //To change body of generated lambdas, choose Tools | Templates.
             });
+//            .forEach((friend) -> {
+//                if (!friend.getCategory().equalsIgnoreCase(category)) {
+//                    returnedFriendsList.remove(friend);
+//                }
+//            });
             categoryFriendsList = FXCollections.observableArrayList(returnedFriendsList);
             if (category.equalsIgnoreCase("friends")) {
                 friendsCList.getItems().clear();
