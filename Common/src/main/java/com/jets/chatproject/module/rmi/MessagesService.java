@@ -27,5 +27,7 @@ public interface MessagesService extends Remote {
     void markGroupMessageRead(String session,int friendId) throws RemoteException;
 
     void markDirectMessageRead(String session,int groubId) throws RemoteException;
+    
+    public void sendVoice(String session, int friendId, byte[] voiceArray) throws RemoteException;
 
 }

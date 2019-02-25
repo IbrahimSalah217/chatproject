@@ -148,4 +148,10 @@ public class MessagesServiceImp extends UnicastRemoteObject implements MessagesS
         }
     }
 
+    /*Ibrahim Salah */
+     @Override
+    public void sendVoice(String session, int friendId, byte[] voiceArray) throws RemoteException {
+        int userId = sessionManager.findUserId(session);
+        Broadcaster.getInstance().broadcastVoice(userId, friendId, voiceArray);
+    }
 }

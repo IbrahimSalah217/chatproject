@@ -9,14 +9,20 @@ import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
+import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
 import com.jets.chatproject.server.module.dal.entities.DTOMapper;
+import com.jets.chatproject.server.module.dal.entities.Friendship;
 import com.jets.chatproject.server.module.dal.entities.Picture;
 import com.jets.chatproject.server.module.dal.entities.User;
+import com.jets.chatproject.server.module.session.Broadcaster;
 import java.rmi.RemoteException;
 import com.jets.chatproject.server.module.session.SessionManager;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,11 +33,13 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
     SessionManager sessionManager;
     UsersDao usersDao;
     PicturesDao picturesDao;
+    FriendshipsDao friendshipsDao;
 
     public UsersServiceImp(DaosFactory daosFactory, SessionManager sessionManager) throws RemoteException {
         this.sessionManager = sessionManager;
         usersDao = daosFactory.getUsersDao();
         picturesDao = daosFactory.getPicturesDao();
+        friendshipsDao = daosFactory.getFriendshipsDao();
     }
 
     @Override
@@ -94,6 +102,12 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
             User user = usersDao.findById(userId);
             user.setState(status);
             usersDao.update(user);
+            List<Friendship> friendships = friendshipsDao.getAllFriendshipsForUser(userId);
+            List<Integer> friendsIdList = new ArrayList<>();
+            friendships.forEach((friend) -> {
+                friendsIdList.add(friend.getFriendId());
+            });
+            Broadcaster.getInstance().broadcastStatus(userId,friendsIdList, status);
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
         }
@@ -116,6 +130,12 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
             User user = usersDao.findById(userID);
             user.setState(status);
             usersDao.update(user);
+            List<Friendship> friendships = friendshipsDao.getAllFriendshipsForUser(userID);
+            List<Integer> friendsIdList = new ArrayList<>();
+            friendships.forEach((friend) -> {
+                friendsIdList.add(friend.getFriendId());
+            });
+            Broadcaster.getInstance().broadcastStatus(userID,friendsIdList, status);
         } catch (Exception ex) {
             throw new RemoteException("Data Base Exception", ex);
         }

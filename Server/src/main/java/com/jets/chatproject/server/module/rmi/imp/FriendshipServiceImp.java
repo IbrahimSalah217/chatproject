@@ -19,6 +19,7 @@ import com.jets.chatproject.server.module.dal.entities.DTOMapper;
 import com.jets.chatproject.server.module.dal.entities.DirectMessage;
 import com.jets.chatproject.server.module.dal.entities.Friendship;
 import com.jets.chatproject.server.module.dal.entities.User;
+import com.jets.chatproject.server.module.session.Broadcaster;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,9 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             int userId = sessionManager.findUserId(session);
             Friendship friendship = friendshipsDao.findByUserAndFriend(userId, friendId);
             friendship.setBlocked(true);
+            friendship.setLastSeenMessageId(-1);
             friendshipsDao.update(friendship);
+            Broadcaster.getInstance().broadcastBlocked(userId, friendId);
         } catch (Exception ex) {
             throw new RemoteException("data base Exception",ex);
         }
@@ -89,7 +92,9 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             int userId = sessionManager.findUserId(session);
             Friendship friendship = friendshipsDao.findByUserAndFriend(userId, friendId);
             friendship.setBlocked(false);
+            friendship.setLastSeenMessageId(-1);
             friendshipsDao.update(friendship);
+            Broadcaster.getInstance().broadcastUnBlocked(userId, friendId);
         } catch (Exception ex) {
             throw new RemoteException("data base Exception",ex);
         }

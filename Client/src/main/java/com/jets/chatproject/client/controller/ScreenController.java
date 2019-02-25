@@ -52,7 +52,7 @@ public class ScreenController {
                         = ServiceLocator.getService(ClientCallback.class);
                 AuthService authService
                         = ServiceLocator.getService(AuthService.class);
-                authService.setCallBack(session, clientCallback);
+                authService.setCallBack(session,clientCallback);
                 UsersService usersService
                         = ServiceLocator.getService(UsersService.class);
                 this.id = usersService.getProfileByPhone(session, phone).getId();
