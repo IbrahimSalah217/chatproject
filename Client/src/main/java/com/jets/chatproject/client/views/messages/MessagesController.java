@@ -10,7 +10,6 @@ import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.chatbot.ChatbotManager;
 import com.jets.chatproject.client.controller.ScreenController;
 import com.jets.chatproject.client.util.DialogUtils;
-import com.jets.chatproject.client.views.messages.MessageBubble.SpeechDirection;
 import com.jets.chatproject.module.rmi.MessagesService;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jets.chatproject.module.rmi.client.ClientCallback;
@@ -29,7 +28,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +70,7 @@ import javax.sound.sampled.TargetDataLine;
  */
 public class MessagesController implements Initializable {
 
-     @FXML
+    @FXML
     private JFXToggleButton boldToggle;
     @FXML
     private JFXToggleButton italicToggle;
@@ -143,11 +144,11 @@ public class MessagesController implements Initializable {
             Platform.runLater(() -> {
 
                 try {
-                    file = new File("audio_.wav"+System.currentTimeMillis());
+                    file = new File("audio_.wav" + System.currentTimeMillis());
                     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
                     AudioFormat audioFormat2 = new AudioFormat(8000.0F, 16, 2, true, true);
                     ByteArrayInputStream byteArray = new ByteArrayInputStream(arrayVoice);
-                    AudioInputStream audioInputStream = new AudioInputStream(byteArray,audioFormat2, 1000000);
+                    AudioInputStream audioInputStream = new AudioInputStream(byteArray, audioFormat2, 1000000);
                     AudioSystem.write(audioInputStream, fileType, file);
                     audioInputStream.reset();
                     audioInputStream.close();
@@ -216,41 +217,8 @@ public class MessagesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         messagesListView.setCellFactory(listView -> {
-            return new ListCell<MessageDTO>() {
-                @Override
-                protected void updateItem(MessageDTO message, boolean empty) {
-                    if (message != null && !empty) {
-                        MessageBubble.SpeechDirection direction
-                                = message.getSenderId() == screenController.getId()
-                                ? SpeechDirection.RIGHT : SpeechDirection.LEFT;
-                        setGraphic(new MessageBubble(message, direction));
-                    }
-//                    if (message != null && !empty) {
-//                        Text text = new Text();
-//                        TextFlow flow = new TextFlow(text);
-//                        if (message.getSenderId() == screenController.getId()) {
-//                            flow.setTextAlignment(TextAlignment.RIGHT);
-//                            text.setText(message.getContent() + " :" + message.getSenderName());
-//                        } else {
-//                            text.setText(message.getSenderName() + ": " + message.getContent());
-//                        }
-//                        FontWeight weight
-//                                = message.getFormat().isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
-//                        FontPosture posture
-//                                = message.getFormat().isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
-//                        text.setFont(Font.font(Font.getDefault().getFamily(),
-//                                weight, posture, message.getFormat().getFontSize()));
-//                        text.setFill(Color.web(message.getFormat().getTextColorCode()));
-//                        flow.setStyle("-fx-background-color:" + message.getFormat().getBackgroundColorCode());
-//                        setGraphic(flow);
-//                        setStyle("-fx-padding: 0px;");
-//                    } else {
-//                        setGraphic(null);
-//                    }
-                }
-            };
+            return new MessageBubble(screenController.getId(), pictureResolver);
         });
         messagesListView.getItems().addListener((ListChangeListener.Change<? extends MessageDTO> c) -> {
             messagesListView.scrollTo(c.getList().size() - 1);
@@ -310,6 +278,26 @@ public class MessagesController implements Initializable {
             }
         });
     }
+    private MessageBubble.PictureResolver pictureResolver = new MessageBubble.PictureResolver() {
+        Map<Integer, byte[]> map = new HashMap<>();
+
+        @Override
+        public byte[] getProfilePicture(int userId) {
+            if (map.containsKey(userId)) {
+                return map.get(userId);
+            }
+            try {
+                int pictureId = userService.getProfileById(
+                        screenController.getSession(), userId).getPictureId();
+                byte[] picture = userService.getPicture(screenController.getSession(), pictureId);
+                map.put(userId, picture);
+                return picture;
+            } catch (RemoteException ex) {
+                Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
+    };
 
     @FXML
     private void sendMessage(ActionEvent event) {
@@ -374,7 +362,7 @@ public class MessagesController implements Initializable {
     @FXML
     private void sendFileAction(MouseEvent event) {
         isRecording = false;
-        
+
     }
 
     @FXML
