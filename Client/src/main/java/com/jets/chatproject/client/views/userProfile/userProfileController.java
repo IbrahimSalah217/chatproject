@@ -364,6 +364,26 @@ public class userProfileController implements Initializable {
                     audioClip.play();
                 });
             }
+        /*          Salah         */
+
+            @Override
+            public void onVoiceRecordRecieve(int friendId, byte[] arrayVoice) {
+                Platform.runLater(() -> {
+                    try {
+                        System.out.println(".onVoiceRecordRecieve()");
+                        Notifications.create()
+                                .title("VOICE RECORD")
+                                .text(userService.getProfileById(userSession, friendId).getDisplyName() + " Send Voice record")
+                                .position(Pos.TOP_RIGHT)
+                                .show();
+                        AudioClip audioClip = new AudioClip(getClass().getResource("/sounds/Slack - Knock brush.mp3").toString());
+                        audioClip.play();
+                    } catch (RemoteException ex) {
+                        DialogUtils.showException(ex);
+                    }
+                    System.out.println(".onVoiceRecordRecieve()");
+                });
+            }
         });
     }
 
