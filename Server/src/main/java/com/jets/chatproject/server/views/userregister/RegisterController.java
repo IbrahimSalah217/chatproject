@@ -83,7 +83,7 @@ public class RegisterController implements Initializable {
         
         this.screenController = screenController;
         picturesDao = daosFactory.getPicturesDao();
-        image = new Image("\\Images\\userimg.png");
+        image = new Image(getClass().getResourceAsStream("/Images/userimg.png"));
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {

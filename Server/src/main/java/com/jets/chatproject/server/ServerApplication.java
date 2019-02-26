@@ -23,8 +23,12 @@ import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.jets.chatproject.server.module.session.SessionManager;
+import com.mysql.cj.jdbc.MysqlDataSource;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
+import java.util.Properties;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -76,7 +80,14 @@ public class ServerApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        try (FileInputStream fis = new FileInputStream("db.properties")) {
+            Properties prop = new Properties();
+            prop.load(fis);
+            System.setProperty("java.rmi.server.hostname",prop.getProperty("RMI_SERVER_HOSTNAME"));
+            launch(args);
+        } catch (IOException e) {
+            throw new RuntimeException("Can't find db.properties", e);
+        }
 //        ServerApplication application = new ServerApplication();
     }
 
@@ -125,7 +136,7 @@ public class ServerApplication extends Application {
 
         ScreenController controller = new ScreenController(primaryStage);
         controller.switchToMainPage();
-        
+
     }
 
 }
