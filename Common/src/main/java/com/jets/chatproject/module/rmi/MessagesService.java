@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.module.rmi;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -23,6 +24,8 @@ public interface MessagesService extends Remote {
     void sendGroupMessage(String session, int groupId, MessageDTO message) throws RemoteException;
 
     void sendDirectMessage(String session, int friendId, MessageDTO message) throws RemoteException;
+    
+    void uploadFile(String session ,int friendId ,String fileName , RemoteInputStream fileData) throws RemoteException;
 
     void markGroupMessageRead(String session,int friendId) throws RemoteException;
 

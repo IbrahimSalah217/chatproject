@@ -5,6 +5,9 @@
  */
 package com.jets.chatproject.server.module.rmi.imp;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
+import com.healthmarketscience.rmiio.RemoteInputStreamClient;
+import com.healthmarketscience.rmiio.SimpleRemoteInputStream;
 import com.jets.chatproject.module.rmi.MessagesService;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
@@ -24,7 +27,14 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import com.jets.chatproject.server.module.session.SessionManager;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -153,5 +163,18 @@ public class MessagesServiceImp extends UnicastRemoteObject implements MessagesS
     public void sendVoice(String session, int friendId, byte[] voiceArray) throws RemoteException {
         int userId = sessionManager.findUserId(session);
         Broadcaster.getInstance().broadcastVoice(userId, friendId, voiceArray);
+    }
+
+    @Override
+    public void uploadFile(String session, int friendId, String fileName, RemoteInputStream fileData) throws RemoteException {
+        try {
+            InputStream comingData = RemoteInputStreamClient.wrap(fileData);
+            SimpleRemoteInputStream simpleRemoteInputStream = new SimpleRemoteInputStream(comingData);
+            
+            Broadcaster.getInstance().broadcastDirectFile(sessionManager.findUserId(session), friendId, fileName, simpleRemoteInputStream.export());
+                            
+        } catch (IOException ex) {
+            Logger.getLogger(MessagesServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -5,6 +5,9 @@
  */
 package com.jets.chatproject.client.views.messages;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
+import com.healthmarketscience.rmiio.RemoteInputStreamClient;
+import com.healthmarketscience.rmiio.SimpleRemoteInputStream;
 import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.chatbot.ChatbotManager;
@@ -26,10 +29,16 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +51,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -54,6 +64,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -69,7 +80,7 @@ import javax.sound.sampled.TargetDataLine;
  */
 public class MessagesController implements Initializable {
 
-     @FXML
+    @FXML
     private JFXToggleButton boldToggle;
     @FXML
     private JFXToggleButton italicToggle;
@@ -143,11 +154,11 @@ public class MessagesController implements Initializable {
             Platform.runLater(() -> {
 
                 try {
-                    file = new File("audio_.wav"+System.currentTimeMillis());
+                    file = new File("audio_.wav" + System.currentTimeMillis());
                     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
                     AudioFormat audioFormat2 = new AudioFormat(8000.0F, 16, 2, true, true);
                     ByteArrayInputStream byteArray = new ByteArrayInputStream(arrayVoice);
-                    AudioInputStream audioInputStream = new AudioInputStream(byteArray,audioFormat2, 1000000);
+                    AudioInputStream audioInputStream = new AudioInputStream(byteArray, audioFormat2, 1000000);
                     AudioSystem.write(audioInputStream, fileType, file);
                     audioInputStream.reset();
                     audioInputStream.close();
@@ -193,6 +204,57 @@ public class MessagesController implements Initializable {
                 }
 
             });
+        }
+
+        @Override
+        public void onFileRecieve(int friendId, String fileName, RemoteInputStream fileData) {
+            Platform.runLater(() -> {
+                try {
+                    String friendName = userService.getProfileById(screenController.getSession(), friendId).getDisplyName();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setHeaderText("There's a received file from " + friendName);
+                    alert.setContentText(friendName + " sends you a file called " + fileName + "\n press Ok if you want to receive it..");
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK) {
+                        FileChooser chooser = new FileChooser();
+                        chooser.setInitialFileName(fileName);
+                        File savedFile = chooser.showSaveDialog(null);
+                        Thread thread = new Thread(() -> {
+                            InputStream comingData = null;
+                            try {
+                                comingData = RemoteInputStreamClient.wrap(fileData);
+                                System.out.println(fileName.substring(fileName.lastIndexOf(".")));
+                                byte[] fileSegment = new byte[1024];
+                                FileOutputStream fileOutputStream = new FileOutputStream(savedFile, true);
+                                long length = comingData.read(fileSegment);
+                                while (length > 0) {
+                                    fileOutputStream.write(fileSegment);
+                                    length = comingData.read(fileSegment);
+                                }
+                                fileOutputStream.flush();
+                                fileOutputStream.close();
+                            } catch (IOException ex) {
+                                Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+                            } finally {
+                                try {
+                                    comingData.close();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        });
+                        thread.start();
+                        
+
+                    }
+
+                } catch (RemoteException ex) {
+                    Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+
         }
     };
 
@@ -373,8 +435,19 @@ public class MessagesController implements Initializable {
 
     @FXML
     private void sendFileAction(MouseEvent event) {
-        isRecording = false;
-        
+        Platform.runLater(() -> {
+            FileChooser chooser = new FileChooser();
+            File file = chooser.showOpenDialog(null);
+            Thread thread = new Thread(() -> {
+                try {
+                    SimpleRemoteInputStream remoteInputStream = new SimpleRemoteInputStream(new FileInputStream(file));
+                    messagesService.uploadFile(screenController.getSession(), id, file.getName(), remoteInputStream);
+                } catch (FileNotFoundException | RemoteException ex) {
+                    Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            thread.start();
+        });
     }
 
     @FXML

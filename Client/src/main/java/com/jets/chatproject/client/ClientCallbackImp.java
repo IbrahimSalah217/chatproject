@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.client;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
@@ -151,6 +152,13 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         });
     }
 
+    @Override
+    public void receiveDirectFile(int friendId, String fileName, RemoteInputStream fileData) throws RemoteException {
+        messageListeners.forEach((listener) -> {
+            listener.onFileRecieve(friendId, fileName, fileData);
+        });
+    }
+
     public interface FriendListener {
 
         void onFiendStatusUpdated(int friendId, UserStatus friendStatus);
@@ -170,11 +178,15 @@ public class ClientCallbackImp extends UnicastRemoteObject implements ClientCall
         void onGroupMessageReceived(int groupId, MessageDTO message);
 
         void onVoiceRecordRecieve(int friendId, byte[] arrayVoice);
+        
+        void onFileRecieve(int friendId, String fileName, RemoteInputStream fileData);
     }
 
     public interface AnnouncementListener {
 
         void onServerMessageReceived(String message);
     }
+    
+    
 
 }

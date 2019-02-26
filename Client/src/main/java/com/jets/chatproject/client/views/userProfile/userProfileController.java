@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.client.views.userProfile;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import com.jets.chatproject.client.ClientCallbackImp;
 import com.jets.chatproject.client.ClientCallbackImp.MessageListener;
 import com.jets.chatproject.client.cfg.ServiceLocator;
@@ -356,6 +357,23 @@ public class userProfileController implements Initializable {
                     System.out.println(".onVoiceRecordRecieve()");
                 });
             }
+            
+            @Override
+            public void onFileRecieve(int friendId, String fileName, RemoteInputStream fileData) {
+                Platform.runLater(() -> {
+                    try{
+                        Notifications.create()
+                                .title("File")
+                                .text(userService.getProfileById(userSession, friendId).getDisplyName() + " Sends File")
+                                .position(Pos.TOP_RIGHT)
+                                .show();
+                    }catch(RemoteException ex){
+                        DialogUtils.showException(ex);
+                    }
+                });
+              
+            }
+
         });
 
         ClientCallbackImp.getInstance().addAnnouncementListener((message) -> {
@@ -601,6 +619,8 @@ public class userProfileController implements Initializable {
                 }
             }
         }
+        
+        
 
         private MessageDTO getMessage(String message) {
             MessageDTO messageDTO = new MessageDTO(-1, screenController.getId());
@@ -613,6 +633,11 @@ public class userProfileController implements Initializable {
         public void onVoiceRecordRecieve(int friendId, byte[] arrayVoice) {
 
         }
+        
+         @Override
+            public void onFileRecieve(int friendId, String fileName, RemoteInputStream fileData) {
+              
+            }
 
     };
 

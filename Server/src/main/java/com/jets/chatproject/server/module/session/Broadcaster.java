@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.server.module.session;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import com.jets.chatproject.module.rmi.client.ClientCallback;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
@@ -14,6 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -188,6 +191,20 @@ public class Broadcaster {
             if (map.get(friendId).isEmpty()) {
                 map.remove(friendId);
                 // TODO: user offline
+            }
+        }
+    }
+    
+     public void broadcastDirectFile(int userId, int friendId,String fileName,RemoteInputStream fileData) {
+        if (map.containsKey(friendId)) {
+            Iterator<ClientCallback> iterator = map.get(friendId).iterator();
+            while (iterator.hasNext()) {
+                try {
+                    ClientCallback client = iterator.next();
+                    client.receiveDirectFile(userId, fileName,fileData);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Broadcaster.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
