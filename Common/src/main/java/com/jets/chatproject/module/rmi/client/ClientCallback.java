@@ -5,6 +5,7 @@
  */
 package com.jets.chatproject.module.rmi.client;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import com.jets.chatproject.module.rmi.dto.MessageDTO;
 import com.jets.chatproject.module.rmi.dto.UserDTO;
 import com.jets.chatproject.module.rmi.dto.UserStatus;
@@ -32,5 +33,7 @@ public interface ClientCallback extends Remote {
     public void friendSendRequest(int friendID) throws RemoteException;
     
     public void receiveVoice(int friendId, byte[] voiceArray) throws RemoteException;
+
+    public void receiveDirectFile(int friendId, String fileName,RemoteInputStream fileData)throws RemoteException;
 
 }
