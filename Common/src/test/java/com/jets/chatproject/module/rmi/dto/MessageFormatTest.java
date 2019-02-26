@@ -18,95 +18,78 @@ import org.junit.Ignore;
  * @author ibrahim
  */
 public class MessageFormatTest {
-    
+
     public MessageFormatTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
-    @Ignore
     @Test
     public void testSetBold() {
         System.out.println("setBold");
-        boolean bold = false;
+        boolean bold = true;
         MessageFormat instance = new MessageFormat();
         instance.setBold(bold);
-        fail("The test case is a prototype.");
+        assertEquals(bold, instance.isBold());
     }
 
-    @Ignore
     @Test
     public void testSetItalic() {
         System.out.println("setItalic");
-        boolean italic = false;
+        boolean italic = true;
         MessageFormat instance = new MessageFormat();
         instance.setItalic(italic);
-        fail("The test case is a prototype.");
+        assertEquals(italic, instance.isItalic());
     }
 
-    @Ignore
     @Test
     public void testSetUnderline() {
         System.out.println("setUnderline");
-        boolean underline = false;
+        boolean underline = true;
         MessageFormat instance = new MessageFormat();
         instance.setUnderline(underline);
-        fail("The test case is a prototype.");
+        assertEquals(underline, instance.isUnderline());
     }
 
-    @Ignore
     @Test
     public void testSetTextColor() {
         System.out.println("setTextColor");
-        int textColor = 0;
+        int textColor = 0xff00ff;
         MessageFormat instance = new MessageFormat();
         instance.setTextColor(textColor);
-        fail("The test case is a prototype.");
+        assertEquals(textColor, instance.getTextColor());
     }
 
-    @Ignore
     @Test
     public void testSetBackgroundColor() {
         System.out.println("setBackgroundColor");
-        int backgroundColor = 0;
+        int backgroundColor = 0xff00ff;
         MessageFormat instance = new MessageFormat();
         instance.setBackgroundColor(backgroundColor);
-        fail("The test case is a prototype.");
+        assertEquals(backgroundColor, instance.getBackgroundColor());
     }
 
-    @Ignore
     @Test
     public void testSetFontSize() {
         System.out.println("setFontSize");
-        int fontSize = 0;
+        int fontSize = 20;
         MessageFormat instance = new MessageFormat();
         instance.setFontSize(fontSize);
-        fail("The test case is a prototype.");
+        assertEquals(fontSize, instance.getFontSize());
     }
 
-    @Ignore
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        MessageFormat instance = new MessageFormat();
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-    
 }
