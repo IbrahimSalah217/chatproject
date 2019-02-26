@@ -6,7 +6,6 @@
 package com.jets.chatproject.client.views.userProfile;
 
 import com.jets.chatproject.client.ClientCallbackImp;
-import com.jets.chatproject.client.ClientCallbackImp.MessageListener;
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.chatbot.ChatbotManager;
 import com.jets.chatproject.client.controller.ScreenController;
@@ -14,6 +13,7 @@ import com.jets.chatproject.client.util.ContactHbox;
 import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.client.util.GroupHbox;
 import com.jets.chatproject.client.util.RequestHbox;
+import com.jets.chatproject.client.views.announcement.AnnouncementController;
 import com.jets.chatproject.client.views.messages.MessagesController;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.FriendRequestsService;
@@ -45,8 +45,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,7 +53,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
@@ -361,10 +358,7 @@ public class userProfileController implements Initializable {
         ClientCallbackImp.getInstance().addAnnouncementListener((message) -> {
             System.out.println(message);
             Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Announcement");
-                alert.setContentText(message);
-                alert.showAndWait();
+                AnnouncementController.showAnnouncement(message);
             });
         });
         ClientCallbackImp.getInstance().addMessageListener(botMessageListener);
