@@ -65,7 +65,7 @@ public class UpdateProfileFXMLController implements Initializable {
     @FXML
     private JFXTextField nameTxtID;
     @FXML
-    private JFXTextField countryTxtID;
+    private JFXComboBox countryTxtID;
     @FXML
     private JFXTextField phoneNumberTxtID;
     @FXML
@@ -118,15 +118,19 @@ public class UpdateProfileFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Circle clip = new Circle(userImageID.getFitWidth() / 2, userImageID.getFitHeight() / 2, 50);
         userImageID.setClip(clip);
+        for(com.jets.chatproject.client.views.register.countries country: com.jets.chatproject.client.views.register.countries.values())
+        {
+            countryTxtID.getItems().add(country.toString());
+        }
         phoneNumberTxtID.setText(oldUser.getPhoneNumber());
         phoneNumberTxtID.setDisable(true);
         bio.setText(oldUser.getBio());
         nameTxtID.setText(oldUser.getDisplyName());
         emailTxtID.setText(oldUser.getEmail());
-        countryTxtID.setText(oldUser.getCountry());
+        countryTxtID.setValue(oldUser.getCountry());
         genderCBoxID.setValue(oldUser.getGender().name());
        //LocalDate localDate = oldUser.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        //datePickerID.setValue(localDate);
+       //datePickerID.setValue(localDate);
         
         try {
             bytesImage = usersService.getPicture(userSession, oldUser.getPictureId());
@@ -178,7 +182,7 @@ public class UpdateProfileFXMLController implements Initializable {
         name = nameTxtID.getText();
         password = passwordTxtID.getText();
         email = emailTxtID.getText();
-        country = countryTxtID.getText();
+        country = (String) countryTxtID.getValue();
         verifyPassword = verifyPasswordTxtID.getText();
         phoneNumber = phoneNumberTxtID.getText();
         bytesImage = extractBytes(image);

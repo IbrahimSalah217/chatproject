@@ -29,13 +29,19 @@
         </ListView>
     </center>
     <bottom>
-        <VBox BorderPane.alignment="CENTER">
+        <VBox prefHeight="109.0" prefWidth="637.0" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="503.0" spacing="5.0" style="-fx-background-color: linear-gradient(#c7dfdf 0%,lightcyan 25%, mintcream 65%,  mintcream 100%);">
                     <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
                     <children>
+                     
+                        <JFXToggleButton fx:id="botToggle" onAction="#toggleBold" text="Bot" textFill="#2d6ab9" toggleColor="#2d6ab9" toggleLineColor="#9cc1d9">
+                            <font>
+                                <Font name="Times New Roman Bold" size="14.0" />
+                            </font>
+                        </JFXToggleButton>
                         <JFXToggleButton fx:id="boldToggle" onAction="#toggleBold" prefHeight="56.0" prefWidth="39.0" text="B" textFill="#2d6ab9" toggleColor="#2d6ab9" toggleLineColor="#9cc1d9">
                             <font>
                                 <Font name="Times New Roman Bold" size="14.0" />
@@ -108,17 +114,11 @@
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </JFXComboBox>
-                     
-                        <JFXToggleButton fx:id="botToggle" onAction="#toggleBold" text="Bot" textFill="#2d6ab9" toggleColor="#2d6ab9" toggleLineColor="#9cc1d9">
-                            <font>
-                                <Font name="Times New Roman Bold" size="14.0" />
-                            </font>
-                        </JFXToggleButton>
                     </children>
                 </HBox>
                 <HBox spacing="5.0">
                     <children>
-                        <JFXTextField fx:id="messageTextField" focusColor="#2d6ab9" maxWidth="406.0" minWidth="382.0" onAction="#sendMessage" prefHeight="34.0" prefWidth="389.0" promptText="Messsage..." style="-fx-background-color: #ffffff;" />
+                        <JFXTextField fx:id="messageTextField" focusColor="#2d6ab9" maxWidth="469.0" minWidth="382.0" onAction="#sendMessage" prefHeight="34.0" prefWidth="469.0" promptText="Messsage..." style="-fx-background-color: #ffffff;" />
                         <FontAwesomeIconView fx:id="sendFileBtn" fill="#2d6ab9" glyphName="PAPERCLIP" onMousePressed="#sendFileAction" rotate="72.9" size="25">
                             <HBox.margin>
                                 <Insets top="4.0" />
@@ -135,6 +135,11 @@
                                 <Insets top="5.0" />
                             </HBox.margin>
                         </FontAwesomeIconView>
+                  <MaterialDesignIconView fx:id="saveXMLBtn" fill="#2d6ab9" glyphName="FILE_XML" onMousePressed="#saveAsXML" size="25">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </MaterialDesignIconView>
                         <JFXButton fx:id="sendButton" defaultButton="true" focusTraversable="false" onAction="#sendMessage" prefHeight="34.0" prefWidth="92.0" style="-fx-border-radius: 30px; -fx-background-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Send" textFill="#2d6ab9">
                             <effect>
                                 <DropShadow color="#99b0bc" spread="0.28" />

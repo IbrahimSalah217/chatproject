@@ -88,12 +88,12 @@
                   <Font name="Cooper Black" size="16.0" />
                </font>
             </Label>
-            <Label text="Country" textFill="#2d6ab9" GridPane.columnIndex="2">
+            <Label text="Country" textFill="#2d6ab9" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font name="Cooper Black" size="16.0" />
                </font>
             </Label>
-            <Label prefHeight="24.0" prefWidth="122.0" text="Phone Number" textFill="#2d6ab9" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label prefHeight="24.0" prefWidth="122.0" text="Phone Number" textFill="#2d6ab9" GridPane.columnIndex="2">
                <font>
                   <Font name="Cooper Black" size="16.0" />
                </font>
@@ -125,20 +125,19 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="countryTxtID" focusColor="#2d6ab9" promptText="Country" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="phoneNumberTxtID" focusColor="#2d6ab9" promptText="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></JFXTextField>
-            <JFXTextField fx:id="phoneNumberTxtID" focusColor="#2d6ab9" promptText="Phone Number" GridPane.columnIndex="2" GridPane.rowIndex="3">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></JFXTextField>
-            <JFXComboBox fx:id="genderCBoxID" prefHeight="25.0" prefWidth="153.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <JFXComboBox fx:id="genderCBoxID" prefHeight="31.0" prefWidth="163.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="8.0" />
-               </GridPane.margin></JFXComboBox>
+               </GridPane.margin>
+               <padding>
+                  <Insets left="-9.0" />
+               </padding></JFXComboBox>
             <JFXDatePicker fx:id="datePickerID" defaultColor="#2d6ab9" editable="false" prefHeight="31.0" prefWidth="206.0" promptText="mm/dd/yyyy" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <FontAwesomeIconView fill="#2d6ab9" glyphName="MOBILE_PHONE" size="30.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <FontAwesomeIconView fill="#2d6ab9" glyphName="MOBILE_PHONE" size="30.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></FontAwesomeIconView>
@@ -148,7 +147,10 @@
                   <Insets />
                </GridPane.margin></MaterialDesignIconView>
             <MaterialDesignIconView fill="#2d6ab9" glyphName="LOCK" size="20.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <MaterialDesignIconView fill="#2d6ab9" glyphName="EARTH" size="20.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <MaterialDesignIconView fill="#2d6ab9" glyphName="EARTH" size="20.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="30.0" />
+               </GridPane.margin></MaterialDesignIconView>
             <MaterialDesignIconView fill="#2d6ab9" glyphName="ACCOUNT" size="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <MaterialDesignIconView fill="#2d6ab9" glyphName="GENDER_MALE_FEMALE" size="25.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                <GridPane.margin>
@@ -165,7 +167,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </JFXTextArea>
-            <JFXButton fx:id="updateBtnID" defaultButton="true" focusTraversable="false" onAction="#update" prefHeight="38.0" prefWidth="113.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px;" text="update" textFill="#2d6ab9" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="9">
+            <JFXButton fx:id="updateBtnID" defaultButton="true" focusTraversable="false" onAction="#update" prefHeight="38.0" prefWidth="113.0" style="-fx-background-radius: 30px; -fx-border-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="update" textFill="#2d6ab9" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="9">
                <font>
                   <Font name="Showcard Gothic" size="16.0" />
                </font>
@@ -181,6 +183,7 @@
                   <Insets right="62.0" />
                </GridPane.margin>
             </MaterialDesignIconView>
+            <JFXComboBox fx:id="countryTxtID" prefHeight="31.0" prefWidth="170.0" promptText="Choose" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <ImageView fx:id="userImageID" fitHeight="105.0" fitWidth="105.0" layoutX="14.0" layoutY="130.0" onMouseClicked="#changePicture" pickOnBounds="true" preserveRatio="true">

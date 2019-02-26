@@ -25,6 +25,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -95,6 +96,8 @@ public class MessagesController implements Initializable {
     private JFXTextField messageTextField;
     @FXML
     private FontAwesomeIconView sendFileBtn;
+    @FXML
+    private MaterialDesignIconView saveXMLBtn;
     @FXML
     private FontAwesomeIconView recordBtn;
     @FXML
@@ -291,7 +294,6 @@ public class MessagesController implements Initializable {
                     List<MessageDTO> allDirectMessages
                             = messagesService.getAllDirectMessages(screenController.getSession(), id);
                     messagesListView.getItems().addAll(allDirectMessages);
-                    XMLHandler xmlHandler = new XMLHandler(allDirectMessages);
                     break;
 
                 case Group:
@@ -419,6 +421,18 @@ public class MessagesController implements Initializable {
     private void setFontSize(ActionEvent event) {
         messageFormat.setFontSize(fontSizeCombo.getValue());
         updateTextField();
+    }
+
+    @FXML
+    void saveAsXML(MouseEvent event) {
+
+        try {
+            List<MessageDTO> allDirectMessages
+                    = messagesService.getAllDirectMessages(screenController.getSession(), id);
+            XMLHandler xmlHandler = new XMLHandler(allDirectMessages);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

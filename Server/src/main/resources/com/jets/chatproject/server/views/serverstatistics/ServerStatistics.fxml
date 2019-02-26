@@ -17,7 +17,7 @@
                 <Font name="Snap ITC" size="24.0" />
             </font>
         </Label>
-        <Label layoutX="208.0" layoutY="301.0" prefHeight="53.0" prefWidth="217.0" text="Zajel Chat">
+        <Label layoutX="208.0" layoutY="258.0" prefHeight="53.0" prefWidth="217.0" text="Zajel Chat">
             <font>
                 <Font name="Snap ITC" size="36.0" />
             </font>
@@ -35,15 +35,14 @@
                 </LinearGradient>
             </textFill>
         </Label>
-        <ImageView fitHeight="53.0" fitWidth="51.0" layoutX="295.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="53.0" fitWidth="51.0" layoutX="295.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/ChatAppLogo.png" />
          </image>
       </ImageView>
-      <Button fx:id="onlineOffline" layoutX="50.0" layoutY="147.0" mnemonicParsing="false" text="online/Offline" />
-      <Button fx:id="allUsers" layoutX="482.0" layoutY="147.0" mnemonicParsing="false" text="allUsers" />
-      <Button fx:id="gender" layoutX="72.0" layoutY="286.0" mnemonicParsing="false" text="gender" />
-      <Button fx:id="country" layoutX="482.0" layoutY="285.0" mnemonicParsing="false" text="country" />
+      <Button fx:id="onlineOffline" layoutX="261.0" layoutY="387.0" mnemonicParsing="false" text="online/Offline" />
+      <Button fx:id="gender" layoutX="83.0" layoutY="215.0" mnemonicParsing="false" text="gender" />
+      <Button fx:id="country" layoutX="493.0" layoutY="215.0" mnemonicParsing="false" text="country" />
       <Button fx:id="backButton" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" text="back" />
    </children>
 </AnchorPane>
