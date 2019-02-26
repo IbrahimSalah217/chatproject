@@ -1,48 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<?xml-stylesheet type="text/xsl" href="chatView.xsl"?>
 <chatSession>
     <Messages>
         <Msg>
-            <from>atef</from>
+            <from>aya taha</from>
             <font>biu:000000ff:ffffffff:12</font>
             <content>hello</content>
-            <time>2019-02-20+02:00</time>
-        </Msg>
-        <Msg>
-            <from>salma</from>
-            <font>biu:000000ff:ffffffff:12</font>
-            <content>hi</content>
-            <time>2019-02-21+02:00</time>
-        </Msg>
-        <Msg>
-            <from>salma</from>
-            <font>biu:000000ff:ffffffff:12</font>
-            <content>how are you</content>
-            <time>2019-02-21+02:00</time>
-        </Msg>
-        <Msg>
-            <from>salma</from>
-            <font>biu:000000ff:ffffffff:12</font>
-            <content>knl</content>
-            <time>2019-02-21+02:00</time>
-        </Msg>
-        <Msg>
-            <from>atef</from>
-            <font>biu:000000ff:ffffffff:12</font>
-            <content>z;lgm;</content>
-            <time>2019-02-22+02:00</time>
-        </Msg>
-        <Msg>
-            <from>salma</from>
-            <font>biu:000000ff:ffffffff:12</font>
-            <content>jbjl</content>
-            <time>2019-02-22+02:00</time>
-        </Msg>
-        <Msg>
-            <from>salma</from>
-            <font>biu:ffca28ff:ffffffff:12</font>
-            <content>jnjnkl</content>
-            <time>2019-02-22+02:00</time>
+            <time>2019-02-23+02:00</time>
         </Msg>
     </Messages>
 </chatSession>

@@ -150,7 +150,7 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Circle fx:id="statusCircle"  accessibleRole="IMAGE_VIEW" layoutX="244.0" layoutY="32.0" onMousePressed="#statusAction" onMouseEntered="#statusLable" radius="18.0" rotate="10.3" stroke="#ddfffa" strokeLineCap="ROUND" strokeWidth="0.0">
+            <Circle fx:id="statusCircle" accessibleRole="IMAGE_VIEW" layoutX="244.0" layoutY="32.0" onMouseEntered="#statusLable" onMousePressed="#statusAction" radius="18.0" rotate="10.3" stroke="#ddfffa" strokeLineCap="ROUND" strokeWidth="0.0">
                <effect>
                   <Lighting>
                      <bumpInput>
@@ -169,8 +169,14 @@
                         <Stop color="WHITE" offset="1.0" />
                      </stops>
                   </LinearGradient>
-               </fill></Circle>
-            <Circle fx:id="userImage" fill="DODGERBLUE" layoutX="37.0" layoutY="36.0" onMousePressed="#updateProfileAction" radius="31.0" stroke="BLACK" strokeType="INSIDE" />
+               </fill>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Circle>
+            <Circle fx:id="userImage" fill="DODGERBLUE" layoutX="37.0" layoutY="36.0" onMousePressed="#updateProfileAction" radius="31.0" stroke="BLACK" strokeType="INSIDE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Circle>
          </children>
       </Pane>
    </left>
@@ -180,7 +186,7 @@
             <Pane prefHeight="69.0" prefWidth="250.0" style="-fx-background-color: #212D42;" />
             <Pane layoutY="70.0" prefHeight="481.0" prefWidth="250.0" style="-fx-background-color: #212D32;">
                <children>
-                  <TitledPane expanded="false" layoutY="-3.0" prefHeight="142.0" prefWidth="253.0" style="-fx-background-color: #486F56;" text="FRIENDS" textAlignment="CENTER" textFill="#180480" underline="true" wrapText="true">
+                  <TitledPane expanded="false" layoutY="-3.0" prefHeight="142.0" prefWidth="253.0" style="-fx-background-color: linear-gradient(#2d6ab9 0%,#c7dfdf 25%, lightcyan 65%,  mintcream 100%);" text="FRIENDS" textAlignment="CENTER" textFill="#180480" underline="true" wrapText="true">
                      <content>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
@@ -192,7 +198,7 @@
                         <Font name="BellGothicStd-Black" size="17.0" />
                      </font>
                   </TitledPane>
-                  <TitledPane expanded="false" layoutX="1.0" layoutY="137.0" prefHeight="167.0" prefWidth="251.0" style="-fx-background-color: #486F56;" text="FAMILY" textAlignment="CENTER" textFill="#180480" underline="true">
+                  <TitledPane expanded="false" layoutX="1.0" layoutY="137.0" prefHeight="167.0" prefWidth="251.0" style="-fx-background-color: linear-gradient(#2d6ab9 0%,#c7dfdf 25%, lightcyan 65%,  mintcream 100%);" text="FAMILY" textAlignment="CENTER" textFill="#180480" underline="true">
                      <content>
                         <Pane prefHeight="77.0" prefWidth="256.0">
                            <children>
@@ -204,7 +210,7 @@
                         <Font name="BellGothicStd-Black" size="17.0" />
                      </font>
                   </TitledPane>
-                  <TitledPane animated="false" expanded="false" layoutX="1.0" layoutY="303.0" prefHeight="177.0" prefWidth="251.0" style="-fx-background-color: #486F56;" text="WORK" textAlignment="CENTER" textFill="#180480" underline="true">
+                  <TitledPane animated="false" expanded="false" layoutX="1.0" layoutY="303.0" prefHeight="177.0" prefWidth="251.0" style="-fx-background-color: linear-gradient(#2d6ab9 0%,#c7dfdf 25%, lightcyan 65%,  mintcream 100%);" text="WORK" textAlignment="CENTER" textFill="#180480" underline="true">
                      <content>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>

@@ -23,6 +23,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -69,7 +70,7 @@ import javax.sound.sampled.TargetDataLine;
  */
 public class MessagesController implements Initializable {
 
-     @FXML
+    @FXML
     private JFXToggleButton boldToggle;
     @FXML
     private JFXToggleButton italicToggle;
@@ -83,6 +84,8 @@ public class MessagesController implements Initializable {
     private JFXTextField messageTextField;
     @FXML
     private FontAwesomeIconView sendFileBtn;
+    @FXML
+    private MaterialDesignIconView saveXMLBtn;
     @FXML
     private FontAwesomeIconView recordBtn;
     @FXML
@@ -143,11 +146,11 @@ public class MessagesController implements Initializable {
             Platform.runLater(() -> {
 
                 try {
-                    file = new File("audio_.wav"+System.currentTimeMillis());
+                    file = new File("audio_.wav" + System.currentTimeMillis());
                     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
                     AudioFormat audioFormat2 = new AudioFormat(8000.0F, 16, 2, true, true);
                     ByteArrayInputStream byteArray = new ByteArrayInputStream(arrayVoice);
-                    AudioInputStream audioInputStream = new AudioInputStream(byteArray,audioFormat2, 1000000);
+                    AudioInputStream audioInputStream = new AudioInputStream(byteArray, audioFormat2, 1000000);
                     AudioSystem.write(audioInputStream, fileType, file);
                     audioInputStream.reset();
                     audioInputStream.close();
@@ -262,7 +265,6 @@ public class MessagesController implements Initializable {
                     List<MessageDTO> allDirectMessages
                             = messagesService.getAllDirectMessages(screenController.getSession(), id);
                     messagesListView.getItems().addAll(allDirectMessages);
-                    XMLHandler xmlHandler = new XMLHandler(allDirectMessages);
                     break;
 
                 case Group:
@@ -373,9 +375,21 @@ public class MessagesController implements Initializable {
     }
 
     @FXML
+    void saveAsXML(MouseEvent event) {
+
+        try {
+            List<MessageDTO> allDirectMessages
+                    = messagesService.getAllDirectMessages(screenController.getSession(), id);
+            XMLHandler xmlHandler = new XMLHandler(allDirectMessages);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
     private void sendFileAction(MouseEvent event) {
         isRecording = false;
-        
+
     }
 
     @FXML

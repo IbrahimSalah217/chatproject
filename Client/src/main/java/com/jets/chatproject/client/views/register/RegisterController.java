@@ -56,7 +56,7 @@ public class RegisterController implements Initializable {
     @FXML
     private JFXTextField nameTxtID;
     @FXML
-    private JFXTextField countryTxtID;
+    private JFXComboBox countryTxtID;
     @FXML
     private JFXTextField phoneNumberTxtID;
     @FXML
@@ -98,6 +98,10 @@ public class RegisterController implements Initializable {
         userImageID.setClip(clip);
         image = userImageID.getImage();
         genderCBoxID.setItems(FXCollections.observableArrayList("MALE", "FEMALE"));
+        for(countries country: countries.values())
+        {
+            countryTxtID.getItems().add(country.toString());
+        }
         inputsValidation = new InputsValidation(this);
         Platform.runLater(() -> nameTxtID.requestFocus());
     }
@@ -238,7 +242,7 @@ public class RegisterController implements Initializable {
         name = nameTxtID.getText();
         password = passwordTxtID.getText();
         email = emailTxtID.getText();
-        country = countryTxtID.getText();
+        country = (String) countryTxtID.getValue();
         verifyPassword = verifyPasswordTxtID.getText();
         phoneNumber = phoneNumberTxtID.getText();
         bytesImage = extractBytes(image);

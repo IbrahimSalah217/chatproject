@@ -59,7 +59,6 @@ public class ServerAnnouncementController implements Initializable {
 
         broadcastButton.setOnAction((ActionEvent event) -> {
             broadcaster.broadcastFromServer(htmlEditor.getHtmlText());
-
         });
         backButton.setOnAction((ActionEvent event) -> {
 

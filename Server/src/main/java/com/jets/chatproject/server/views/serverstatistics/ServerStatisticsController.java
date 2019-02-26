@@ -33,8 +33,6 @@ public class ServerStatisticsController implements Initializable {
     @FXML
     private Button gender;
     @FXML
-    private Button allUsers;
-    @FXML
     private Button country;
     @FXML
     private Button backButton;
@@ -92,21 +90,6 @@ public class ServerStatisticsController implements Initializable {
                 Parent root = loader.load(controller.getClass().getResource("CountryStatistics.fxml").openStream());
                 Scene scene = new Scene(root);
                 stage.setTitle("Country Statistics");
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(ServerStatisticsController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        allUsers.setOnAction((ActionEvent event)->{
-        
-            FXMLLoader loader = new FXMLLoader();
-            AllUsersStatisticsController controller = new AllUsersStatisticsController(daosFactory);
-            loader.setController(controller);
-            try {
-                Parent root = loader.load(controller.getClass().getResource("AllUsersStatistics.fxml").openStream());
-                Scene scene = new Scene(root);
-                stage.setTitle("All Users Statistics");
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException ex) {
