@@ -24,8 +24,8 @@
         </HBox>
         <HBox>
             <children>
-                <SVGPath content="M0 0 L10 0 L10 10 Z" fill="#21c4b0" />
-                <Label fx:id="messageBody" maxWidth="400.0" style="-fx-background-color: #21c4b0; -fx-background-radius: 0 5 5 5;" text="hi" wrapText="true">
+                <SVGPath content="M0 0 L10 0 L10 10 Z" fill="#c3e0dc" />
+                <Label fx:id="messageBody" maxWidth="400.0" style="-fx-background-color: #c3e0dc; -fx-background-radius: 0 5 5 5;" text="hi" wrapText="true">
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
