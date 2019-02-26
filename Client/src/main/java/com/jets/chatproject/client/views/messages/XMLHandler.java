@@ -50,7 +50,7 @@ public class XMLHandler {
 
     public XMLHandler(List<MessageDTO> messagesUserList) {
 
-        xslFilename = "chatView.xsd";
+        xslFilename = "xml//chatView.xsl";
         inFilename = "Message.xml";
         msgList = new ArrayList<>();
         try {
@@ -79,7 +79,8 @@ public class XMLHandler {
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
                 marshaller.marshal(chatSession, new FileOutputStream(inFilename));
-                xsl(inFilename, file.toString(), xslFilename);
+                xsl(inFilename, file.getAbsolutePath(), xslFilename);
+                
             }
         } catch (JAXBException | FileNotFoundException ex) {
             Logger.getLogger(XMLHandler.class.getName()).log(Level.SEVERE, null, ex);
