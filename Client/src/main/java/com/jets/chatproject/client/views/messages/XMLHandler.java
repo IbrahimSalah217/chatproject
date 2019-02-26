@@ -50,7 +50,7 @@ public class XMLHandler {
 
     public XMLHandler(List<MessageDTO> messagesUserList) {
 
-        xslFilename = "xml//chatView.xsl";
+        xslFilename = "/xml/chatView.xsl";
         inFilename = "Message.xml";
         msgList = new ArrayList<>();
         try {
@@ -80,26 +80,25 @@ public class XMLHandler {
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
                 marshaller.marshal(chatSession, new FileOutputStream(inFilename));
                 xsl(inFilename, file.getAbsolutePath(), xslFilename);
-                
+
             }
         } catch (JAXBException | FileNotFoundException ex) {
             Logger.getLogger(XMLHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public static void xsl(String inFilename, String outFilename, String xslFilename) {
         try {
-           
             TransformerFactory factory = TransformerFactory.newInstance();
             Templates template = factory.newTemplates(new StreamSource(
-                new FileInputStream(xslFilename)));
+                    XMLHandler.class.getResourceAsStream(xslFilename)));
             Transformer xformer = template.newTransformer();
             Source source = new StreamSource(new FileInputStream(inFilename));
             Result result = new StreamResult(new FileOutputStream(outFilename));
             xformer.transform(source, result);
         } catch (FileNotFoundException | TransformerConfigurationException e) {
             e.printStackTrace();
-        }
-         catch (TransformerException e) {
+        } catch (TransformerException e) {
             SourceLocator locator = e.getLocator();
             int col = locator.getColumnNumber();
             int line = locator.getLineNumber();

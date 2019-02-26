@@ -2,10 +2,40 @@
 <chatSession>
     <Messages>
         <Msg>
-            <from>aya taha</from>
+            <from>Ibrahim Yousre</from>
             <font>biu:000000ff:ffffffff:12</font>
-            <content>hello</content>
-            <time>2019-02-23+02:00</time>
+            <content>he</content>
+            <time>2019-02-26+02:00</time>
+        </Msg>
+        <Msg>
+            <from>Ibrahim Yousre</from>
+            <font>biu:000000ff:ffffffff:12</font>
+            <content>helo</content>
+            <time>2019-02-26+02:00</time>
+        </Msg>
+        <Msg>
+            <from>Ibrahim Yousre</from>
+            <font>biu:000000ff:ffffffff:12</font>
+            <content>hi</content>
+            <time>2019-02-26+02:00</time>
+        </Msg>
+        <Msg>
+            <from>Ibrahim Yousre</from>
+            <font>biu:000000ff:ffffffff:12</font>
+            <content>h</content>
+            <time>2019-02-26+02:00</time>
+        </Msg>
+        <Msg>
+            <from>Ibrahim Yousre</from>
+            <font>biu:000000ff:ffffffff:12</font>
+            <content>a</content>
+            <time>2019-02-26+02:00</time>
+        </Msg>
+        <Msg>
+            <from>Ibrahim Yousre</from>
+            <font>biu:000000ff:ffffffff:12</font>
+            <content>hi</content>
+            <time>2019-02-26+02:00</time>
         </Msg>
     </Messages>
 </chatSession>
