@@ -40,12 +40,16 @@ public class FriendshipsDaoImp implements FriendshipsDao {
         select.setInt(1, userId);
         select.setInt(2, friendId);
         ResultSet result = select.executeQuery();
+        Friendship friendship = null;
         if (result.next()) {
-            return new Friendship(result.getInt(1), result.getInt(2),
+            friendship = new Friendship(result.getInt(1), result.getInt(2),
                     result.getString(3), result.getBoolean(4), result.getInt(5));
-        } else {
-            return null;
+
         }
+        result.close();
+        select.close();
+        connection.close();
+        return friendship;
     }
 
     @Override
@@ -61,6 +65,9 @@ public class FriendshipsDaoImp implements FriendshipsDao {
             friendList.add(new Friendship(result.getInt(1), result.getInt(2),
                     result.getString(3), result.getBoolean(4), result.getInt(5)));
         }
+        result.close();
+        select.close();
+        connection.close();
         return friendList;
     }
 
@@ -79,6 +86,8 @@ public class FriendshipsDaoImp implements FriendshipsDao {
             statement.setInt(5, object.getLastSeenMessageId());
         }
         statement.executeUpdate();
+        statement.close();
+        connection.close();
         return -1;
     }
 
@@ -96,9 +105,11 @@ public class FriendshipsDaoImp implements FriendshipsDao {
         }
         //update.setInt(3, object.getLastSeenMessageId());
         update.setInt(4, object.getUserId());
-        
+
         update.setInt(5, object.getFriendId());
         update.executeUpdate();
+        update.close();
+        connection.close();
         return true;
     }
 

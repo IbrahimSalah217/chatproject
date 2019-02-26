@@ -34,7 +34,7 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
     public DirectMessage getLastDirectMessage(int userId, int anotherUserId) throws Exception {
         DirectMessage directMessage = null;
         Connection connection = dataSource.getConnection();
-        String query = "select * from direct_messages where (sender_id =" +userId +" and receiver_id = "+ anotherUserId+") or (receiver_id = "+userId+" and sender_id = "+anotherUserId+") order by time desc limit 1";
+        String query = "select * from direct_messages where (sender_id =" + userId + " and receiver_id = " + anotherUserId + ") or (receiver_id = " + userId + " and sender_id = " + anotherUserId + ") order by time desc limit 1";
         PreparedStatement statement = connection.prepareStatement(query);
 //        statement.setInt(1, userId);
 //        statement.setInt(2, anotherUserId);
@@ -52,6 +52,9 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
             directMessage = new DirectMessage(id, senderId, receiverId,
                     messageType, content, fontStyle, time);
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
         return directMessage;
     }
 
@@ -59,7 +62,7 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
     public List<DirectMessage> getAllDirectMessages(int userId, int anotherUserId) throws Exception {
         ArrayList<DirectMessage> list = new ArrayList<DirectMessage>();
         Connection connection = dataSource.getConnection();
-        String query = "select * from direct_messages where (sender_id =" +userId +" and receiver_id = "+ anotherUserId+") or (receiver_id = "+userId+" and sender_id = "+anotherUserId+") order by time";
+        String query = "select * from direct_messages where (sender_id =" + userId + " and receiver_id = " + anotherUserId + ") or (receiver_id = " + userId + " and sender_id = " + anotherUserId + ") order by time";
         PreparedStatement statement = connection.prepareStatement(query);
 //        statement.setInt(1, userId);
 //        statement.setInt(2, anotherUserId);
@@ -77,6 +80,9 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
             list.add(new DirectMessage(id, senderId, receiverId,
                     messageType, content, fontStyle, time));
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
         return list;
     }
 
@@ -94,7 +100,11 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
         preparedStatement.executeUpdate();
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
-        return generatedKeys.getInt(1);
+        int id = generatedKeys.getInt(1);
+        generatedKeys.close();
+        preparedStatement.close();
+        connection.close();
+        return id;
     }
 
     @Override
@@ -124,6 +134,9 @@ public class DirectMessagesDaoImp implements DirectMessagesDao {
             return new DirectMessage(id, senderId, receiverId,
                     messageType, content, fontStyle, time);
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
         return null;
     }
 

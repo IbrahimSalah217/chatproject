@@ -40,6 +40,9 @@ public class RequestsDaoImp implements RequestsDoa {
             requests.add(new Request(resultSet.getInt(1),
                     resultSet.getInt(2), resultSet.getTimestamp(3)));
         }
+        resultSet.close();
+        preparedStatement.close();
+        conn.close();
         return requests;
     }
 
@@ -52,10 +55,12 @@ public class RequestsDaoImp implements RequestsDoa {
         preparedStatement.setInt(2, request.getReceiverId());
         preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        conn.close();
 //        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 //        generatedKeys.next();
 //        return generatedKeys.getInt(1);
-       return 0;
+        return 0;
     }
 
     @Override
@@ -71,6 +76,8 @@ public class RequestsDaoImp implements RequestsDoa {
         preparedStatement.setInt(1, request.getSenderId());
         preparedStatement.setInt(2, request.getReceiverId());
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        conn.close();
         return true;
     }
 
@@ -82,12 +89,16 @@ public class RequestsDaoImp implements RequestsDoa {
         preparedStatement.setInt(1, senderId);
         preparedStatement.setInt(2, receiverId);
         ResultSet resultSet = preparedStatement.executeQuery();
+        Request request = null;
         if (resultSet.next()) {
-            return new Request(resultSet.getInt(1),
+            request = new Request(resultSet.getInt(1),
                     resultSet.getInt(2), resultSet.getTimestamp(3));
-        } else {
-            return null;
         }
+        resultSet.close();
+        preparedStatement.close();
+        conn.close();
+        return request;
+
     }
 
 }

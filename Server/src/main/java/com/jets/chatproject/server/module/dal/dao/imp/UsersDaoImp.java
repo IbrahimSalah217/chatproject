@@ -38,6 +38,7 @@ public class UsersDaoImp implements UsersDao {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, phone);
         ResultSet resultSet = statement.executeQuery();
+        User user = null;
         if (resultSet.next()) {
             int id = resultSet.getInt(1);
             String phoneNumber = resultSet.getString(2);
@@ -51,10 +52,12 @@ public class UsersDaoImp implements UsersDao {
             String bio = resultSet.getString(10);
             int pictureId = resultSet.getInt(11);
             boolean systemRegistration = resultSet.getBoolean(12);
-            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration);
-        } else {
-            return null;
+            user = new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration);
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
+        return user;
     }
 
     @Override
@@ -64,6 +67,7 @@ public class UsersDaoImp implements UsersDao {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
+        User user = null;
         if (resultSet.next()) {
             id = resultSet.getInt(1);
             String phoneNumber = resultSet.getString(2);
@@ -77,10 +81,12 @@ public class UsersDaoImp implements UsersDao {
             String bio = resultSet.getString(10);
             int pictureId = resultSet.getInt(11);
             boolean systemRegistration = resultSet.getBoolean(12);
-            return new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration);
-        } else {
-            return null;
+            user = new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration);
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
+        return user;
     }
 
     @Override
@@ -102,7 +108,11 @@ public class UsersDaoImp implements UsersDao {
         preparedStatement.executeUpdate();
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
-        return generatedKeys.getInt(1);
+        int id = generatedKeys.getInt(1);
+        generatedKeys.close();
+        preparedStatement.close();
+        connection.close();
+        return id;
     }
 
     @Override
@@ -123,6 +133,8 @@ public class UsersDaoImp implements UsersDao {
         preparedStatement.setBoolean(11, user.getSystemRegistration());
         preparedStatement.setInt(12, user.getId());
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return true;
     }
 
@@ -133,7 +145,6 @@ public class UsersDaoImp implements UsersDao {
 
     @Override
     public List<User> findAllUser() throws Exception {
-
         List<User> userList = new ArrayList<>();
         Connection connection = dataSource.getConnection();
         String query = "select * from users";
@@ -152,9 +163,11 @@ public class UsersDaoImp implements UsersDao {
             String bio = resultSet.getString(10);
             int pictureId = resultSet.getInt(11);
             boolean systemRegistration = resultSet.getBoolean(12);
-
             userList.add(new User(id, phoneNumber, name, email, password, gender, country, dateOfBirth, bio, status, pictureId, systemRegistration));
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
         return userList;
     }
 

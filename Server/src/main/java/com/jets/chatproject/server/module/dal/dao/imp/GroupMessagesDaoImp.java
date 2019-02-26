@@ -48,6 +48,9 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
             Date time = resultSet.getTimestamp(7);
             groupMessage = new GroupMessage(id, senderId, group_Id, messageType, Content, fontStyle, time);
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
         return groupMessage;
     }
 
@@ -68,6 +71,9 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
             Date time = resultSet.getTimestamp(7);
             messages.add(new GroupMessage(id, senderId, group_Id, messageType, content, fontStyle, time));
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
         return messages;
     }
 
@@ -85,7 +91,11 @@ public class GroupMessagesDaoImp implements GroupMessagesDao {
         preparedStatement.executeUpdate();
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
-        return generatedKeys.getInt(1);
+        int id = generatedKeys.getInt(1);
+        generatedKeys.close();
+        preparedStatement.close();
+        connection.close();
+        return id;
     }
 
     @Override

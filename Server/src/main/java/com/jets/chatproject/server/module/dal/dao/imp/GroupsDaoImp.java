@@ -40,14 +40,17 @@ public class GroupsDaoImp implements GroupsDao {
                     resultSet.getInt(2), resultSet.getString(3),
                     resultSet.getInt(4)));
         }
+        resultSet.close();
+        preparedStatement.close();
+        conn.close();
         return groups;
     }
 
     @Override
     public int insert(Group object) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "insert into chat_project.groups (admin_id,display_name,picture_id) values("+
-                object.getAdminId()+",'"+object.getGroupName()+"',"+object.getPictureId()+")";
+        String query = "insert into chat_project.groups (admin_id,display_name,picture_id) values("
+                + object.getAdminId() + ",'" + object.getGroupName() + "'," + object.getPictureId() + ")";
         PreparedStatement preparedStatement = connection.prepareStatement(query,
                 Statement.RETURN_GENERATED_KEYS);
 //        preparedStatement.setInt(1, object.getAdminId());
@@ -56,7 +59,12 @@ public class GroupsDaoImp implements GroupsDao {
         preparedStatement.executeUpdate();
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
-        return generatedKeys.getInt(1);
+        int id = generatedKeys.getInt(1);
+        generatedKeys.close();
+        preparedStatement.close();
+        connection.close();
+        return id;
+
     }
 
     @Override

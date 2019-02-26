@@ -39,6 +39,9 @@ public class GroupMembersDaoImp implements GroupMembersDao {
             myGroupList.add(new GroupMember(resultSet.getInt(1),
                     resultSet.getInt(2), resultSet.getInt(3)));
         }
+        resultSet.close();
+        preparedStatement.close();
+        conn.close();
         return myGroupList;
     }
 
@@ -50,12 +53,15 @@ public class GroupMembersDaoImp implements GroupMembersDao {
         preparedStatement.setInt(1, groupId);
         preparedStatement.setInt(2, userId);
         ResultSet resultSet = preparedStatement.executeQuery();
+        GroupMember groupMember = null;
         if (resultSet.next()) {
-            return new GroupMember(resultSet.getInt(1),
+            groupMember = new GroupMember(resultSet.getInt(1),
                     resultSet.getInt(2), resultSet.getInt(3));
-        } else {
-            return null;
         }
+        resultSet.close();
+        preparedStatement.close();
+        conn.close();
+        return groupMember;
     }
 
     @Override
@@ -71,6 +77,8 @@ public class GroupMembersDaoImp implements GroupMembersDao {
             preparedStatement.setInt(3, object.getLastSeenMessageId());
         }
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return -1;
     }
 
@@ -83,6 +91,8 @@ public class GroupMembersDaoImp implements GroupMembersDao {
         preparedStatement.setInt(2, object.getGroupId());
         preparedStatement.setInt(3, object.getUserId());
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return true;
     }
 
@@ -94,6 +104,8 @@ public class GroupMembersDaoImp implements GroupMembersDao {
         preparedStatement.setInt(1, object.getGroupId());
         preparedStatement.setInt(2, object.getUserId());
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return true;
     }
 

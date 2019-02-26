@@ -10,7 +10,6 @@ import com.jets.chatproject.server.module.dal.entities.Picture;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import javax.sql.DataSource;
 
@@ -29,16 +28,19 @@ public class PicturesDaoImp implements PicturesDao {
     @Override
     public Picture findById(int id) throws Exception {
         Connection connection = dataSource.getConnection();
-        String query = "select * from pictures where picture_id = "+id;
+        String query = "select * from pictures where picture_id = " + id;
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery(query);
+        Picture picture = null;
         if (resultSet.next()) {
             int pictureId = resultSet.getInt(1);
             byte[] pictureData = resultSet.getBytes(2);
-            return new Picture(pictureId, pictureData);
-        } else {
-            return null;
+            picture = new Picture(pictureId, pictureData);
         }
+        resultSet.close();
+        statement.close();
+        connection.close();
+        return picture;
     }
 
     @Override
@@ -50,24 +52,25 @@ public class PicturesDaoImp implements PicturesDao {
         preparedStatement.executeUpdate();
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
-        return generatedKeys.getInt(1);
+        int id = generatedKeys.getInt(1);
+        generatedKeys.close();
+        preparedStatement.close();
+        connection.close();
+        return id;
+
     }
 
     @Override
     public boolean update(Picture picture) throws Exception {
-        boolean isUpdated = false;
-        try {
-            Connection connection = dataSource.getConnection();
-            String query = "update pictures set picture = ? where picture_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setBytes(1, picture.getData());
-            preparedStatement.setInt(2, picture.getId());
-            preparedStatement.execute();
-            isUpdated = true;
-        } catch (SQLException ex) {
-            isUpdated = false;
-        }
-        return isUpdated;
+        Connection connection = dataSource.getConnection();
+        String query = "update pictures set picture = ? where picture_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setBytes(1, picture.getData());
+        preparedStatement.setInt(2, picture.getId());
+        preparedStatement.execute();
+        preparedStatement.close();
+        connection.close();
+        return true;
     }
 
     @Override
