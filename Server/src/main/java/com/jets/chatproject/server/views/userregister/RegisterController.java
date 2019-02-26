@@ -55,7 +55,7 @@ public class RegisterController implements Initializable {
     @FXML
     private TextField nameTxtID;
     @FXML
-    private TextField countryTxtID;
+    private ComboBox countryTxtID;
     @FXML
     private TextField phoneNumberTxtID;
     @FXML
@@ -100,6 +100,10 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         genderCBoxID.setItems(FXCollections.observableArrayList("MALE", "FEMALE"));
+        for(countries country: countries.values())
+        {
+            countryTxtID.getItems().add(country.toString());
+        }
         inputsValidation = new InputsValidation(this);
         Platform.runLater(() -> nameTxtID.requestFocus());
         backToMainPage.setOnAction((ActionEvent event)->{
@@ -210,7 +214,7 @@ public class RegisterController implements Initializable {
         name = nameTxtID.getText();
         password = passwordTxtID.getText();
         email = emailTxtID.getText();
-        country = countryTxtID.getText();
+        country = (String) countryTxtID.getValue();
         verifyPassword = verifyPasswordTxtID.getText();
         phoneNumber = phoneNumberTxtID.getText();
 

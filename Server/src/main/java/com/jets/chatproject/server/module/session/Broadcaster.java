@@ -42,6 +42,7 @@ public class Broadcaster {
         if (!map.containsKey(userId)) {
             map.put(userId, new LinkedList<>());
         }
+        map.get(userId).clear();
         map.get(userId).add(clientCallback);
     }
 
@@ -194,14 +195,14 @@ public class Broadcaster {
             }
         }
     }
-    
-     public void broadcastDirectFile(int userId, int friendId,String fileName,RemoteInputStream fileData) {
+
+    public void broadcastDirectFile(int userId, int friendId, String fileName, RemoteInputStream fileData) {
         if (map.containsKey(friendId)) {
             Iterator<ClientCallback> iterator = map.get(friendId).iterator();
             while (iterator.hasNext()) {
                 try {
                     ClientCallback client = iterator.next();
-                    client.receiveDirectFile(userId, fileName,fileData);
+                    client.receiveDirectFile(userId, fileName, fileData);
                 } catch (RemoteException ex) {
                     Logger.getLogger(Broadcaster.class.getName()).log(Level.SEVERE, null, ex);
                 }

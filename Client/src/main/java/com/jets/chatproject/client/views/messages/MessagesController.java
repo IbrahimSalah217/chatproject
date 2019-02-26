@@ -81,7 +81,7 @@ import javax.sound.sampled.TargetDataLine;
  * @author ibrahim
  */
 public class MessagesController implements Initializable {
-    
+
     @FXML
     private JFXToggleButton boldToggle;
     @FXML
@@ -106,7 +106,7 @@ public class MessagesController implements Initializable {
     private ListView<MessageDTO> messagesListView;
     @FXML
     private JFXToggleButton botToggle;
-    
+
     ScreenController screenController;
     MessagesService messagesService;
     ClientCallbackImp clientCallback;
@@ -120,11 +120,11 @@ public class MessagesController implements Initializable {
     AudioFormat audioFormat = new AudioFormat(8000.0F, 16, 2, true, true);
     DataLine.Info dataLineInfo = new DataLine.Info(TargetDataLine.class, audioFormat);
     ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-    
+
     ChatType chatType;
     int id;
     MessageFormat messageFormat = new MessageFormat();
-    
+
     private final ClientCallbackImp.MessageListener messageListener
             = new ClientCallbackImp.MessageListener() {
         @Override
@@ -136,7 +136,7 @@ public class MessagesController implements Initializable {
                 });
             }
         }
-        
+
         @Override
         public void onGroupMessageReceived(int groupId, MessageDTO message) {
             System.out.println(groupId);
@@ -151,12 +151,12 @@ public class MessagesController implements Initializable {
         @Override
         public void onVoiceRecordRecieve(int friendId, byte[] arrayVoice) {
             getRecord(friendId, arrayVoice);
-            
+
         }
-        
+
         private void getRecord(int friendId, byte[] arrayVoice) {
             Platform.runLater(() -> {
-                
+
                 try {
                     file = new File("audio_.wav" + System.currentTimeMillis());
                     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
@@ -196,20 +196,20 @@ public class MessagesController implements Initializable {
                     stop.setOnAction((event) -> {
                         recordPlayer.stop();
                     });
-                    
+
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setHeaderText("voice Record");
                     alert.setContentText("you have voice Record from" + userService.getProfileById(screenController.getSession(), friendId).getDisplyName() + "if you want to listen to it click Ok");
                     alert.setGraphic(mediaBar);
                     alert.showAndWait();
-                    
+
                 } catch (IOException ex) {
                     DialogUtils.showException(ex);
                 }
-                
+
             });
         }
-        
+
         @Override
         public void onFileRecieve(int friendId, String fileName, RemoteInputStream fileData) {
             Platform.runLater(() -> {
@@ -248,23 +248,23 @@ public class MessagesController implements Initializable {
                             }
                         });
                         thread.start();
-                        
+
                     }
-                    
+
                 } catch (RemoteException ex) {
                     Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
                     Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-            
+
         }
     };
-    
+
     public enum ChatType {
         Direct, Group
     }
-    
+
     public MessagesController(ScreenController screenController, ChatType chatType, int id) {
         try {
             this.screenController = screenController;
@@ -278,9 +278,14 @@ public class MessagesController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if (chatType == ChatType.Group) {
+            recordBtn.setVisible(false);
+            sendFileBtn.setVisible(false);
+        }
+
         recordBtn.setOnMouseReleased((a) -> {
             isRecording = false;
         });
@@ -290,7 +295,7 @@ public class MessagesController implements Initializable {
         messagesListView.getItems().addListener((ListChangeListener.Change<? extends MessageDTO> c) -> {
             messagesListView.scrollTo(c.getList().size() - 1);
         });
-        
+
         try {
             switch (chatType) {
                 case Direct:
@@ -298,7 +303,7 @@ public class MessagesController implements Initializable {
                             = messagesService.getAllDirectMessages(screenController.getSession(), id);
                     messagesListView.getItems().addAll(allDirectMessages);
                     break;
-                
+
                 case Group:
                     List<MessageDTO> allGroupMessages
                             = messagesService.getAllGroupMessages(screenController.getSession(), id);
@@ -308,7 +313,7 @@ public class MessagesController implements Initializable {
         } catch (RemoteException ex) {
             DialogUtils.showException(ex);
         }
-        
+
         fontSizeCombo.getItems().addAll(12, 14, 16, 18, 20, 22, 26, 30, 36, 44);
         fontSizeCombo.setButtonCell(new ListCell<Integer>() {
             @Override
@@ -317,7 +322,7 @@ public class MessagesController implements Initializable {
                     setText("Font size: " + item);
                 }
             }
-            
+
         });
         boolean isBotEnabled = false;
         switch (chatType) {
@@ -330,7 +335,7 @@ public class MessagesController implements Initializable {
         }
         botToggle.setSelected(isBotEnabled);
         botToggle.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            
+
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue && chatType == ChatType.Direct) {
@@ -347,7 +352,7 @@ public class MessagesController implements Initializable {
     }
     private MessageBubble.PictureResolver pictureResolver = new MessageBubble.PictureResolver() {
         Map<Integer, byte[]> map = new HashMap<>();
-        
+
         @Override
         public byte[] getProfilePicture(int userId) {
             if (map.containsKey(userId)) {
@@ -365,12 +370,12 @@ public class MessagesController implements Initializable {
             return null;
         }
     };
-    
+
     @FXML
     private void sendMessage(ActionEvent event) {
         sendMessage(messageTextField.getText().trim());
     }
-    
+
     private void sendMessage(String message) {
         try {
             if (message.isEmpty()) {
@@ -395,49 +400,65 @@ public class MessagesController implements Initializable {
             DialogUtils.showException(ex);
         }
     }
-    
+
     @FXML
     private void toggleBold(ActionEvent event) {
         messageFormat.setBold(boldToggle.isSelected());
         updateTextField();
     }
-    
+
     @FXML
     private void toggleItalic(ActionEvent event) {
         messageFormat.setItalic(italicToggle.isSelected());
         updateTextField();
     }
-    
+
     @FXML
     private void pickTextColor(ActionEvent event) {
         messageFormat.setTextColor((int) Long.decode(textColorPicker.getValue().toString()).longValue());
         updateTextField();
     }
-    
+
     @FXML
     private void pickBackgroundColor(ActionEvent event) {
         messageFormat.setBackgroundColor((int) Long.decode(backgroundColorPicker.getValue().toString()).longValue());
         updateTextField();
     }
-    
+
     @FXML
     private void setFontSize(ActionEvent event) {
         messageFormat.setFontSize(fontSizeCombo.getValue());
         updateTextField();
     }
-    
+
     @FXML
     void saveAsXML(MouseEvent event) {
-        
         try {
-            List<MessageDTO> allDirectMessages
-                    = messagesService.getAllDirectMessages(screenController.getSession(), id);
-            XMLHandler xmlHandler = new XMLHandler(allDirectMessages);
+            switch (chatType) {
+                case Direct:
+                    List<MessageDTO> allDirectMessages
+                            = messagesService.getAllDirectMessages(screenController.getSession(), id);
+                    XMLHandler xmlHandlerDirect = new XMLHandler(allDirectMessages);
+                    break;
+
+                case Group:
+                    List<MessageDTO> allGroupMessages
+                            = messagesService.getAllGroupMessages(screenController.getSession(), id);
+                    XMLHandler xmlHandlerGroup = new XMLHandler(allGroupMessages);
+                    break;
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        t
+//            List<MessageDTO> allDirectMessages
+//                    = messagesService.getAllDirectMessages(screenController.getSession(), id);
+//            XMLHandler xmlHandler = new XMLHandler(allDirectMessages);
+//        } catch (RemoteException ex) {
+//            Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
-    
+
     @FXML
     private void sendFileAction(MouseEvent event) {
         Platform.runLater(() -> {
@@ -454,7 +475,7 @@ public class MessagesController implements Initializable {
             thread.start();
         });
     }
-    
+
     @FXML
     private void recordAction(MouseEvent event) {
         Platform.runLater(() -> {
@@ -472,7 +493,7 @@ public class MessagesController implements Initializable {
                         outstream.write(voiceArray, 0, numBytesrReaded);
                     }
                     recordBtn.setDisable(false);
-                    
+
                     dataLine.drain();
                     dataLine.close();
                     try {
@@ -484,16 +505,16 @@ public class MessagesController implements Initializable {
                     } catch (IOException ex) {
                         Logger.getLogger(MessagesController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 });
                 th.start();
-                
+
             } catch (LineUnavailableException ex) {
                 DialogUtils.showException(ex);
             }
         });
     }
-    
+
     private void updateTextField() {
         FontWeight weight
                 = messageFormat.isBold() ? FontWeight.BOLD : FontWeight.NORMAL;
@@ -501,7 +522,7 @@ public class MessagesController implements Initializable {
                 = messageFormat.isItalic() ? FontPosture.ITALIC : FontPosture.REGULAR;
         messageTextField.setFont(Font.font(Font.getDefault().getFamily(),
                 weight, posture, messageFormat.getFontSize()));
-        
+
         messageTextField.setStyle("-fx-text-fill:" + messageFormat.getTextColorCode() + ";"
                 + "-fx-control-inner-background:" + messageFormat.getBackgroundColorCode());
     }

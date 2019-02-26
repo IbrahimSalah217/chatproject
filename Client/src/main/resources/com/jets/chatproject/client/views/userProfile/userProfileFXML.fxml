@@ -33,6 +33,9 @@
                             <HBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                         </Circle>
                         <Label fx:id="userNameLable" minWidth="200.0" text="USER NAME" HBox.hgrow="ALWAYS">
                             <font>
@@ -71,6 +74,9 @@
                             <HBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                         </Circle>
                     </children>
                 </HBox>

@@ -139,6 +139,9 @@
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </MaterialDesignIconView>
                         <JFXButton fx:id="sendButton" defaultButton="true" focusTraversable="false" onAction="#sendMessage" prefHeight="34.0" prefWidth="92.0" style="-fx-border-radius: 30px; -fx-background-radius: 30px; -fx-background-color: linear-gradient(lightcyan 0%,  #dfecec 25% , #dfecec 75%,#c7dfdf 85%); -fx-border-color: #2d6ab9;" text="Send" textFill="#2d6ab9">
                             <effect>
