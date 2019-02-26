@@ -33,8 +33,8 @@ public class ServiceLocator {
     }
 
     private static Remote lookup(Class<? extends Remote> serviceClass) throws Exception {
-        System.out.println("server location: " + ServerConfiguration.REGISTRY_HOST
-                + ":" + ServerConfiguration.REGISTRY_PORT);
+//        System.out.println("server location: " + ServerConfiguration.REGISTRY_HOST
+//                + ":" + ServerConfiguration.REGISTRY_PORT);
         Registry registry = LocateRegistry.getRegistry(
                 ServerConfiguration.REGISTRY_HOST, ServerConfiguration.REGISTRY_PORT);
         return registry.lookup(serviceClass.getName());

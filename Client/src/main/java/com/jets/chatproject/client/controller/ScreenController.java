@@ -185,6 +185,8 @@ public class ScreenController {
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/styles/userProfileCSS.css").toExternalForm());
             stage.setScene(scene);
+            stage.setMinWidth(1200);
+            stage.setMinHeight(600);
             stage.show();
         } catch (IOException ex) {
             DialogUtils.showException(ex);
