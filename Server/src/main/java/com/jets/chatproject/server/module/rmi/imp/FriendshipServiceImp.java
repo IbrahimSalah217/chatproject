@@ -82,7 +82,7 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             friendshipsDao.update(friendship);
             Broadcaster.getInstance().broadcastBlocked(userId, friendId);
         } catch (Exception ex) {
-            throw new RemoteException("data base Exception",ex);
+            throw new RemoteException("data base Exception", ex);
         }
     }
 
@@ -96,7 +96,7 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             friendshipsDao.update(friendship);
             Broadcaster.getInstance().broadcastUnBlocked(userId, friendId);
         } catch (Exception ex) {
-            throw new RemoteException("data base Exception",ex);
+            throw new RemoteException("data base Exception", ex);
         }
     }
 
@@ -108,7 +108,7 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
             friendship.setCategory(category);
             friendshipsDao.update(friendship);
         } catch (Exception ex) {
-            throw new RemoteException("data base Exception",ex);
+            throw new RemoteException("data base Exception", ex);
         }
     }
 
@@ -119,15 +119,31 @@ public class FriendshipServiceImp extends UnicastRemoteObject implements Friends
 
         try {
             User friend = usersDao.findByPhone(phone);
-            Friendship friendship = friendshipsDao.findByUserAndFriend(userId,friend.getId());
-            if(friendship != null)
-                areFriends=true;
-            else
-                areFriends=false;
+            Friendship friendship = friendshipsDao.findByUserAndFriend(userId, friend.getId());
+            if (friendship != null) {
+                areFriends = true;
+            } else {
+                areFriends = false;
+            }
         } catch (Exception ex) {
-            throw new RemoteException("data base Exception",ex);
+            throw new RemoteException("data base Exception", ex);
         }
         return areFriends;
+    }
+
+    @Override
+    public boolean isBlockedByFriend(String session, int friendId) throws RemoteException {
+        int userId = sessionManager.findUserId(session);
+        try {
+            Friendship friendship = friendshipsDao.findByUserAndFriend(friendId, userId);
+            if (friendship != null) {
+                return friendship.isBlocked();
+            } else {
+                return false;
+            }
+        } catch (Exception ex) {
+            throw new RemoteException("data base Exception", ex);
+        }
     }
 
 }
