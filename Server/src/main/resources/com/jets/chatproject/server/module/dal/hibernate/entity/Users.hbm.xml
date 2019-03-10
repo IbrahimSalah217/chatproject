@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2019 4:24:15 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.jets.chatproject.server.module.dal.hibernate.entity.Users" table="users" catalog="chat_project" optimistic-lock="version">
+        <id name="userId" type="java.lang.Integer">
+            <column name="user_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="pictures" class="com.jets.chatproject.server.module.dal.hibernate.entity.Pictures" fetch="select">
+            <column name="picture_id" />
+        </many-to-one>
+        <property name="phoneNumber" type="string">
+            <column name="phone_number" length="15" not-null="true" unique="true" />
+        </property>
+        <property name="displayName" type="string">
+            <column name="display_name" length="30" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="30" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="30" not-null="true" />
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="20" />
+        </property>
+        <property name="gender" type="string">
+            <column name="gender" length="10" not-null="true" />
+        </property>
+        <property name="country" type="string">
+            <column name="country" length="30" not-null="true" />
+        </property>
+        <property name="dateOfBirth" type="date">
+            <column name="date_of_birth" length="10" not-null="true" />
+        </property>
+        <property name="bio" type="string">
+            <column name="bio" length="1000" not-null="true" />
+        </property>
+        <property name="systemRegistration" type="java.lang.Byte">
+            <column name="system_registration" />
+        </property>
+        <set name="friendshipsesForUserId" table="friendships" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Friendships" />
+        </set>
+        <set name="friendshipsesForFriendId" table="friendships" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="friend_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Friendships" />
+        </set>
+        <set name="groupses" table="groups" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="admin_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Groups" />
+        </set>
+        <set name="groupMessageses" table="group_messages" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="sender_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.GroupMessages" />
+        </set>
+        <set name="requestsesForReceiverId" table="requests" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="receiver_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Requests" />
+        </set>
+        <set name="requestsesForSenderId" table="requests" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="sender_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Requests" />
+        </set>
+        <set name="directMessagesesForReceiverId" table="direct_messages" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="receiver_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.DirectMessages" />
+        </set>
+        <set name="directMessagesesForSenderId" table="direct_messages" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="sender_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.DirectMessages" />
+        </set>
+        <set name="groupMemberses" table="group_members" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.GroupMembers" />
+        </set>
+    </class>
+</hibernate-mapping>

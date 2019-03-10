@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2019 4:24:15 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.jets.chatproject.server.module.dal.hibernate.entity.DirectMessages" table="direct_messages" catalog="chat_project" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usersByReceiverId" class="com.jets.chatproject.server.module.dal.hibernate.entity.Users" fetch="select">
+            <column name="receiver_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usersBySenderId" class="com.jets.chatproject.server.module.dal.hibernate.entity.Users" fetch="select">
+            <column name="sender_id" not-null="true" />
+        </many-to-one>
+        <property name="messageType" type="string">
+            <column name="message_type" length="30" not-null="true" />
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="65535" not-null="true" />
+        </property>
+        <property name="fontStyle" type="string">
+            <column name="font_style" length="100" />
+        </property>
+        <property name="time" type="timestamp">
+            <column name="time" length="26" not-null="true" />
+        </property>
+        <set name="friendshipses" table="friendships" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="last_seen_message" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Friendships" />
+        </set>
+    </class>
+</hibernate-mapping>

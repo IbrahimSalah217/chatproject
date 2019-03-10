@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jets.chatproject.server.module.dal.dao.imp;
+package com.jets.chatproject.server.module.dal.hibernate.dao.imp;
 
-import com.jets.chatproject.server.module.dal.cfg.DataSourceFactory;
+import com.jets.chatproject.server.module.dal.cfg.MySessionFactory;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
 import com.jets.chatproject.server.module.dal.dao.DirectMessagesDao;
 import com.jets.chatproject.server.module.dal.dao.FriendshipsDao;
@@ -15,7 +15,6 @@ import com.jets.chatproject.server.module.dal.dao.GroupsDao;
 import com.jets.chatproject.server.module.dal.dao.PicturesDao;
 import com.jets.chatproject.server.module.dal.dao.RequestsDoa;
 import com.jets.chatproject.server.module.dal.dao.UsersDao;
-import javax.sql.DataSource;
 
 /**
  *
@@ -23,50 +22,44 @@ import javax.sql.DataSource;
  */
 public class DbDaosFactory implements DaosFactory {
 
-    DataSource datasource;
-
-    public DbDaosFactory() {
-        datasource = DataSourceFactory.getDataSource();
-    }
-
     @Override
     public DirectMessagesDao getDirectMessagesDao() {
-        return new DirectMessagesDaoImp(datasource);
+        return new DirectMessagesDaoImp(MySessionFactory.getSession());
     }
 
     @Override
     public FriendshipsDao getFriendshipsDao() {
-        return new FriendshipsDaoImp(datasource);
+        return new FriendshipsDaoImp(MySessionFactory.getSession());
     }
 
     @Override
     public GroupMembersDao getGroupMembersDao() {
-        return new GroupMembersDaoImp(datasource);
+        return new GroupMembersDaoImp(MySessionFactory.getSession());
     }
 
     @Override
     public GroupMessagesDao getGroupMessagesDao() {
-        return new GroupMessagesDaoImp(datasource);
+        return new GroupMessagesDaoImp(MySessionFactory.getSession());
     }
 
     @Override
     public GroupsDao getGroupsDao() {
-        return new GroupsDaoImp(datasource);
+        return new GroupsDaoImp(MySessionFactory.getSession());
     }
 
     @Override
     public PicturesDao getPicturesDao() {
-        return new PicturesDaoImp(datasource);
+        return new PicturesDaoImp(MySessionFactory.getSession());
     }
 
     @Override
     public RequestsDoa getRequestsDoa() {
-        return new RequestsDaoImp(datasource);
+        return new RequestsDaoImp(MySessionFactory.getSession());
     }
 
     @Override
     public UsersDao getUsersDao() {
-        return new UsersDaoImp(datasource);
+        return new UsersDaoImp(MySessionFactory.getSession());
     }
 
 }

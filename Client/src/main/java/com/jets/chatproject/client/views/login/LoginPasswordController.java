@@ -7,6 +7,7 @@ package com.jets.chatproject.client.views.login;
 
 import com.jets.chatproject.client.cfg.ServiceLocator;
 import com.jets.chatproject.client.controller.ScreenController;
+import com.jets.chatproject.client.util.DialogUtils;
 import com.jets.chatproject.module.rmi.AuthService;
 import com.jets.chatproject.module.rmi.UsersService;
 import com.jfoenix.controls.JFXButton;
@@ -86,7 +87,7 @@ public class LoginPasswordController implements Initializable {
             registeredbyServer();
             screenController.switchToUSerProfileScreen();
         } catch (Exception ex) {
-            getAlert("Wrong Password", "Please, re-enter your password again.", Alert.AlertType.ERROR);
+            DialogUtils.showException(ex);
         }
     }
 

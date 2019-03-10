@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2019 4:24:15 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.jets.chatproject.server.module.dal.hibernate.entity.Friendships" table="friendships" catalog="chat_project" optimistic-lock="version">
+        <composite-id name="id" class="com.jets.chatproject.server.module.dal.hibernate.entity.FriendshipsId">
+            <key-property name="userId" type="int">
+                <column name="user_id" />
+            </key-property>
+            <key-property name="friendId" type="int">
+                <column name="friend_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="directMessages" class="com.jets.chatproject.server.module.dal.hibernate.entity.DirectMessages" fetch="select">
+            <column name="last_seen_message" />
+        </many-to-one>
+        <many-to-one name="usersByUserId" class="com.jets.chatproject.server.module.dal.hibernate.entity.Users" update="false" insert="false" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usersByFriendId" class="com.jets.chatproject.server.module.dal.hibernate.entity.Users" update="false" insert="false" fetch="select">
+            <column name="friend_id" not-null="true" />
+        </many-to-one>
+        <property name="category" type="string">
+            <column name="category" not-null="true" />
+        </property>
+        <property name="blocked" type="java.lang.Boolean">
+            <column name="blocked" />
+        </property>
+    </class>
+</hibernate-mapping>

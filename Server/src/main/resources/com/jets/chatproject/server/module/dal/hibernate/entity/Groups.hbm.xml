@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2019 4:24:15 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.jets.chatproject.server.module.dal.hibernate.entity.Groups" table="groups" catalog="chat_project" optimistic-lock="version">
+        <id name="groupId" type="java.lang.Integer">
+            <column name="group_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="pictures" class="com.jets.chatproject.server.module.dal.hibernate.entity.Pictures" fetch="select">
+            <column name="picture_id" />
+        </many-to-one>
+        <many-to-one name="users" class="com.jets.chatproject.server.module.dal.hibernate.entity.Users" fetch="select">
+            <column name="admin_id" not-null="true" />
+        </many-to-one>
+        <property name="displayName" type="string">
+            <column name="display_name" length="30" not-null="true" />
+        </property>
+        <set name="groupMessageses" table="group_messages" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="group_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.GroupMessages" />
+        </set>
+        <set name="groupMemberses" table="group_members" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="groub_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.GroupMembers" />
+        </set>
+    </class>
+</hibernate-mapping>

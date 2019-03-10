@@ -79,7 +79,7 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
 //            if (userId != userProfile.getId()) {
 //                throw new RemoteException("Unauthorized operation");
 //            }
-            picturesDao.update(new Picture(userProfile.getPictureId(), picture));
+            picturesDao.insert(new Picture(userProfile.getPictureId(), picture));
             User user = usersDao.findById(userId);
             user.setDisplyName(userProfile.getDisplyName());
             user.setEmail(userProfile.getEmail());
@@ -107,7 +107,7 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
             friendships.forEach((friend) -> {
                 friendsIdList.add(friend.getFriendId());
             });
-            Broadcaster.getInstance().broadcastStatus(userId,friendsIdList, status);
+            Broadcaster.getInstance().broadcastStatus(userId, friendsIdList, status);
         } catch (Exception ex) {
             throw new RemoteException("Database exception", ex);
         }
@@ -135,7 +135,7 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
             friendships.forEach((friend) -> {
                 friendsIdList.add(friend.getFriendId());
             });
-            Broadcaster.getInstance().broadcastStatus(userID,friendsIdList, status);
+            Broadcaster.getInstance().broadcastStatus(userID, friendsIdList, status);
         } catch (Exception ex) {
             throw new RemoteException("Data Base Exception", ex);
         }
@@ -146,10 +146,10 @@ public class UsersServiceImp extends UnicastRemoteObject implements UsersService
         int userId;
         User user;
         try {
-              userId = sessionManager.findUserId(userSession);
-              if (friendId == -1) {
+            userId = sessionManager.findUserId(userSession);
+            if (friendId == -1) {
                 user = usersDao.findById(userId);
-              } else {
+            } else {
                 user = usersDao.findById(friendId);
             }
         } catch (Exception ex) {

@@ -7,7 +7,7 @@ package com.jets.chatproject.server.views;
  */
 import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
-import com.jets.chatproject.server.module.dal.dao.imp.DbDaosFactory;
+import com.jets.chatproject.server.module.dal.hibernate.dao.imp.DbDaosFactory;
 import com.jets.chatproject.server.views.manageservice.ServerManagerController;
 import com.jets.chatproject.server.views.serverannouncement.ServerAnnouncementController;
 import com.jets.chatproject.server.views.serverstatistics.ServerStatisticsController;

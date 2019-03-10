@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2019 4:24:15 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.jets.chatproject.server.module.dal.hibernate.entity.Pictures" table="pictures" catalog="chat_project" optimistic-lock="version">
+        <id name="pictureId" type="java.lang.Integer">
+            <column name="picture_id" />
+            <generator class="identity" />
+        </id>
+        <property name="picture" type="binary">
+            <column name="picture" not-null="true" />
+        </property>
+        <set name="groupses" table="groups" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="picture_id" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Groups" />
+        </set>
+        <set name="userses" table="users" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="picture_id" />
+            </key>
+            <one-to-many class="com.jets.chatproject.server.module.dal.hibernate.entity.Users" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -8,7 +8,7 @@ package com.jets.chatproject.server;
 import com.jets.chatproject.module.rmi.*;
 import com.jets.chatproject.server.controller.ScreenController;
 import com.jets.chatproject.server.module.dal.dao.DaosFactory;
-import com.jets.chatproject.server.module.dal.dao.imp.DbDaosFactory;
+import com.jets.chatproject.server.module.dal.hibernate.dao.imp.DbDaosFactory;
 import com.jets.chatproject.server.module.rmi.imp.AuthServiceImpl;
 import com.jets.chatproject.server.module.rmi.imp.FriendRequestsServiceImpl;
 import com.jets.chatproject.server.module.rmi.imp.FriendshipServiceImp;

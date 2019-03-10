@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="chat_project"/>
+  <table-filter match-name="group_messages"/>
+  <table-filter match-name="friendships"/>
+  <table-filter match-name="pictures"/>
+  <table-filter match-name="group_members"/>
+  <table-filter match-name="groups"/>
+  <table-filter match-name="direct_messages"/>
+  <table-filter match-name="requests"/>
+  <table-filter match-name="users"/>
+</hibernate-reverse-engineering>
